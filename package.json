@@ -4,8 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "start-db": "docker run --name some-redis -d redis redis-server --appendonly yes",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ville Vainio",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.16.4",
+    "generate-schema": "^2.6.0",
+    "mongoose": "^5.4.5",
+    "morgan": "^1.9.1"
+  }
 }
