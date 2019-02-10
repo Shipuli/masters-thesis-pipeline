@@ -1,11 +1,11 @@
-from Updater import Fetch
+import numpy as np
 from datetime import datetime
 from pytz import timezone
-from db import DB
-import numpy as np
 from calendar import monthrange
+from .Updater import Fetch
+from .db import DB
 
-STD_TIMEZONE = timezone('US/Pacific')
+STD_TIMEZONE = timezone('EST')
 
 def update_history():
   print("Updating history...")

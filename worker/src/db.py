@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from pymongo import MongoClient, UpdateOne
 from pytz import timezone
 
-STD_TIMEZONE = timezone('US/Pacific')
+STD_TIMEZONE = timezone('EST')
 
 class DBClient:
   def __init__(self):
@@ -76,10 +76,10 @@ class DBClient:
       return self.db.financials.find({ "symbol": symbol}).sort([("reportDate", -1)])
 
   def insertFinancial(self, financial):
-    return self.db.financial.insert_one(financial)
+    return self.db.financials.insert_one(financial)
 
   def insertFinancials(self, financials):
-    return self.db.financial.insert_many(financials)
+    return self.db.financials.insert_many(financials)
 
   # Dividend db logic
   def fetchDividends(self, symbol, limit=0):

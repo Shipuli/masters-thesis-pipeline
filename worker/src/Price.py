@@ -1,11 +1,12 @@
-from db import DB
-from Updater import Fetch
 import numpy as np
 from datetime import datetime
 from pytz import timezone
 from calendar import monthrange
+from .db import DB
+from .Updater import Fetch
 
-STD_TIMEZONE = timezone('US/Pacific')
+
+STD_TIMEZONE = timezone('EST')
 
 class Price:
 

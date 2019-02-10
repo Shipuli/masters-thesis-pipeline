@@ -1,5 +1,5 @@
 import requests, progressbar, time
-from db import DBClient
+from .db import DBClient
 
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
@@ -26,21 +26,24 @@ class Fetcher:
       if len(interval) > 0:
         url += "&range=" + interval
       if len(period) > 0:
-        url += "&period=" + period 
-      r = requests.get(url)
-      if r.status_code == 200:
-        fetch_time = time.time() - start
-        print("Fetch took: " + str(round(fetch_time)) + "s")
-        start = time.time()
-        result = r.json()
-        unpacking_time = time.time() - start
-        print("Unpacking took: " + str(round(unpacking_time)) + "s")
-        start = time.time()
-        callback(result)
-        process_time = time.time() - start
-        print("Processing took: " + str(round(process_time)) + "s")
-      else:
-        print(r.status_code)
+        url += "&period=" + period
+      fetched = False
+      times = 0
+      while(not fetched):
+        try:
+          r = requests.get(url)
+          fetched = True
+          if r.status_code == 200:
+            result = r.json()
+            callback(result)
+          else:
+            print(r.status_code)
+        except:
+          times += 1
+          print("Connection cut for the " + str(times) + " time")
+          time.sleep(2 ** times)
+          if times > 4:
+            break
       i += 1
       bar.update(i)
     bar.finish()

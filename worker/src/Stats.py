@@ -1,5 +1,5 @@
-from Updater import Fetch
-from db import DB
+from .Updater import Fetch
+from .db import DB
 
 def update_symbols():
   symbols = Fetch.fetchSymbols()

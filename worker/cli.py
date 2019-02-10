@@ -1,21 +1,21 @@
 import sys, traceback, time
 from datetime import datetime
-from db import DB
-from Updater import Fetch
 from pytz import timezone
 from calendar import monthrange
 
-from Price import Price_updater
-from Dividend import update_dividends
-from Financials import update_financials
-from Stats import update_stats, update_symbols
-from History import update_history
+from src.db import DB
+from src.Updater import Fetch
+from src.Price import Price_updater
+from src.Dividend import update_dividends
+from src.Financials import update_financials
+from src.Stats import update_stats, update_symbols
+from src.History import update_history
 
 SECONDS_IN_HOUR = 60 * 60
 SECONDS_IN_DAY = SECONDS_IN_HOUR * 24
 SECONDS_IN_WEEK = SECONDS_IN_DAY * 7
 SECONDS_IN_MONTH = SECONDS_IN_DAY * 30
-STD_TIMEZONE = timezone('US/Pacific')
+STD_TIMEZONE = timezone('EST')
 
 def general_task(task, interval, updateFunction, *args):
   prev = DB.fetchLatestTask(task)
@@ -23,7 +23,7 @@ def general_task(task, interval, updateFunction, *args):
     prev = prev.next()
     now = datetime.now()
     if (now - prev['date']).total_seconds() < interval and prev['status'] == 'Success':
-      return
+      return True
   try:
     start = time.time()
     print("Updating " + task + "...")
