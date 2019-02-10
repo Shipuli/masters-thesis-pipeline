@@ -1,4 +1,4 @@
-import progressbar
+import progressbar, os
 from datetime import datetime, timedelta
 from pymongo import MongoClient, UpdateOne
 from pytz import timezone
@@ -7,7 +7,8 @@ STD_TIMEZONE = timezone('US/Pacific')
 
 class DBClient:
   def __init__(self):
-    self.client = MongoClient('mongodb://127.0.0.1:27017')
+    host = os.getenv("MONGO_HOST", "127.0.0.1")
+    self.client = MongoClient('mongodb://' + host + ':27017')
     self.db = self.client['MasterPipeline']
     self.db.stocks.create_index('symbol')
 

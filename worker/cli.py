@@ -40,32 +40,51 @@ def general_task(task, interval, updateFunction, *args):
     return False
 
 def init():
-  # update_dividends("5y")
-  # update_financials(annual=True)
-  # update_stats()
+  update_dividends("5y")
+  update_financials(annual=True)
+  update_stats()
   update_history()
   
-def main():
-  argv = sys.argv
-  if len(argv) > 1 and argv[1] == "init":
+def exec_command(command, arg=""):
+  if command == "init":
     if general_task("symbols", 0, update_symbols):
       general_task("init", sys.maxsize, init)
-  elif len(argv) > 1 and argv[1] == "refresh":
+  elif command == "refresh":
     general_task("stats", SECONDS_IN_WEEK, update_stats)
     general_task("financials", 3 * SECONDS_IN_MONTH, update_financials)
     general_task("dividends", SECONDS_IN_MONTH, update_dividends)
-  elif len(argv) > 1 and argv[1] == "live":
+  elif command == "live":
     general_task("quote", 0, Price_updater.update)
-  elif len(argv) > 1 and argv[1] == "flush":
+  elif command == "flush":
     DB.flush()
+  elif command == "run":
+    if arg == "financials":
+      general_task("financials", 0, update_financials)
+    elif arg == "dividends":
+      general_task("dividends", 0, update_dividends, "1m")
+    elif arg == "stats":
+      general_task("stats", 0, update_stats)
+    elif arg == "symbols":
+      general_task("symbols", 0, update_symbols)
+
+def main():
+  argv = sys.argv
+  if len(argv) > 1 and argv[1] == "init":
+    exec_command("init")
+  elif len(argv) > 1 and argv[1] == "refresh":
+    exec_command("refresh")
+  elif len(argv) > 1 and argv[1] == "live":
+    exec_command("live")
+  elif len(argv) > 1 and argv[1] == "flush":
+    exec_command("flush")
   elif len(argv) > 2 and argv[1] == "run":
     if argv[2] == 'financials':
-      general_task("financials", 0, update_financials)
+      exec_command("run", "financials")
     elif argv[2] == 'dividends':
-      general_task("dividends", 0, update_dividends, "1m")
+      exec_command("run", "dividends")
     elif argv[2] == 'stats':
-      general_task("stats", 0, update_stats)
+      exec_command("run", "stats")
     elif argv[2] == 'symbols':
-      general_task("symbols", 0, update_symbols)
+      exec_command("run", "symbols")
 
 main()
