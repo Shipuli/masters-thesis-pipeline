@@ -7,7 +7,6 @@ const Financial = require('./Financials')
 class DBClient {
   constructor() {
     const host = process.env.MONGO_HOST || "127.0.0.1"
-    console.log(host)
     mongoose.connect(`mongodb://${host}:27017/MasterPipeline`, { useNewUrlParser: true })
   }
 

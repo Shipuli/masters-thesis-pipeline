@@ -11,6 +11,9 @@ class DBClient:
     self.client = MongoClient('mongodb://' + host + ':27017')
     self.db = self.client['MasterPipeline']
     self.db.stocks.create_index('symbol')
+    self.db.quotes.create_index('symbol')
+    self.db.dividends.create_index('symbol')
+    self.db.financials.create_index('symbol')
 
   def updateStocks(self, symbols):
     operations = []
@@ -51,6 +54,12 @@ class DBClient:
   
   def upsertQuote(self, quote):
     self.db.quotes.update({"symbol": quote["symbol"], "datetime": quote["datetime"], "type": quote["type"]}, quote, upsert=True)
+
+  def upsertQuotes(self, quotes):
+    operations = []
+    for quote in quotes:
+      operations.append(UpdateOne({ "symbol": quote['symbol']}, { "$set": quote}, upsert=True))
+    self.db.stocks.bulk_write(operations)
 
   def insertQuote(self, quote):
     self.db.quotes.insert_one(quote)

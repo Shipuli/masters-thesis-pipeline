@@ -15,23 +15,31 @@ class Price:
     Fetch.fetchField("quote", self.__process_result, fields="latestSource,latestTime,high,low")
     print("Prices updated!")
 
-  def __insertDay(self, symbol, quote):
-    if not 'low' in quote or not 'high' in quote:
-      return
+  def __transformDay(self, symbol, quote):
     quote['symbol'] = symbol
     quote['type'] = 'intraday'
     quote['datetime'] = datetime.now(STD_TIMEZONE)
-    DB.upsertQuote(quote)
 
+  def __insertDay(self, symbol, quote):
+    if not 'low' in quote or not 'high' in quote:
+      return
+    self.__transformDay(symbol, quote)
+    DB.upsertQuote(quote)
+    
   def __process_result(self, results):
+    bulk = []
     for symbol in results:
-      if results[symbol]['quote']['latestSource'] == 'Close':
-        self.__insertDay(symbol, results[symbol]['quote'])
+      quote = results[symbol]['quote']
+      if quote['latestSource'] == 'Close':
+        self.__insertDay(symbol, quote)
         self.__end_day(symbol)
-      elif results[symbol]['quote']['latestSource'] == 'Previous close':
+      elif quote['latestSource'] == 'Previous close':
         continue
       else:
-        self.__insertDay(symbol, results[symbol]['quote'])
+        if 'low' in quote and 'high' in quote:
+          bulk.append(self.__transformDay(quote))
+    if len(bulk) > 0:
+      DB.upsertQuotes(bulk)
 
   def __end_day(self, symbol):
     # Aggregate day
