@@ -2,25 +2,25 @@ version: '3'
 services:
   mongo:
     image: mongo:latest
-    networks:
-      - mongo-net
     ports:
       - "8976:27017"
-  worker:
-    build: ./worker
-    networks: 
-      - mongo-net
-    depends_on:
-      - "mongo"
-    ports:
-      - "5000:5000"
-  app:
-    build: .
     networks:
       - mongo-net
+  worker:
+    build: ./worker
+    ports:
+      - "5000:5000"
     depends_on:
       - "mongo"
+    networks: 
+      - mongo-net
+  app:
+    build: .
     ports:
       - "6123:6123"
+    depends_on:
+      - "mongo"
+    networks:
+      - mongo-net
 networks:
   mongo-net:

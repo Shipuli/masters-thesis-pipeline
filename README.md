@@ -2,12 +2,11 @@
 
 ## Overview
 
-*INSERT HERE GRAPH ABOUT THE SYSTEM*
+Dataflow: IEX API => Worker => Mongodb => Node backend.
 
 ## Running the system with docker-compose
 
-(0. have docker-compose installed)
-
+0. (`docker-compose build --no-cache`)
 1. `docker-compose up`
 
 ## Running the system on local machine
@@ -22,8 +21,8 @@ Getting started to populate data for backend to serve.
 
 Requirements: Python 3.7
 
-1. cd worker
-2. Install dependencies with pip
+1. `cd worker`
+2. `pip install -r requirements.txt` (or `pipenv install`)
 
 Now depending how you want to run the worker there are 2 options:
 
@@ -34,7 +33,7 @@ Now depending how you want to run the worker there are 2 options:
 
 NodeJS server which serves the data
 
-Requirements: Nodejs 8.11.2
+Requirements: Nodejs ^8.11.2
 
 1. yarn
 2. yarn start
