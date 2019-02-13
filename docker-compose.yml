@@ -14,6 +14,14 @@ services:
       - "mongo"
     networks: 
       - mongo-net
+  processor:
+    build: ./processor
+    ports:
+      - "5001:5000"
+    depends_on:
+      - "mongo"
+    networks: 
+      - mongo-net
   app:
     build: .
     ports:

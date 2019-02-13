@@ -34,6 +34,7 @@ def filter_days(symbol, arr):
         "low": item["low"],
         "high": item["high"],
         "type": "day",
+        "source": "Aggregator",
         "datetime": date.replace(hour=0, minute=0, second=0, microsecond=0)
       })
   return result
@@ -66,6 +67,7 @@ def aggregate_years(symbol, arr):
       "symbol": symbol,
       "datetime": datetime.now().replace(year=year, month=12, day=31, hour=0, minute=0, second=0, microsecond=0),
       "type": "year",
+      "source": "Aggregator",
       "low": np.mean(list(map(lambda x: x['low'], list(filter(lambda y: 'low' in y, grouped[year]))))),
       "high": np.mean(list(map(lambda x: x['high'], list(filter(lambda y: 'high' in y, grouped[year])))))
     })
@@ -87,6 +89,7 @@ def aggregate_months(symbol, arr):
         "symbol": symbol,
         "datetime": datetime.now().replace(year=year, month=month, day=last_day, hour=0, minute=0, second=0, microsecond=0),
         "type": "month",
+        "source": "Aggregator",
         "low": np.mean(list(map(lambda x: x['low'], list(filter(lambda y: 'low' in y, months[month]))))),
         "high": np.mean(list(map(lambda x: x['high'], list(filter(lambda y: 'high' in y, months[month])))))
       })

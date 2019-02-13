@@ -2,7 +2,7 @@
 
 ## Overview
 
-Dataflow: IEX API => Worker => Mongodb => Node backend.
+[Dataflow](doc/dataflow.png)
 
 ## Running the system with docker-compose
 
@@ -28,6 +28,10 @@ Now depending how you want to run the worker there are 2 options:
 
 1. `python cli.py` which is a command line api for the different population options. Check cli.py main-method for different arguments the program takes.
 2. `export FLASK_APP=server.py && export FLASK_ENV=development && python -m flask run` which is a http server api for the same options. Implements http interface for the population methods.
+
+### Processor
+
+Works the same way as the worker but without the command line option. Just select the processor subfolder instead of worker subfolder and  replace the server.py with processor.py.
 
 ### Server
 
