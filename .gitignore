@@ -1,3 +1,12 @@
 node_modules/
 .git
 __pycache__
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.bbl
+*.aux
+*.bcf
+*.run.xml
+*.synctex.gz
