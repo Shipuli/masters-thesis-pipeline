@@ -1,4 +1,4 @@
-\chapter{Background}
+\chapter{Stock market analysis}
 \label{chapter:background} 
 
 % Guiding instructions from the thesis example
@@ -16,14 +16,23 @@
 %and enlight different ways to include graphics in the thesis.
 
 In order to build practical stock analysis systems, we start by looking at the methods of stock data analysis to understand the underlying domain.
-In this chapter we examine what are the state of art methods that researchers use to analyse stock market data especially focusing on methods that use big data or big data analysis.
-Then we move on to the implementation side of things and examine some of the existing big data pipelines for stock analysis.
+Stock market analysis is an enormous domain by itself and there are multiple ways to approach this data.
+For example possible problems to solve are finding anomalies in the data, predicting the future price and analysing possible causalities.
+In this thesis we will be approaching this from the price prediction perspective which can also be used in other problems such as anomaly detection \cite{islam}.
 
+In this chapter we examine what are the state of art methods that researchers use to analyse stock market data and we are especially focusing on methods that in some way use big data for this analysis.
+We will be also looking at the implementation side of things and examine some of the existing big data pipelines for stock market analysis and what are the technologies used to build these.
+As we will see, big data can be part of the pipeline in the form of complete stock data in which case the main method of analysing this is technical analysis.
+Or the big data can aspect can come from other sources of information such as news and social media in which case the main method of analysis is fundamental analysis.
 
-\section{State of technical stock analysis}
+\section{Stock price prediction trends}
 
-The current methods on stock market data analysis can be divided roughly into two different categories; statistical methods and machine learning methods.
-Both of these are trying to beat the efficient market hypothesis (EMH).
+The current methods on stock price prediction can be divided roughly into two different categories; statistical methods and machine learning methods.
+Both of these categories can be further divided into fundamental and technical analysis categories depending on what data they use as a source of analysis.
+With statistical methods we mean here the traditional mathematical models that need quite a lot of understanding of the domain in order to derive them.
+With machine learning methods, we mean algorithms and statistical models that derive underlying principles from data using patterns and inference.
+
+Both of these methods are trying to beat the efficient market hypothesis (EMH).
 EMH states that the all the current public information available should already be seen in the price of the stock.
 In other words, the only thing that can affect the price of the stock would be unknown new information and the randomness of the system, which leads to a claim that stock prices can not be predicted using historical data.
 However, there have been multiple studies shown that this hypothesis could possibly be beaten using big data. \cite{nam}
@@ -34,7 +43,7 @@ This hypothesis has also been challenged with overreaction hypothesis that state
 The driving force of stock analysis in the past have been the statistical methods and there are still a lot of new papers analysing stocks using these methods.
 There are hunreds of ways to approach this problem from statistician point of view so here we have listed only some of those that have some relevance to the subject of this thesis.
 
-From the technical analysis perpective, where only the stock data is analysed, we are going to be looking at two popular methods; momentum indicators and regressive models. \cite{utthammajai}
+From the technical analysis perpective, where only the stock data is analysed, we are going to be looking at momentum indicators. \cite{utthammajai}
 Momentum indicators, as the implies, measure the speed of change in the stock prices and investors make decisions based on the thresholds of these values whetever a stock is being overbought or oversold. \cite{james}
 When searching research on big data usage in stock analysis there are some key indicators that show up frequently.
 These are relative strength index (RSI), moving average convergence divergence MACD and Williams \%R.
@@ -45,10 +54,13 @@ RSI and Williams \%R are both called oscillators because their values oscillate 
 Where as MACD compares long-term and short-term trends to predict if there is currently a notable trend.
 Because of the differences in the formulas and the factors that these values are measuring, the results from these formulas can be conflicting. \cite{james}
 
+Autoregressive integrated moving average (ARIMA) models have also been successful way of analysing time series stock data and they have been also used with big data. \cite{wang}
+However, with the new advances in machine learning, there seems to better performance to be achieved with machine learning methods. \cite{khashei}
+Due to this and the complexity of ARIMA models, we are going to only briefly make a note of them here and focus more on the machine learning methods in the next section.
+
 In the fundamental analysis side, most of the recent developments have happened with textual data from news and social media using machine learning methods meaning that traditional statistical methods have not gained that much interest recently.
 However, as there is a lot of relevant financial big data that can be used with traditional methods, here are couple of recent examples of the usage of this kind data:
 Day et al. \cite{day} tried to link oil prices to stock prices using global financial data streams with stochastic oscillator techniques.
-Today, researchers seldom use only one of these methods.
 Kyo \cite{kyo} combined technical and fundamental analysis by using regressive model that takes into account business cycles in Japan's stock market.
 
 \subsection{Machine learning methods}
@@ -84,23 +96,26 @@ Positive sentiment toward company would lead to the rise of stock price and nega
 
 \section{Existing pipelines}
 
-Next, we go through some existing pipelines that for which there is somewhat public information available.
+Next, we go through some existing pipelines that for which there is some public information available.
 As with in the previous section, we are going to be focusing on stock pipelines that handle or are able to handle big data in some sense.
 To make this more clear the big data might not be the actual stock market data, but the data that is used to analyse the stock market data in larger context.
 
-We have divided this section into subsections based on different parts from the pipeline starting from the furthest away of the possible clients and moving our way up to the analysis phase.
+We have divided this section into subsections based on different parts from the pipeline starting from the furthest away of the possible clients and moving our way up towards the analysis phase.
 The biggest problem here is that the companies that work in the forefront of stock analysis, seldom share their software achitectures for business reasons.
 Nevertheless, with the public information available we can get an excellent view of the state of art pipelines in academic world and a general idea how the pipelines are build in the industry side.
 
 \subsection{Data sources}
 
 Stock market data is not cheap.
-This is mostly because the exchanges that run the stock markets, usually make most of their profit with this data and thus do not want to give this data freely away.
-There are however services who do provide part of this data with a much lower cost available to companies and researches which possibly cannot afford the complete real-time data.
-In academic papers, Yahoo Finance API has been this de facto service used as the source of stock data. \cite{islam} \cite{adresic} \cite{le} \cite{serez}
+This is mostly because the exchanges that run the stock markets, usually make most of their profit with trade data and thus do not want to give this data freely away.
+There are however services who do provide part of this data with a much lower cost available to companies and researches which cannot possibly afford the complete real-time data.
 This partial data usually consist of historical end of day data, which is the aggregated statisctics of the stocks after the market has closed for the day.
 Although this data is complete in the sense that it tells all the necessary information about stocks price evolution on day level, we will be referring this data as the aggregated data during this thesis and reserve the term complete stock market data for the data that contains all of the transactions.
 What this means for the systems is that the stock data can exponentially smaller at the beginning of a financial companys life when they possibly have the ability to access the complete stock market data, but system must be able to scale to this complete data set size.
+
+In academic papers, the Yahoo Finance API has been the de facto service used as the source of this partial stock data. \cite{islam} \cite{adresic} \cite{le} \cite{serez}
+Unfortunately, although this service have been used in papers published in 2019, this API was shutdown by Yahoo in 2017.
+Today, there are no service that provides the same amount of data that this API did, but some substituting services do exist.\cite{lotter}
 
 
 \subsection{Ingestion}
@@ -126,9 +141,11 @@ In the open-source side HBase \cite{gu} and Cassandra are the two used database 
 
 \subsection{Analysis}
 
-In the analysis step, there is not that much variety.
-Apache Spark with its MLlib is dominating this fields with its capabilities to process data efficiently. \cite{islam} \cite{chen} \cite{chungho} \cite{adresic}
+In the analysis step, there is not that much variety in used technologies.
+Apache Spark with its MLlib library is dominating this field with its capabilities to process data efficiently. \cite{islam} \cite{chen} \cite{chungho} \cite{adresic}
 Where Apache Hive and Apache Pig were previously most used technologies, now Spark seems to be taking their place \cite{snively}.
-In the industry side, there is indication on usage of Apache Storm \cite{juan}.
+
+In the industry side, there is indications of Apache Storm being used with real-time classification \cite{juan}.
+The strong point of Spark is that same models can be used with Spark Streaming framework, but better latencies can be achieved with Storm making it possibly better choice for companies which have resources \cite{kumar}.
 
 In the next chapter, we are going to look closer some of the most promising ones of these technologies.
