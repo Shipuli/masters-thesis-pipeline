@@ -25,10 +25,10 @@ We will be also looking at the implementation side of things and examine some of
 As we will see, big data can be part of the pipeline in the form of complete stock data in which case the main method of analysing this is technical analysis.
 Or the big data can aspect can come from other sources of information such as news and social media in which case the main method of analysis is fundamental analysis.
 
-\section{Stock price prediction trends}
+\section{Stock price prediction}
 
 The current methods on stock price prediction can be divided roughly into two different categories; statistical methods and machine learning methods.
-Both of these categories can be further divided into fundamental and technical analysis categories depending on what data they use as a source of analysis.
+Both of these categories can be further divided into fundamental and technical analysis categories depending on what data they use as a source of analysis, but these categories overlap a little because of new ensembled models.
 With statistical methods we mean here the traditional mathematical models that need quite a lot of understanding of the domain in order to derive them.
 With machine learning methods, we mean algorithms and statistical models that derive underlying principles from data using patterns and inference.
 
@@ -96,13 +96,26 @@ Positive sentiment toward company would lead to the rise of stock price and nega
 
 \section{Existing pipelines}
 
-Next, we go through some existing pipelines that for which there is some public information available.
-As with in the previous section, we are going to be focusing on stock pipelines that handle or are able to handle big data in some sense.
-To make this more clear the big data might not be the actual stock market data, but the data that is used to analyse the stock market data in larger context.
+Now that we have some kind of understanding what the current stock analysis is, let's move on to examine the actual implemetations that do this analysis.
+For this section, we examined 19 different stock data analysis pipeline that handle or are able to handle big data in some sense.
+What we mean here by "in some sense" is that the big data might not have been the actual stock data but for example social media data that was used to analyse the actual stock data.
+Information about these pipelines were all publicly available, although most of the pipelines were not open-sourced.
+Fourteen of these pipelines were reported in academic publications and the rest five are, or at least have been, in industrial use.
+There were also multiple open-source pipelines that have been developed for big data stock analysis, but information about the actual usage of these pipelines were not found.
+This is why we excluded these from this study in order to get results that might have more relevance to pipelines that are actually in use.
 
 We have divided this section into subsections based on different parts from the pipeline starting from the furthest away of the possible clients and moving our way up towards the analysis phase.
 The biggest problem here is that the companies that work in the forefront of stock analysis, seldom share their software achitectures for business reasons.
 Nevertheless, with the public information available we can get an excellent view of the state of art pipelines in academic world and a general idea how the pipelines are build in the industry side.
+
+It is also not that easy to compare technologies used in academia and industry.
+Both have different needs and goals that they wish to achieve.
+In academia, the pipeline is usually made in ad-hoc manner trying to minimize the time used for development and maximise the time needed for testing.
+This is possible, because researchers do not have same client side restrictions that industry might have.
+In industry side, it is usually important that the pipeline stays operational during the whole live cycle of the system.
+Where researchers only need these pipelines in order to conduct a couple of experiments, these industry pipelines have to survive possibly multiple of years of usage.
+These industry pipelines also serve the results to multiple clients that all expect small latencies from the system in order to use the system efficiently whereas in academia, this is not a requirement but helps the research to be made efficiently.
+So bearing these domain-specific requirements in mind, different technologies can be used to achieve optimal solution in different situations.
 
 \subsection{Data sources}
 
@@ -118,9 +131,10 @@ Unfortunately, although this service have been used in papers published in 2019,
 Today, there are no service that provides the same amount of data that this API did, but some substituting services do exist.\cite{lotter}
 
 
-\subsection{Ingestion}
+\subsection{Used technologies}
 
-Ingestion here means the fetching and preprocessing of the data.
+Next let's look at the actual technologies and frameworks that are used to implement this pipeline by starting from the furthest away from the client; ingestion layer.
+What we mean by ingestion here is the fetching and preprocessing of the data.
 This step with stock market data varies a lot depending who is fetching the data and for what purpose.
 Most common method for stock market data ingestion is just using custom scripts.
 This is usually enough with the aggregated stock market data but it does not scale.
@@ -130,8 +144,7 @@ For these purposes, the most common technology in scientific papers is Apache Fl
 Another framework that is commonly reported in the ingestion step is the Apache Kafka streaming platform. \cite{chungho} \cite{juan}
 There are also indications of usage of Google Dataflow in industry side. \cite{palmer}
 
-\subsection{Storage}
-
+As we have now this ingested data, we need to store it somewhere.
 Stock market data is quite structured but the data usually used to enrich this data is mostly unstructured.
 This puts a restriction on what are the possible storage options available.
 Academic papers usually do not have to worry about this as the systems just have support ad hoc calculations but in the company context this becomes a crucial part of the system as it is the component that enables low latency responses without having to fetch data all the way from the original data source.
@@ -139,13 +152,28 @@ With big data systems there is usually two options which are either cloud platfo
 From the cloud platform products, there are information on usage of Amazons S3 and Googles BigTable with BigQuery. \cite{snively} \cite{palmer}
 In the open-source side HBase \cite{gu} and Cassandra are the two used database solutions.
 
-\subsection{Analysis}
-
+Then as we finally have the data in control, we can apply some analysis to it.
 In the analysis step, there is not that much variety in used technologies.
 Apache Spark with its MLlib library is dominating this field with its capabilities to process data efficiently. \cite{islam} \cite{chen} \cite{chungho} \cite{adresic}
 Where Apache Hive and Apache Pig were previously most used technologies, now Spark seems to be taking their place \cite{snively}.
 
 In the industry side, there is indications of Apache Storm being used with real-time classification \cite{juan}.
-The strong point of Spark is that same models can be used with Spark Streaming framework, but better latencies can be achieved with Storm making it possibly better choice for companies which have resources \cite{kumar}.
+The strong point of Spark is that same models can be used with Spark Streaming framework, but better latencies can be achieved with Storm making it possibly better choice for companies which have resources to implement two separate systems \cite{kumar}.
 
-In the next chapter, we are going to look closer some of the most promising ones of these technologies.
+\subsection{Problem of existing pipelines}
+
+In most of the pipelines, the system is produced so that in can scale with the input allowing no real perfomance issues to rise.
+None of the cases however, report how they monitor the system while it is running.
+In cases where for example Spark is used, we can assume that the process is monitored using Sparks own monitoring tools which measure load and resource usages.
+These tools are valuable to measure the perfomance of the application, but they do not always tell the whole truth about the applications state.
+
+Let's look at an example case, where we have machine learning model training pipeline implemented in Spark which reads stock data from the database and trains a model based on this.
+What would happen if this data corrupted on the way to the training algorithm.
+In some cases the corruption would make the training algorithm possibly crash which would be noticed with performance monitoring tools.
+However, in some cases the corruption could only make the value of the data change ever so slightly that it would pass as a input to the algorithm.
+In this case, this could affect the final trained model making the model performance decrease tremendously.
+Which could then lead to even false conclusions on the model.
+
+So in order to make right decisions concerning models and save time while training, it is crucial to identify these kinds of problems early as possible.
+This is where good monitoring comes into play. 
+In the next chapters, we are first going to take a look at different monitoring solutions and then implement these on the most common stock data machine learning pipeline in order to solve this problem.
