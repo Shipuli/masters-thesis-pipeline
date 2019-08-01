@@ -1,0 +1,13 @@
+version: '3'
+services:
+{{services}}
+volumes:
+  datanode:
+  namenode:
+  hadoop_historyserver:
+  zookeeper_data:
+  kafka_data:
+  hadoopconf:
+networks:
+  connections:
+    driver: bridge

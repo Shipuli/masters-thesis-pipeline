@@ -1,1 +1,0 @@
-*/15 14-1 * * 1-5 curl http://localhost:5000/live --time-max 900

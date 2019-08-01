@@ -12,3 +12,7 @@ __pycache__
 *.synctex.gz
 memo
 scraper
+data
+**/kafka-connect-hdfs
+**/burrow
+build

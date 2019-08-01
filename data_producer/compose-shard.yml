@@ -1,0 +1,10 @@
+data_producer:
+  build: './data_producer'
+  depends_on:
+    - "{{ingestion}}"
+  environment:
+    - KAFKA_HOST=kafka
+    - KAFKA_PORT=9092
+    - DATA_DIR=/app/data
+  networks:
+    - connections

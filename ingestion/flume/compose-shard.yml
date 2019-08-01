@@ -1,0 +1,8 @@
+flume:
+  build: ./ingestion
+  ports:
+    - "4321:4321"
+  depends_on:
+    - "{{storage}}"
+  networks: 
+    connections:

@@ -1,1 +1,0 @@
-curl http://localhost:5000/refresh --max-time 1200

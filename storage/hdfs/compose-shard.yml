@@ -1,0 +1,53 @@
+namenode:
+  image: bde2020/hadoop-namenode:2.0.0-hadoop3.1.1-java8
+  networks:
+    - connections
+  ports:
+    - 9870:9870
+  volumes:
+    - namenode:/hadoop/dfs/name
+    - hadoopconf:/etc/hadoop
+  environment:
+    - CLUSTER_NAME=test
+  env_file:
+    - ./storage/hadoop.env
+datanode:
+  image: bde2020/hadoop-datanode:2.0.0-hadoop3.1.1-java8
+  networks:
+    - connections
+  ports:
+    - 9864:9864
+  volumes:
+    - datanode:/hadoop/dfs/data
+  env_file:
+    - ./storage/hadoop.env
+  environment:
+    SERVICE_PRECONDITION: "namenode:9870"
+resourcemanager:
+  image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.1.1-java8
+  networks:
+    - connections
+  environment:
+    SERVICE_PRECONDITION: "namenode:9870 datanode:9864"
+  env_file:
+    - ./storage/hadoop.env
+  healthcheck:
+    disable: true
+nodemanager:
+  image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.1.1-java8
+  networks:
+    - connections
+  environment:
+    SERVICE_PRECONDITION: "namenode:9870 datanode:9864 resourcemanager:8088"
+  env_file:
+    - ./storage/hadoop.env
+historyserver:
+  image: bde2020/hadoop-historyserver:2.0.0-hadoop3.1.1-java8
+  networks:
+    - connections
+  volumes:
+    - hadoop_historyserver:/hadoop/yarn/timeline
+  environment:
+    SERVICE_PRECONDITION: "namenode:9870 datanode:9864 resourcemanager:8088"
+  env_file:
+    - ./storage/hadoop.env

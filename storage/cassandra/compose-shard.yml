@@ -1,0 +1,6 @@
+cassandra:
+  build: cassandra:3
+  ports:
+  - "7000:7000"
+  networks:
+    connections:

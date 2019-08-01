@@ -1,0 +1,47 @@
+version: '3'
+services:
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+    ports:
+      - '2181:2181'
+    volumes:
+      - 'zookeeper_data:/bitnami'
+    networks:
+      - connections
+  kafka:
+    build: '.'
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+    depends_on:
+      - "zookeeper"
+    ports:
+      - '9092:9092'
+    volumes:
+      - 'kafka_data:/bitnami'
+    networks:
+      - connections
+  burrow:
+    build: ./burrow
+    volumes:
+      - ${PWD}/burrow/docker-config:/etc/burrow/
+      - ${PWD}/burrow/tmp:/var/tmp/burrow
+    ports:
+      - 8000:8000
+    depends_on:
+      - zookeeper
+      - kafka
+    restart: always
+    networks:
+      - connections
+volumes:
+  datanode:
+  namenode:
+  hadoop_historyserver:
+  zookeeper_data:
+  kafka_data:
+networks:
+  connections:
+    driver: bridge

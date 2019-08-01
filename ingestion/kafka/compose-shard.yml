@@ -1,0 +1,46 @@
+zookeeper:
+  image: 'bitnami/zookeeper:3.5.5'
+  environment:
+    ALLOW_ANONYMOUS_LOGIN: "yes"
+  ports:
+    - '2181:2181'
+  volumes:
+    - 'zookeeper_data:/bitnami'
+  restart: always
+  networks:
+    - connections
+kafka:
+  image: 'bitnami/kafka:2.3.0'
+  environment:
+    - ALLOW_PLAINTEXT_LISTENER=yes
+    - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+    - JMX_PORT=9997
+    - KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.rmi.port=9997
+  depends_on:
+    - "zookeeper"
+    - "{{storage}}"
+  ports:
+    - '9092:9092'
+    - '9997:9997'
+  volumes:
+    - 'kafka_data:/bitnami'
+    - './ingestion/server.properties:/opt/bitnami/kafka/conf/server.properties'
+  restart: always
+  networks:
+    - connections
+connect:
+  build: ./ingestion/connect
+  environment:
+    - JMX_PORT=9998
+    - KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.rmi.port=9998
+  ports:
+    - 9998:9998
+  depends_on:
+    - zookeeper
+    - kafka
+    - namenode
+  volumes:
+    - hadoopconf:/usr/local/hadoop-conf
+  restart: always
+  networks:
+    - connections
