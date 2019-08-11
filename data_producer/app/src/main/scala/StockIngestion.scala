@@ -6,8 +6,9 @@ import org.apache.kafka.clients.admin._
 
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
-import scala.jdk.CollectionConverters._
+import scala.collection.JavaConverters._
 
+import play.api.libs.json._
 
 object StockIngestion extends App {
 
@@ -46,8 +47,11 @@ object StockIngestion extends App {
     val value = valueSource.getLines.mkString
     valueSource.close()
     val key = file.getName.split("_").head
-    println(value)
-    val record = new ProducerRecord(TOPIC, key, value)
+
+    val parsedValue: List[JsObject] = Json.parse(value).as[List[JsObject]]
+    val outputValue = parsedValue map(o => o + ("symbol" -> Json.toJson(key)))
+
+    val record = new ProducerRecord(TOPIC, key, Json.stringify(Json.toJson(outputValue)))
     records += producer.send(record)
   }
 

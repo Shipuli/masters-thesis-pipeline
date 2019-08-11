@@ -16,3 +16,5 @@ data
 **/kafka-connect-hdfs
 **/burrow
 build
+**/.idea
+**/target

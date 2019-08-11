@@ -1,0 +1,73 @@
+version: '3'
+services:
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.1.1-java8
+    networks:
+      - test_network
+    ports:
+      - 9870:9870
+      - 9000:9000
+    volumes:
+      - namenode:/hadoop/dfs/name
+      - hadoopconf:/etc/hadoop
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop.env
+  datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.1.1-java8
+    networks:
+      - test_network
+    ports:
+      - 9864:9864
+      - 9866:9866
+    volumes:
+      - datanode:/hadoop/dfs/data
+    env_file:
+      - ./hadoop.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+  resourcemanager:
+    image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.1.1-java8
+    networks:
+      - test_network
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870 datanode:9864"
+    ports:
+      - 8088:8088
+    env_file:
+      - ./hadoop.env
+    healthcheck:
+      disable: true
+  nodemanager:
+    image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.1.1-java8
+    networks:
+      - test_network
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870 datanode:9864 resourcemanager:8088"
+    ports:
+      - 8042:8042
+    env_file:
+      - ./hadoop.env
+  historyserver:
+    image: bde2020/hadoop-historyserver:2.0.0-hadoop3.1.1-java8
+    networks:
+      - test_network
+    volumes:
+      - hadoop_historyserver:/hadoop/yarn/timeline
+    ports:
+    - 8188:8188
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870 datanode:9864 resourcemanager:8088"
+    env_file:
+      - ./hadoop.env
+volumes:
+  datanode:
+  namenode:
+  hadoop_historyserver:
+  zookeeper_data:
+  kafka_data:
+  hadoopconf:
+networks:
+  test_network:
+    driver: bridge

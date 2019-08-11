@@ -86,6 +86,24 @@ if [[ $# -ne 3 ]]; then
           *) echo "invalid option $REPLY";;
       esac
   done
+  PS3='Select analysis technology: '
+  options=("DL4J" "Quit")
+  select opt in "${options[@]}"
+  do
+      case $opt in
+          "DL4J")
+              analysis="DL4J"
+              echo "Your current pipeline: $ingestion ==> $storage ==> $analysis"
+              echo ""
+              break
+              ;;
+          "Quit")
+              exit 1
+              break
+              ;;
+          *) echo "invalid option $REPLY";;
+      esac
+  done
 
   # Remove previous build
   if [ -d "./build/ingestion" ]; then
@@ -96,11 +114,11 @@ if [[ $# -ne 3 ]]; then
   fi
 
   silence=false
-  read -p "Silence services? [y/n] " -n 1 -r
-  if [[ $REPLY =~ ^[Yy]$ ]]
-  then
-    silence=true
-  fi
+  #read -p "Silence services? [y/n] " -n 1 -r
+  #if [[ $REPLY =~ ^[Yy]$ ]]
+  #then
+  #  silence=true
+  #fi
 
   if [ -d "data_producer" ]; then
     add_service 'data_producer' data_producer "$silence"
@@ -136,6 +154,10 @@ if [[ $# -ne 3 ]]; then
     add_service "./storage/hdfs" "storage" "$silence"
   fi
 
+  if [[ "$analysis" == "DL4J" ]]; then
+    add_service "./analysis/dl4j" "analysis" "$silence"
+  fi
+
   # Remove last useless line break
   services=${services::${#services}-2}
 
@@ -151,6 +173,7 @@ if [[ $# -ne 3 ]]; then
   ingestion=`echo "$ingestion" | tr '[:upper:]' '[:lower:]'`
   services="${services//\{\{ingestion\}\}/$ingestion}"
 
+  
 
   # Finally write new docker-compose file  
   output=`cat ./assets/docker-compose.yml`

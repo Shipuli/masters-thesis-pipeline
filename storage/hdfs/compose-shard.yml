@@ -4,6 +4,7 @@ namenode:
     - connections
   ports:
     - 9870:9870
+    - 9000:9000
   volumes:
     - namenode:/hadoop/dfs/name
     - hadoopconf:/etc/hadoop
@@ -17,6 +18,7 @@ datanode:
     - connections
   ports:
     - 9864:9864
+    - 9866:9866
   volumes:
     - datanode:/hadoop/dfs/data
   env_file:
@@ -29,6 +31,8 @@ resourcemanager:
     - connections
   environment:
     SERVICE_PRECONDITION: "namenode:9870 datanode:9864"
+  ports:
+    - 8088:8088
   env_file:
     - ./storage/hadoop.env
   healthcheck:
@@ -39,6 +43,8 @@ nodemanager:
     - connections
   environment:
     SERVICE_PRECONDITION: "namenode:9870 datanode:9864 resourcemanager:8088"
+  ports:
+    - 8042:8042
   env_file:
     - ./storage/hadoop.env
 historyserver:
@@ -47,6 +53,8 @@ historyserver:
     - connections
   volumes:
     - hadoop_historyserver:/hadoop/yarn/timeline
+  ports:
+    - 8188:8188
   environment:
     SERVICE_PRECONDITION: "namenode:9870 datanode:9864 resourcemanager:8088"
   env_file:
