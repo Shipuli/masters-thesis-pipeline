@@ -12,6 +12,7 @@ add_service() {
   local path=$1
   local destination="./build/$2"
   local silence=$3
+  local ignore=$4
   # Copy docker-compose config
   local shard=""
   local index=0
@@ -33,7 +34,20 @@ add_service() {
   services="$services$shard"
   # Copy files to build folder
   mkdir -p "$destination"
-  cp -R "$path/." "$destination"
+  if [ -z "$ignore" ]; then 
+    rsync -aR "$path/./" "$destination/"
+  else
+    local ignorestring=""
+    for exc in $ignore; do
+      if [ -z "$ignorestring" ]; then
+        ignorestring="--exclude=$exc"
+      else
+        ignorestring="$ignorestring --exclude=$exc"
+      fi
+    done
+    rsync -aR $(echo $ignorestring) "$path/./" "$destination/"
+  fi
+
   rm "$destination/compose-shard.yml"
 }
 
@@ -121,7 +135,8 @@ if [[ $# -ne 3 ]]; then
   #fi
 
   if [ -d "data_producer" ]; then
-    add_service 'data_producer' data_producer "$silence"
+    excluded="*target* *.idea*"
+    add_service 'data_producer' data_producer "$silence" "$excluded"
     echo "Copying the data"
     mkdir -p "./build/data_producer/app/data"
     cp -R -n "./data/." "./build/data_producer/app/data"
@@ -129,7 +144,7 @@ if [[ $# -ne 3 ]]; then
 
   # Add service specific parts
   if [[ "$ingestion" == "Flume" ]]; then
-    add_service "./ingestion/flume" "ingestion" "$silence"
+    add_service "ingestion/flume" "ingestion" "$silence"
   fi
 
   if [[ "$ingestion" == "Kafka" ]]; then
@@ -143,19 +158,20 @@ if [[ $# -ne 3 ]]; then
           [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
       fi
     fi
-    add_service "./ingestion/kafka" "ingestion" "$silence"
+    add_service "ingestion/kafka" "ingestion" "$silence"
   fi
 
   if [[ "$storage" == "Cassandra" ]]; then
-    add_service "./storage/cassandra" "storage" "$silence"
+    add_service "storage/cassandra" "storage" "$silence"
   fi
 
   if [[ "$storage" == "Hdfs" ]]; then
-    add_service "./storage/hdfs" "storage" "$silence"
+    add_service "storage/hdfs" "storage" "$silence"
   fi
 
   if [[ "$analysis" == "DL4J" ]]; then
-    add_service "./analysis/dl4j" "analysis" "$silence"
+    excluded="*target* *.idea*"
+    add_service "analysis/dl4j" "analysis" "$silence" "$excluded"
   fi
 
   # Remove last useless line break

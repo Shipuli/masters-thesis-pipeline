@@ -6,11 +6,13 @@ spark-master:
     - "7077:7077"
   environment:
     - "constraint:node==<yourmasternode>"
+  restart: always
   networks:
     - connections
 spark-worker-1:
   image: bde2020/spark-worker:2.4.1-hadoop2.7
   container_name: spark-worker-1
+  restart: always
   depends_on:
     - spark-master
   ports:
@@ -18,5 +20,13 @@ spark-worker-1:
   environment:
     - "SPARK_MASTER=spark://spark-master:7077"
     - "constraint:node==<yourworkernode>"
+  networks:
+    - connections
+zeppelin:
+  build: ./analysis/zeppelin
+  container_name: zeppelin
+  restart: always
+  ports:
+    - "8090:8080"
   networks:
     - connections
