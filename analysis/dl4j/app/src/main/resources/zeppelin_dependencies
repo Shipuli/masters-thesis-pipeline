@@ -1,0 +1,7 @@
+%spark.dep
+z.load("org.deeplearning4j:deeplearning4j-core:1.0.0-beta4")
+z.load("org.deeplearning4j:dl4j-spark_2.11:1.0.0-beta4_spark_2")
+z.load("org.datavec:datavec-api:1.0.0-beta4")
+z.load("org.datavec:datavec-spark_2.11:1.0.0-beta4_spark_2")
+z.load("org.nd4j:nd4j-api:1.0.0-beta4")
+z.load("org.nd4j:nd4j-native-platform:1.0.0-beta4")

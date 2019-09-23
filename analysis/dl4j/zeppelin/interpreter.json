@@ -1366,51 +1366,7 @@
           }
         }
       ],
-      "dependencies": [
-        {
-          "groupArtifactVersion": "org.nd4j:nd4j-native-platform:1.0.0-beta4",
-          "local": false
-        },
-        {
-          "groupArtifactVersion": "org.nd4j:nd4j-api:1.0.0-beta4",
-          "local": false
-        },
-        {
-          "groupArtifactVersion": "org.nd4j:nd4j-kryo_2.11:1.0.0-beta4",
-          "local": false,
-          "exclusions": []
-        },
-        {
-          "groupArtifactVersion": "org.deeplearning4j:deeplearning4j-core:1.0.0-beta4",
-          "local": false,
-          "exclusions": []
-        },
-        {
-          "groupArtifactVersion": "org.deeplearning4j:dl4j-spark_2.11:1.0.0-beta4_spark_2",
-          "local": false,
-          "exclusions": []
-        },
-        {
-          "groupArtifactVersion": "org.datavec:datavec-api:1.0.0-beta4",
-          "local": false,
-          "exclusions": []
-        },
-        {
-          "groupArtifactVersion": "org.datavec:datavec-spark_2.11:1.0.0-beta4_spark_2",
-          "local": false,
-          "exclusions": []
-        },
-        {
-          "groupArtifactVersion": "cglib:cglib:3.3.0",
-          "local": false,
-          "exclusions": []
-        },
-        {
-          "groupArtifactVersion": "asm:asm-util:3.3.1",
-          "local": false,
-          "exclusions": []
-        }
-      ],
+      "dependencies": [],
       "option": {
         "remote": true,
         "port": -1,
@@ -1651,30 +1607,7 @@
     }
   },
   "interpreterBindings": {
-    "2EHXV9C4Y": [
-      "spark",
-      "md",
-      "angular",
-      "sh",
-      "livy",
-      "alluxio",
-      "file",
-      "flink",
-      "python",
-      "ignite",
-      "lens",
-      "cassandra",
-      "kylin",
-      "elasticsearch",
-      "jdbc",
-      "hbase",
-      "bigquery",
-      "pig",
-      "groovy",
-      "neo4j",
-      "sap"
-    ],
-    "2EHE2H16C": [
+    "testing": [
       "spark",
       "md",
       "angular",

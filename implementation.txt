@@ -36,15 +36,41 @@ Errors while developing
 - Zeppelin
   - java.lang.IncompatibleClassChangeError: Implementing class => Zeppelin fails to start the spark interpreter based on modified interpreter.json. Did not find any good solutions. One way to go around this is to run the code once to get the error. Then go to settings and save the settings which causes some the interpreter to restart and this seems to fix this. (note: doing restart via restart button does not fix this)
   - Could not fetch dependencies for interpreter 'spark.spark', reason: undefined => interpreter.json had one comma too much
-
+  - java.lang.IncompatibleClassChangeError: Implementing class comes up randomly => It would seem to be dependency conflict => change to use notebook z.load functionality
+  - java.io.InvalidClassException: org.apache.commons.lang3.time.FastDateParser; local class incompatible: stream classdesc serialVersionUID = 2, local class serialVersionUID = 3 => Commons-lang3 dependencies do not match with the cluster => https://issues.apache.org/jira/browse/ZEPPELIN-1977 => add org.apache.commons:commons-lang3:3.6 to dependencies
+  - java.lang.RuntimeException: SLF4J: Class path contains multiple SLF4J bindings. when trying to specify dependencies for spark-submit and notebook (although using only one of these leads to java.lang.NoClassDefFoundError: Could not initialize class org.nd4j.linalg.factory.Nd4j in different parts of the code)
+- DL4J
+  - Documentation does not match with API
+  - Documentation has cases for local time series analysis and normal distributed classification but not for both at the same time
+  - java.lang.RuntimeException: Export training approach is not supported in the current environment. (zeppelin with spark-submit) => hadoop.conf and SparkConf changes did not work => --conf flag on spark-submit process fixed
+  - org.apache.hadoop.mapred.FileAlreadyExistsException: Output directory hdfs://namenode:9000/tmp/hadoop-root/dl4j/1567954770736_-1845160/37/paths already exists. When error happens temp is not cleared which leads to errors on concecutive runs.
+  - Caused by: org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 10.0 failed 4 times, most recent failure: Lost task 0.3 in stage 10.0 (TID 16, 172.20.0.10, executor 0): java.lang.NoClassDefFoundError: Could not initialize class org.nd4j.linalg.factory.Nd4j. When using SparkDl4jMultiLayer.fit
+  - io.aeron.exceptions.RegistrationException: Insufficient usable storage for new log of length=100663744 in /dev/shm (shm) => fails quietly without letting spark job finish => increase size of shm
+  - org.nd4j.linalg.exception.ND4JIllegalStateException: Can't establish connection afet 10 seconds. Terminating...
+- Spark-submit
+  - Caused by: java.lang.RuntimeException: Multiple artifacts of the module org.bytedeco#mkl-dnn;0.18.1-1.5 are retrieved to the same file! Update the retrieve pattern  to fix this error. when trying to deploy with packages flag instead of uber jar
+  - java.lang.RuntimeException: org.nd4j.linalg.factory.Nd4jBackend$NoAvailableBackendException: Please ensure that you have an nd4j backend on your classpath. Even though nd4j-native-platform is in the classpath => cause: Problem with sbt assembly merge strategy => Custom merge strategy
+  - java.lang.NoClassDefFoundError: Could not initialize class org.nd4j.linalg.factory.Nd4j at org.deeplearning4j.spark.datavec.DataVecSequenceDataSetFunction.call(DataVecSequenceDataSetFunction.java:81)  
+    - Caused by: java.lang.UnsatisfiedLinkError: no jnind4jcpu in java.library.path 
+    - Caused by: java.lang.UnsatisfiedLinkError: /root/.javacpp/cache/app-assembly-0.1.jar/org/nd4j/nativeblas/linux-x86_64/libjnind4jcpu.so: Error loading shared library libmkldnn.so.0: No such file or directory (needed by /root/.javacpp/cache/app-assembly-0.1.jar/org/nd4j/nativeblas/linux-x86_64//libnd4jcpu.so)
+    => javacpp error, could be because spark images are based on alpine linux which does not have glibc installed 
+    => possible solution: https://github.com/sgerrand/alpine-pkg-glibc => ERROR: glibc-2.25-r1: trying to overwrite lib/lapk --no-cache add ca-certificates wget
+      wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
+      wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.30-r0/glibc-2.30-r0.apk
+      apk add glibc-2.30-r0.apk
+      d-linux-x86-64.so.2 owned by libc6-compat-1.1.12-r7 => apg del libc6-compat 
+    => Actual solution: Fork the spark image and use other base image than alpine
 Other notes:
 - Spark still does not support latest scala version (current: 2.13, supported: 2.12)
 - Zeppelin docker container has a habit of getting stuck if used too much (docker restart needed)
 - DL4J is really nitpicky when it comes to the format of the input. In cloud environment CSV is only format that is actually well supported.
+- Spark partitions saved csvs but DL4J does not really offer any info how to handle partitioned data
 
 TODO problems:
 - HDFS permissions (?) do not allow web ui file downloads
 
+COMMANDS:
+   - spark-submit --master spark://spark-master:7077 --conf spark.hadoop.fs.defaultFS=hdfs://namenode:9000 ./target/scala-2.11/app-assembly-0.1.jar
 
 Bits of info that probably should be kept safe:
 Kafka data isn't indexed by key, it's partitioned by it,
