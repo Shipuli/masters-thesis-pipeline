@@ -65,12 +65,15 @@ Other notes:
 - Zeppelin docker container has a habit of getting stuck if used too much (docker restart needed)
 - DL4J is really nitpicky when it comes to the format of the input. In cloud environment CSV is only format that is actually well supported.
 - Spark partitions saved csvs but DL4J does not really offer any info how to handle partitioned data
+- IEX data not as clean as first thought
 
 TODO problems:
 - HDFS permissions (?) do not allow web ui file downloads
 
-COMMANDS:
+USEFUL COMMANDS:
    - spark-submit --master spark://spark-master:7077 --conf spark.hadoop.fs.defaultFS=hdfs://namenode:9000 ./target/scala-2.11/app-assembly-0.1.jar
+   - hdfs dfs -copyToLocal /topics/stock_test/partition=0/stock_test+0+0000000031+0000000031.json stock.json
+   - hdfs dfs -copyToLocal /topics/stock_test/partition=0/evaluation/merged_preprocessed_31.csv m1.csv
 
 Bits of info that probably should be kept safe:
 Kafka data isn't indexed by key, it's partitioned by it,

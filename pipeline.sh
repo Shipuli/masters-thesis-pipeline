@@ -53,7 +53,7 @@ add_service() {
 
 if [[ $# -ne 3 ]]; then
   PS3='Select ingestion technology: '
-  options=("Flume (Depracated)" "Kafka" "Quit")
+  options=("Flume (Deprecated)" "Kafka" "Quit")
   select opt in "${options[@]}"
   do
       case $opt in

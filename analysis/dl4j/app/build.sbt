@@ -59,12 +59,14 @@ val assemblyDependencies = (scope: String) => Seq(
   sparkExcludes("org.datavec" %% "datavec-spark" % s"${datavecVersion}" % scope)
     exclude("org.apache.spark", "*"),
   sparkExcludes("org.bytedeco" % "javacpp" % "1.5.1-1" % scope),
+  sparkExcludes("org.mlflow" % "mlflow-client" % "1.2.0" % scope),
   sparkExcludes("org.bytedeco" % "mkl-dnn" % "0.20-1.5.1" % scope),
   "com.fasterxml.jackson.core" % "jackson-annotations" % "2.4.4" % scope,
   "com.fasterxml.jackson.core" % "jackson-core" % "2.4.4" % scope,
   "com.fasterxml.jackson.core" % "jackson-databind" % "2.4.4" % scope,
   "com.fasterxml.jackson.dataformat" % "jackson-dataformat-yaml" % "2.4.4" % scope
 )
+
 
 val hadoopClientExcludes =
   (moduleId: ModuleID) => moduleId.

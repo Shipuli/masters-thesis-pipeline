@@ -49,3 +49,12 @@ analyzer:
   restart: always
   networks:
     - connections
+mlflow:
+  build: ./analysis/mlflow
+  ports:
+    - "5000:5000"
+  container_name: mlflow
+  restart: always
+  networks:
+    - connections
+    

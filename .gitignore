@@ -15,6 +15,7 @@ scraper
 data
 **/kafka-connect-hdfs
 **/burrow
-build
+build/*
+!build/stop_all.ps1
 **/.idea
 **/target
