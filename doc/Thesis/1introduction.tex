@@ -32,25 +32,24 @@ During these hours multiple values are recorded on the prices of the stock from 
 The technical analysis focuses on finding recognizable patterns through this data. \cite{murphy}
 Where the data used by the fundamental analysis was relatively small, these values can generate gigabytes of raw data in a week.
 
-Developing a system that can do both of these analyses automatically would mean that the system should be planned from the start to be able to handle large amounts of these data as time progresses.
-As such task is not trivial, the goal of this thesis is to provide developers, who want to analyse this data efficiently, basic knowledge on what are the best current solutions on handling this data.
-With this knowledge these developers can save considerable amount of time without the need of trial and error when developing this kind of system from the ground up.
+Developing a system that can be used to conduct technical analysis means that the system should be planned to be able to handle large amounts of these data as time progresses.
+As such task is not trivial, the goal of this thesis is to provide developers and researchers, who want to analyse this data efficiently, basic knowledge and tools on what are the best current solutions on handling this data.
+With this knowledge these data scientists can save considerable amount of time without the need of trial and error when developing this kind of system from the ground up.
 
 % for screenshots
 \begin{figure}[ht]
     \includegraphics[scale=0.36]{images/system2} 
     \centering
-    \caption{Application scenario for the thesis}
+    \caption{Example of a stock data pipeline}
 \end{figure}
 
 \section{Application scenario}
 % research and engineering questions (why do you have to do it and why it is new)
 
-To have a better picture of how a normal system that handles stock data operates, we are next going to introduce an application scenario which is based on real-life system.
-From this real-life example we are going to apply the used data sources, the requirements of the possible extensions and the requirements of the results to create a more realistic scenario.
-This scenario will be then used throughout the thesis to give reader more practical and meaningful results.
+To have a better picture what are the challenges of developing a system for technical analysis are, we will next look at a example case.
+This is to give reader more practical and meaningful view on the problem at hand.
 
-This application scenario is presented in figure 1.
+Somewhat normal system for analysing both fundamental and technical analysis is presented in figure 1.
 In the figure, the components marked with solid lines represent the core system functions, and the dashed lines represent add-on functionalities that should be possible to extend into the system in the future.
 The requirements of the system should be as follows;
 The system should produce long ($r_1$) and short ($r_2$) term predictions of stock prices.
@@ -89,29 +88,32 @@ For historical technical analysis, $f_4$, the storage should provide reasonable 
 
 \section{Research Questions}
 
-The focus of this thesis is going to be the ingestion of stock data ($f_1$ and $f_2$) using big data technologies.
-As the field of possible technologies is large, the main focus of this thesis would be the comparison of current relevant technologies in the context of stock data to help developers to decide what technologies to use in their own projects.
-The main result of this thesis would be information and possible tools that developers could use to develop this kind of system more quickly.
+The focus of this thesis is going to be the part of the pipeline that calculates predictions based on historical data.
+This means the ingestion, storage and analysis of this data.
+As we have seen in the previous section, the system has to have the ability to grow, and we are going to focus on how to implement this in practice.
+
+As the field of possible technologies is large, the main focus of this thesis would be the comparison of current relevant technologies in the context of stock data to help data scientists to decide what technologies to possibly use in their own projects.
+The main result of this thesis would be information and possible tools that developers could use to develop this kind of system more efficiently.
 Developers here can be people from companies that either do stock analysis as their main business or just want to analyze stock data efficiently.
 These results could also be used in research to implement analyzing pipelines more efficiently so that the research group can focus on the analyzing of the stock data instead of worrying with getting the data to these parts.
 
 Analyzing the stock data is also what most of the research today is focused on as this is the part that can actually produce profit.
 This means that most papers ignore the steps of ingesting and storing this data.
 Examples of this kind of papers are \cite{wu}, \cite{aghakhani} and \cite{kao}.
-So one of the goals of this thesis would be to bring also some practical knowledge on subject that has not been researched that much before. 
+So one of the goals of this thesis would be to bring more comprehensive picture on stock data pipelines. 
 
 This thesis will approach this subject from three different perpectives that cumulate on one another.
 These perspectives are represented by the following three research questions:
 
 What are the needs and requirements of this kind of system data-wise?
-Which is important knowledge when starting to design or implement any kind of big data system.
+What are the methods currently used to conduct technical analysis and possibly what kind of data they use.
 This thesis plans to provide the information on these so that when a reader is developing their own system they have a point of reference which they can use to evaluate their data sources.
 
-What are technological options to implement this in practice?
-As there are enormous amount of different technological frameworks, this thesis plans to provide the reader information on the most relevant ones currently.
+What are technological options to implement a modern scalable timeseries analysis pipeline?
+As there are enormous amount of different technological frameworks, this thesis plans to provide the reader information on the most promising ones currently.
 This way the reader does not need to go through and learn variety of technologies in order to build their system.
 
-How do the most viable big data ingestion options compare to one another in the context of stock data perfomance- and development-wise?
+How to implement big data framework for technical analysis in practice?
 Finally the thesis plans to provide comparison and prototype implementations of stock data ingestion using the technologies that seem most prominent.
 The metrics used to compare these systems would be the response time, possible scalability and the time it takes to develop these systems.
 This is to save possible time of a person developing these when the trial and error is done beforehand and if the prototype system fits the developed architecture it can also be used as a basis for further development by the reader.

@@ -9,14 +9,14 @@
 %environments and then we have an example from an thesis written some years
 %ago.
 
-In this chapter, we will examine more carefully the technologies that can be used to implement a stock data pipeline in the big data context and try to answer the second research question.
+In this chapter, we will examine more carefully the technologies that can be used to implement a stock data pipelines in the big data context and try to answer the second research question.
 We have gathered here technologies that we saw used in existing big data stock pipelines in the previous chapter.
 We also added couple of promising frameworks that could be used in the pipelines but there is no public information about companies using them yet.
 To keep this section compact and more useful for majority of the developers that do not possibly have access to company level resources, we have included only the open-source solutions here leaving outside the services that cloud providers offer such as Amazon S3 for storage or Google Dataflow for ingestion.
 
 \section{Data ingestion}
 
-Here we are going to be using the same definition for ingestion as before; data fetching and preprocessing which includes data validation and feature extraction.
+Here we will be using the same definition for ingestion as before; data fetching and preprocessing which includes data validation and feature extraction.
 This is one of the crucial parts of the pipeline as it is responsible of turning arbitrary data into facts that the rest of the pipeline can use and rely on.
 This also makes it the hardest part to develop as the developer must understand the data well enough that these parts can work efficiently and prevent erroneous states in the later stages of the pipeline.
 
@@ -136,7 +136,7 @@ These are done in file scale (minor compaction), but also in larger scale where 
 Apache Cassandra is a NoSQL database that is build on peer to peer architecture.
 Cassandra provides its users same tools that a normal relational database would.
 Its record structure is the same with rows, columns and tables such as with typical relational database and it provides a SQL-like query language.
-What differs Cassandra from a normal relational database is its scalable architecture which we are going to look next. \cite{yarabarla}
+What differs Cassandra from a normal relational database is its scalable architecture which we will be looking next. \cite{yarabarla}
 
 Cassandra's main scalable units are called Nodes that are a single instance of Cassandra running in a single machine.
 These Nodes are grouped together based on the data they serve and these form Rings.
@@ -213,7 +213,7 @@ This allows it to be run on classical command-line interface, but also from jupy
 \section{Monitoring}
 
 We have already seen quite a bit of framework specific monitoring solutions, which cover monitoring individual components in the pipeline.
-Next we are going to take this monitoring a step further and look at monitoring solutions that work outside of these components and can be used to monitor the global state of the pipeline.
+Next we will take this monitoring a step further and look at monitoring solutions that work outside of these components and can be used to monitor the global state of the pipeline.
 This can make monitoring easier when all the information is available in one place and it also helps to infer cause-effect relations.
 
 We have gathered here two different monitoring solutions for two different needs.

@@ -1,4 +1,4 @@
-\chapter{Methods}
+\chapter{Planning a stock data pipeline}
 \label{chapter:methods}
 
 %You have now stated your problem, and you are ready to do something
@@ -6,3 +6,100 @@
 %use?  You also need to review existing literature to justify your
 %choices, meaning that why you have chosen the method to be applied in
 %your work.
+
+Next we will look at how do we can use the technologies before in order to build a pipeline that can be used to examine stock data when the amount of data might be too much for one computer to handle.
+We will be reviewing, what we will be doing in the implementation part of this thesis based on the information that we have seen to this point.
+Finally, we will look how we will evaluate the end-product and how is it better or worse than other alternatives.
+
+\section{Building developer friendly pipeline}
+
+The main goal of the following implementation section is to provide information on developing these pipelines in local environment for the analysists who do not possibly have the resources to invest much time in order to build a analysis pipeline that can scale to big data.
+This will be the base for most of the decisions that are being made for some of the used technologies.
+
+The main requirements for this is that the pipeline can be run almost any computer with enough computing resources.
+This means that the parent operating system should not require any excessive operations from the developer in order to start developing on their machine.
+This is why in this thesis all the parts of the pipeline will be build on top of Docker and Docker Compose container technologies.
+These are chosen as the container technology here as they are easy to develop onto and cloud providers such as Google Cloud Platfrom and Amazon Web Services both support them. \cite{awsdocker} \cite{gcpdocker}
+This way we can create a developer ready pipelines that work flexibly in their local machines and can be scaled to the cloud without too many excessive measures.
+
+Most of the open-source Big Data products are build on top of JVM (Java Virtual Machine) so in order to avoid excessive complexity that can come from using multiple programming languages we will use single programming language that runs above JVM throughout the whole pipeline where it is possible.
+For this thesis that language is Scala, because of its good interopality with Apache Spark and it being providing good programming interfaces for both object oriented and functional paradigms.
+On top this, Scala offers static typing which is extremely helpful to prevent errors that can occur with long computations saving developers time and resources. \cite{scalabook}
+
+\section{Data Source}
+
+\begin{table}[! htbp]\centering 
+    \caption{Stock data sources}
+    \begin{threeparttable}
+        \begin{tabular}{|p{2cm}|p{2.5cm}|l|p{2cm}|p{3cm}|} 
+        \hline
+        & Type of data & Price & Data Structure & Restrictions \\ \hline
+        IEX \cite{iex}& Intraday and Historical (15 years) & 0\$/month & JSON & 500k datapoints/month \\ \hline
+        Alpha Vantage \cite{alphavantage}  & Intraday and Historical (20+ years)& 0\$/month & JSON/CSV & 5 requests/min and 500/day\\ \hline
+        World Trading Data \cite{worldtradingdata} & Intraday and Historical (from 1980) & 0\$/month & JSON/CSV & 5 symbols/request, 250 request/day and 25 intraday requests/day\\ \hline
+        Intrino \cite{intrino} & Intraday & 52\$/month & JSON / CSV / Excel & 120 request/min\\ \hline
+        Quandl \cite{quandl} & Historical $EOD^1$ (from 1996) & $15\$/month^2$ & JSON / Excel & none\\ \hline
+        Barchart \cite{barchart} & Intraday and Historical (6 months) & 0\$/month & JSON / CSV / XML & 25 symbols /request and 400 requests/day\\
+        \hline
+        \end{tabular}
+        \begin{tablenotes}\footnotesize
+            \item[1] EOD = End of Day
+            \item[2] For academic use 
+        \end{tablenotes}
+    \end{threeparttable}        
+\end{table}
+
+As stated before, most of the data sources concerning stock data are closed and heavily priced.
+However, there exists services that offer data for smaller scale development and analysis.
+A list of this kind of services is presented in the table 4.1.
+In the table the cheapest possible plan for each service is presented to give a better understanding what kind of possibilities there are for acquiring stock data for analysis purposes and what kind of data formats these offer.
+
+From this table we can make couple of notes.
+For aquiring free data test data fast, the IEX provides the best option as its limits are not restricted to time, but the 500k datapoint restriction does not provide nearly enough data for any serious application.
+For academic use, Quandl provides at the moment of writing this, the most affortable API for historical data analysis.
+Historical data is usually cheaper because with historical data alone you usually cannot make money as stock market revolves around the most recent data, but for training models and other data analysis it is ideal.
+Other thing to note is that the amount of historical data can vary greatly between services from 6 months (Barchart) to 39 years (World Trading Data).
+
+For this thesis we have chosen to use data from IEX API which was an open API until 30.09.2019 when the company decided to close this in order to capitalize with the closed API which free plan is in the table.
+This data is from the 5 year interval between 2014 and 2019 and the relevant values that it contains are opening prices, closing prices, highest prices, lowest prices and volumes.
+In order to test freely with this data, we will implement our own server that serves this data into our pipeline.
+
+\section{Pipeline construction}
+
+Next we will explain what technologies we are trying to use to build a development environment.
+The choices are highly based on the technologies that have been seen already in use, but there are also choices that seem promising but do not have real-life examples yet.
+This is hopefully to provide new meaningful knowledge about the possiblities of these technologies.
+
+For the ingestion we will try two technologies that we have seen in the previous chapters used in practice for this; Apache Flume, Apache Kafka and Apache NiFi.
+Both of these are scalable data ingestion frameworks that have different paradigms of handling data.
+For only development these products are a bit heavy weighted, but for scalability these are necessary in order to handle massive amounts of ingested data from varying sources.
+
+For storage we will be testing Apache Cassandra, plain HDFS and, if there is time, Apache HBase.
+All of these storage formats have been developed to be used in big data environment and from these HDFS and HBase were both used in some existing pipeline.
+As for Cassandra, we are trying to see whetever it is easy to integrate with the other technologies and can it bring anything to the pipeline with its high availability features.
+
+For analysis, there does not exist that many options that work well with our requirements.
+The main difficulty here is to keep our pipeline using only Scala for programming.
+There are only two machine learning libraries that has Scala support and can be used in big data context; Apache Spark ML and Deeplearning4j libraries which were introduced in the previous chapters.
+Because deep learning, and specifically LSTM networks, are the current trend in stock analysis, the library needs to have support for these.
+Unfortunately, Spark ML does not have these natively as the writing of this, so that leaves us with only Deeplearning4j.
+
+Because building and demonstrating data analysis applications can be a time consuming and complex job, data science community has adopted the usage of Jupyter notebooks when implementing data analysis in Python.
+For the same reasons, we will be integrating Apache Zeppelin notebooks into this pipeline as these have a support for Scala programming language and allow submitting applications to Spark cluster.
+
+To monitor the machine learning model development we will integrate the MLFlow tracking into the analysis phase.
+This is done by implementing a separate tracking server to allow this process scale separately from the actual analysis.
+Thus also enabling responsive tracking UI usage.
+
+\section{Pipeline evaluation}
+
+In the evaluation we will focus on quality metrics of the software.
+How manageable the pipeline is and is it easy to monitor.
+These are usually important factors when continuously developing a system.
+This also includes how automated the processes are and does developing and deploying the software require excessive amount of manual work.
+
+Some performance metrics are taken in order to asses the fitness of the pipeline for any kind of development where it is important that iterations of the software can be swiftly build and that the whole service can run comfortably on the developers machine.
+Namely for these reasons we will examine the memory consumption of these services on a normal developing machine.
+
+Hopefully, as there will be a bit different pipelines with different technologies, we can get results that can be used to compare these components with one another.
+This would hopefully give the reader better information on what technologies should they choose for their own project.

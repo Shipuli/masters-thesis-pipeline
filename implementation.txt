@@ -46,7 +46,7 @@ Errors while developing
   - org.apache.hadoop.mapred.FileAlreadyExistsException: Output directory hdfs://namenode:9000/tmp/hadoop-root/dl4j/1567954770736_-1845160/37/paths already exists. When error happens temp is not cleared which leads to errors on concecutive runs.
   - Caused by: org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 10.0 failed 4 times, most recent failure: Lost task 0.3 in stage 10.0 (TID 16, 172.20.0.10, executor 0): java.lang.NoClassDefFoundError: Could not initialize class org.nd4j.linalg.factory.Nd4j. When using SparkDl4jMultiLayer.fit
   - io.aeron.exceptions.RegistrationException: Insufficient usable storage for new log of length=100663744 in /dev/shm (shm) => fails quietly without letting spark job finish => increase size of shm
-  - org.nd4j.linalg.exception.ND4JIllegalStateException: Can't establish connection afet 10 seconds. Terminating...
+  - org.nd4j.linalg.exception.ND4JIllegalStateException: Can't establish connection afet 10 seconds. Terminating... => open ports in client and worker machine
 - Spark-submit
   - Caused by: java.lang.RuntimeException: Multiple artifacts of the module org.bytedeco#mkl-dnn;0.18.1-1.5 are retrieved to the same file! Update the retrieve pattern  to fix this error. when trying to deploy with packages flag instead of uber jar
   - java.lang.RuntimeException: org.nd4j.linalg.factory.Nd4jBackend$NoAvailableBackendException: Please ensure that you have an nd4j backend on your classpath. Even though nd4j-native-platform is in the classpath => cause: Problem with sbt assembly merge strategy => Custom merge strategy
@@ -62,7 +62,7 @@ Errors while developing
     => Actual solution: Fork the spark image and use other base image than alpine
 Other notes:
 - Spark still does not support latest scala version (current: 2.13, supported: 2.12)
-- Zeppelin docker container has a habit of getting stuck if used too much (docker restart needed)
+- Zeppelin docker container has a habit of getting stuck if used too much (docker restart needed) => memory issue (probably)
 - DL4J is really nitpicky when it comes to the format of the input. In cloud environment CSV is only format that is actually well supported.
 - Spark partitions saved csvs but DL4J does not really offer any info how to handle partitioned data
 - IEX data not as clean as first thought
