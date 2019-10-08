@@ -9,24 +9,24 @@
 %environments and then we have an example from an thesis written some years
 %ago.
 
-In this chapter, we will examine more carefully the technologies that can be used to implement a stock data pipelines in the big data context and try to answer the second research question.
+In this chapter, we will examine more carefully the technologies that can be used to implement a stock data pipelines in the big data context and try to answer the second research question in the process.
 We have gathered here technologies that we saw used in existing big data stock pipelines in the previous chapter.
 We also added couple of promising frameworks that could be used in the pipelines but there is no public information about companies using them yet.
-To keep this section compact and more useful for majority of the developers that do not possibly have access to company level resources, we have included only the open-source solutions here leaving outside the services that cloud providers offer such as Amazon S3 for storage or Google Dataflow for ingestion.
+To keep this section compact and more useful for majority of the developers that do not possibly have access to costly resources, we have included only the open-source solutions here leaving outside the services that cloud providers offer such as Amazon S3 for storage or Google Dataflow for ingestion.
 
 \section{Data ingestion}
 
-Here we will be using the same definition for ingestion as before; data fetching and preprocessing which includes data validation and feature extraction.
+Here we will be using the same definition for ingestion as before; data fetching and initial processing which includes data validation.
 This is one of the crucial parts of the pipeline as it is responsible of turning arbitrary data into facts that the rest of the pipeline can use and rely on.
 This also makes it the hardest part to develop as the developer must understand the data well enough that these parts can work efficiently and prevent erroneous states in the later stages of the pipeline.
 
-We have gathered here three main technologies that are usually mentioned when academics are talking about data ingestion, but in reality all of these frameworks have a bit different tasks they try to fulfill.
+We have gathered here three main technologies that are usually mentioned when developers are talking about open-source data ingestion, but in reality all of these frameworks have a bit different tasks they try to fulfill.
 This makes comparing these technologies harder and it usually just means that the better technology here is usually the one that is better suited for the current problem, which does not make the other ones any worse than the selected one.
-On top of Apache Flume and Apache Kafka which were already used in existing pipelines, we have also included here Apache NiFi which promising features that could also be used for this task in this kind of system.
+On top of Apache Flume and Apache Kafka which were already used in existing pipelines, we have also included here Apache NiFi which has promising features that could be suitable for our use case.
 
 \subsection{Apache Flume}
 
-Apache Flume is one of the Apache Software Foundation (ASF) projects that we will be seeing a lot especially in the context of ingestion.
+Apache Flume is one of the Apache Software Foundation (ASF) projects that is quite popular in the context of ingestion.
 From the projects official website we have definition that Flume is "distributed, reliable, and available service for efficiently collecting, aggregating, and moving large amounts of log data" \cite{flume}.
 So the main focus of Flume is to manage log data, but as we have already seen, this is not the only use case for this tool.
 
@@ -83,7 +83,9 @@ Apache ZooKeeper is used to handle failure of nodes in the cluster.\cite{nifi}
 
 Data storage forms the center of the pipeline and is one of the major places where bottlenecks can form.
 Possible bottlenecks are the query latency and the writing speed which can slow the whole application down if not implemented efficiently enough.
-If this non-trivial task was not enough, the data storage must also be able to resist 
+If this non-trivial task was not enough, the data storage must also be able to resist error states that could occur when the hardware malfunctions for example with power outages or network outages.
+We have gathered three major big data storing technologies that were used in existing pipelines: HDFS, HBase and Cassandra.
+We start with the HDFS and move towards more industrially used systems.
 
 \subsection{Hadoop distributed file system}
 
@@ -147,18 +149,17 @@ Unlike HBase, Cassandra does not guarantee the consistency of data due to CAP th
 Cassandra implements "tunably consistent" paradigm where user can define for each write/read to be consistent with the cost of availability.
 This high availability, makes Cassandra better choise for example web application where the data must be available at all times, but the data doesn't necessary have to be up to date. \cite{neeraj}
 
-
 \section{Machine learning frameworks}
 
-When it comes machine learning in big data context, libraries such as Tensorflow and PyTorch are still quite used because of their support of processing data with GPU.
+When we researched existing pipelines we noticed that machine learning libraries such as Tensorflow and PyTorch are still quite used even when data can scale to enormous amounts.
+This is partly due to their support for processing data with GPU.
 This allows them to perform really well in single machine instances while needing minimal time to develop.
-But when these are run in big data context, development becomes a bit more harder as this is not the environment these are designed to run at.
+But when these are run with data which size is scaled to terabytes, development becomes a bit more harder as this is not the environment these are designed to run at.
 
 As we saw in the previous chapter, the Apache Spark framework with its Spark ML library is currently the most used big data machine learning platform.
-Spark, however, natively supports only classical machine learning models and currently has no ready-made deep learning solutions, which are the state of art methods we are interested in.
-We want to still be able to do the deep learning training on Spark environment because of its good integrations with the frameworks we already introduced and its mature ecosystem.
+Spark, however, natively supports only classical machine learning models and currently has no native deep learning solutions, which are the state-of-the-art methods we are interested in.
+Spark is still a highly efficient processing framework for big data and the de facto technology in the market with its good integrations with the frameworks we already introduced and its mature ecosystem.
 That is why we are next going to briefly look at how the Spark ecosystem works and then move on to see tools which we can use to train deep learning models in Spark ecosystem without writing implementations from scratch.
-
 
 \subsection{Apache Spark}
 
@@ -194,6 +195,15 @@ However, the main problem with Spark ML is that it does not have natively tools 
 Deeplearning4J (DL4J) is distributed framework of deep learning algorithms that work on top Spark and Hadoop ecosystems.
 It provides all the most popular deep learning models such as multilayered networks, convolutional networks, recurrent networks.
 DL4J also provides a lot of tools for preprocessing the data before fed for training in the form of sub-projects. \cite{dl4j}
+
+In distributed environment DL4J trains its models using Stochastic Gradient Descent (SGD).
+This is implemented in parallel on each node of the cluster using either of the two methods that the DL4J offers, gradient sharing or parameter averaging.
+From these two, the first one has become the preferred way to implement SGD in DL4J starting from its latest release and this is why we are going to ignore the technicalities of the latter one for now.
+
+In the gradient sharing approach, the gradient is calculated asynchronously on each node in the cluster.
+The main idea behind DL4Js implementation of this, is that not every update on the gradient is sent to every other node.
+Each node has a threshold which defines when a change is large enough to be shared with the global gradient.
+This combined with its own heartbeat mechanism provides efficient and fault tolerant way of training a model in distributed environment. \cite{dl4j}
 
 In academia, DL4J is not that used as its main language is Java, but this choice of language makes it really suitable for industrial use.
 However, DL4J supports Keras model import which allows user to use other languages than the JVM based alternatives.

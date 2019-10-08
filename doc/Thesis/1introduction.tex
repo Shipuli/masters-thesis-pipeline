@@ -38,7 +38,7 @@ With this knowledge these data scientists can save considerable amount of time w
 
 % for screenshots
 \begin{figure}[ht]
-    \includegraphics[scale=0.36]{images/system2} 
+    \includegraphics[scale=0.26]{images/system2} 
     \centering
     \caption{Example of a stock data pipeline}
 \end{figure}
@@ -57,15 +57,16 @@ The system should produce long ($r_1$) and short ($r_2$) term predictions of sto
 The computation of long term predictions can take time because of the nature of these predictions but the short term predictions should be between two minutes to one hour available.
 Long term predictions are the result of fundamental analysis ($f_2$) and historical technical analysis ($f_4$) whereas the short term prediction should come mostly from quick technical analysis ($f_3$).
 The cost of the system should grow logarithmically/linear with time meaning that the cost of processing and storing data should not exponentially increase over time.
-Finally, the core system should be able to fulfill these requirements for at least the +5000 companies in the major U.S stock markets.
+Finally, the core system should be able to fulfill these requirements for at least the +5000 companies in the major U.S stock markets which is the most accessible and individually significant market.
 
 The data to the application is ingested from two main types of data sources quote and fundamental.
 These sources consist of values that were briefly described previously in technical and fundamental analysis respectively.
 The quote data is usually updated with minute intervals depending on the provider whereas the fundamental data does not change so often.
 Theoretically, the fundamental data can change anytime, because of dividends which can be payed whenever the companies want but this does not happen often and these values are mostly used in the long term fundamental analysis so longer update intervals are acceptable.
-In the figure, these are separated into the U.S market ones ($d_1$ and $d_2$) and the other sources ($d_3$ and $d_4$) that provide the same data on other global markets.
+In the figure, these are separated into the single market ones ($d_1$ and $d_2$), which represent the minimum of at least including the U.S stock market and the other sources ($d_3$ and $d_4$) that provide the same data on other global markets.
+
 The extendable global data sources are grouped into one box but in reality this data would be ingested from numberable different providers as there is no single entity at the time of writing this that provides all of this data.
-Theoretically the maximum size of this extendable data would be 5Gb per day which is extrapolated in from the U.S market data based on statistics that in January 2019 there were globally 51 599 companies listed in the stock markets \cite{global}.
+Theoretically the minimum of a maximum size of this extendable data would be 5Gb per day which is extrapolated in from the U.S market data based on statistics that in January 2019 there were globally 51 599 companies listed in the stock markets \cite{global}.
 This amount can and will fluctuate as companies enter and exit the markets but it gives us the scale of data we are working with.
 
 Today, stock market analysis has also a large focus on predicting stock prices using secondary data sources that can have reflect and affect the prices of stocks. 
@@ -89,9 +90,19 @@ For historical technical analysis, $f_4$, the storage should provide reasonable 
 
 \section{Research Questions}
 
+We saw the possible complexity of a stock data analysis pipeline in the previous section.
+To build a stock analysis pipeline there exists individual sources of information but these usually are focused on the analysis of small amount of data in order to test some hypothesis.
+Building a large-scale stock data analysis pipeline is a vastly complex task and to alleviate this process, this thesis plans to provide tools and information on how to build one.
+
 The focus of this thesis is going to be the part of the pipeline that calculates models based on historical data.
 This means the ingestion ($f_1$), storage ($f_5$) and analysis ($f_4$) of the historical data in a environment where the time restrictions are not that tight but the amount of data is enormous.
-Other requirements for this part are also the possibility to ingest meta data from third-party sources as seen on the example case in the previous section.
+We want the pipeline to be able to have the possibility to ingest meta data from third-party sources as seen on the example case in the previous section.
+
+Building this kind of pipeline is a complex task and can require a lot of resources.
+This is why we want to build a pipeline that can remove some of this complexity of building one while being as developer friendly as possible.
+The goal here is to make big data analysis on stock data and timeseries data more accessible.
+To clear some terminology, when we are using the term developer in this thesis, most of the time we are not referring to only software engineers, but also persons who work as a data analysists.
+Although developing software is not their main focus at work, the results of this thesis can help their job to analyze data without having to build these system by themselves.
 
 As the field of possible technologies is large, the main focus of this thesis would be the comparison of current relevant technologies in the context of stock data to help data scientists to decide what technologies to possibly use in their own projects.
 The main result of this thesis would be information and possible tools that developers could use to develop this kind of system more efficiently.
@@ -119,6 +130,7 @@ Finally the thesis plans to provide comparison and prototype implementations of 
 These are compared with one another using relevant metrics that reflect how manageable and easy it is to develop on the implemented pipeline.
 If the prototype system fits readers developed architecture it can be used as a basis for further development by the reader
 This is to save possible time of a person developing these when the trial and error has been done beforehand.
+Because the idea is for the user to be able to use them as they are, one of our requirements in the implementation part is to make the as developer friendly as possible.
 
 \section{Expected Outcome}
 
@@ -132,7 +144,7 @@ The result of this part could be used to decide what seems to be the most suitab
 
 For the last question "How to implement a big data framework for technical analysis in practice?" the thesis would implement open-source prototype solutions based on the results of the second research question.
 The expected outcome is to find a pipeline that is easiest to develop onto which at the same time fulfills the aforementioned requirements.
-These prototypes could be used by anybody (company or individual) as it is or as a base to build a more complex system on top of them.
+These prototypes could be used by anyone (company or individual) as it is or as a base to build a more complex system on top of them.
 
 \section{Structure of the Thesis}
 

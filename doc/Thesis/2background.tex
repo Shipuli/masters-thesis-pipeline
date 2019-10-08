@@ -17,13 +17,12 @@
 
 In order to build practical stock analysis systems, we start by looking at the methods of stock data analysis to understand the underlying domain.
 Stock market analysis is an enormous domain by itself and there are multiple ways to approach this data.
-For example possible problems to solve are finding anomalies in the data, predicting the future price and analysing possible causalities.
-In this thesis we will be approaching this from the price prediction perspective which can also be used in other problems such as anomaly detection \cite{islam}.
+For example possible problems to solve are finding anomalies in the data, predicting the future price and analysing the possible causalities.
+In this thesis we will be approaching this from the price prediction perspective which can also be used as a tool in other problems such as anomaly detection \cite{islam}.
 
-In this chapter we examine what are the state of art methods that researchers use to analyse stock market data and we are especially focusing on methods that in some way use big data for this analysis.
-We will be also looking at the implementation side of things and examine some of the existing big data pipelines for stock market analysis and what are the technologies used to build these.
-As we will see, big data can be part of the pipeline in the form of complete stock data in which case the main method of analysing this is technical analysis.
-Or the big data can aspect can come from other sources of information such as news and social media in which case the main method of analysis is fundamental analysis.
+In this chapter we examine what are the state-of-the-art methods that researchers use to analyse stock market data.
+We are especially focusing on methods that in some way use big data for this analysis.
+We will be also inspecting real-life implementations of stock data analysis and examine some of the existing big data pipelines for stock market analysis focusing on what are the technologies used to build these.
 
 \section{Stock price prediction}
 
@@ -41,20 +40,20 @@ This hypothesis has also been challenged with overreaction hypothesis that state
 \subsection{Statistical methods}
 
 The driving force of stock analysis in the past have been the statistical methods and there are still a lot of new papers analysing stocks using these methods.
-There are hunreds of ways to approach this problem from statistician point of view so here we have listed only some of those that have some relevance to the subject of this thesis.
+There are countless to approach this problem from statistician point of view so here we have listed only some of those that have some relevance to the subject of this thesis.
 
-From the technical analysis perpective, where only the stock data is analysed, we will be looking at momentum indicators. \cite{utthammajai}
+From the technical analysis perpective, where only the data related to the price of a stock is analysed, we will be looking at momentum indicators. \cite{utthammajai}
 Momentum indicators, as the implies, measure the speed of change in the stock prices and investors make decisions based on the thresholds of these values whetever a stock is being overbought or oversold. \cite{james}
-When searching research on big data usage in stock analysis there are some key indicators that show up frequently.
-These are relative strength index (RSI), moving average convergence divergence MACD and Williams \%R.
+When searching research on big data usage in technical analysis there are some key indicators that show up frequently.
+These are relative strength index (RSI), moving average convergence divergence MACD and Williams \%R which are all momentum indicators.
 These indicators can be used as they are but these have been also used as features that machine learning algorithms use to predics prices. \cite{serez}
 
 All of these indicators measure the momentum of the price, but they all do it differently.
 RSI and Williams \%R are both called oscillators because their values oscillate between maximum and minimum values they can get.
 Where as MACD compares long-term and short-term trends to predict if there is currently a notable trend.
-Because of the differences in the formulas and the factors that these values are measuring, the results from these formulas can be conflicting. \cite{james}
+Because of the differences in the formulas and the factors that these values are measuring, the results from these formulas can be conflicting which can help to recognize one indicators bias when using multiple different indicators. \cite{james}
 
-Autoregressive integrated moving average (ARIMA) models have also been successful way of analysing time series stock data and they have been also used with big data. \cite{wang}
+Moving away from the momentum indicators, Autoregressive integrated moving average (ARIMA) models have also been successful way of analysing time series stock data and they have been also used with big data. \cite{wang}
 However, with the new advances in machine learning, there seems to better performance to be achieved with machine learning methods. \cite{khashei}
 Due to this and the complexity of ARIMA models, we will only briefly make a note of them here and focus more on the machine learning methods in the next section.
 
@@ -69,7 +68,7 @@ As stated before, machine learning is the current trending stock analysis methol
 Both supervised and unsupervised learning techniques has been tried to predict the prices but recently neural networks especially have gained a lot of interest due to their adaptablity to any non-linear data.
 Neural networks have the advantage that they usually do not need any prior knowledge about the problem and this is the case when we are looking at seemingly random stock market data.
 
-Let us start by looking at neural networks used to predict the market using only the market data (technical analysis data).
+We start by looking at neural networks used to predict the market using only the market data (technical analysis data).
 There are multiple different neural network architectures to choose from and the most popular one currently seems to be a basic multilayered feed forward network (MFF) when analysing only the stock market data.
 There is some results that have shown that increasing the size of MFF, by adding layers and neurons, can produce better results.
 This however, increases the amount of needed computation and will probably have some upper bound before it starts to overfit the training data. \cite{senguptaa}
@@ -96,23 +95,23 @@ Positive sentiment toward company would lead to the rise of stock price and nega
 
 \section{Existing pipelines}
 
-Now that we have some kind of understanding what the current stock analysis is, let's move on to examine the actual implemetations that do this analysis.
-For this section, we examined 19 different stock data analysis pipeline that handle or are able to handle big data in some sense.
-What we mean here by "in some sense" is that the big data might not have been the actual stock data but for example social media data that was used to analyse the actual stock data.
+We then move on to examine the actual implemetations that do this analysis.
+For this section, we examined 19 different stock data analysis pipeline that handle or are able to handle big data.
+The big data might not be the actual stock data but for example social media data that was used to analyse the actual stock data.
 Information about these pipelines were all publicly available, although most of the pipelines were not open-sourced.
 Fourteen of these pipelines were reported in academic publications and the rest five are, or at least have been, in industrial use.
 There were also multiple open-source pipelines that have been developed for big data stock analysis, but information about the actual usage of these pipelines were not found.
-This is why we excluded these from this study in order to get results that might have more relevance to pipelines that are actually in use.
+This is why we excluded these from this study in order to get more relevant results.
 
 We have divided this section into subsections based on different parts from the pipeline starting from the furthest away of the possible clients and moving our way up towards the analysis phase.
 The biggest problem here is that the companies that work in the forefront of stock analysis, seldom share their software achitectures for business reasons.
-Nevertheless, with the public information available we can get an excellent view of the state of art pipelines in academic world and a general idea how the pipelines are build in the industry side.
+Nevertheless, with the public information available we can get an excellent view of the state-of-the-art pipelines in academic world and a general idea how the pipelines are build in the industry side.
 
 It is also not that easy to compare technologies used in academia and industry.
 Both have different needs and goals that they wish to achieve.
 In academia, the pipeline is usually made in ad-hoc manner trying to minimize the time used for development and maximise the time needed for testing.
 This is possible, because researchers do not have same client side restrictions that industry might have.
-In industry side, it is usually important that the pipeline stays operational during the whole live cycle of the system.
+In industry side, it is usually important that the pipeline stays operational during the whole livecycle of the system.
 Where researchers only need these pipelines in order to conduct a couple of experiments, these industry pipelines have to survive possibly multiple of years of usage.
 These industry pipelines also serve the results to multiple clients that all expect small latencies from the system in order to use the system efficiently whereas in academia, this is not a requirement but helps the research to be made efficiently.
 So bearing these domain-specific requirements in mind, different technologies can be used to achieve optimal solution in different situations.
@@ -123,59 +122,64 @@ Stock market data is not cheap.
 This is mostly because the exchanges that run the stock markets, usually make most of their profit with trade data and thus do not want to give this data freely away.
 There are however services who do provide part of this data with a much lower cost available to companies and researches which cannot possibly afford the complete real-time data.
 This partial data usually consist of historical end of day data, which is the aggregated statisctics of the stocks after the market has closed for the day.
-Although this data is complete in the sense that it tells all the necessary information about stocks price evolution on day level, we will be referring this data as the aggregated data during this thesis and reserve the term complete stock market data for the data that contains all of the transactions.
-What this means for the systems is that the stock data can exponentially smaller at the beginning of a financial companys life when they possibly have the ability to access the complete stock market data, but system must be able to scale to this complete data set size.
+Although this data is complete in the sense that it tells all the necessary information about stocks price evolution on a day level, we will be referring this data as the aggregated data during this thesis and reserve the term complete stock market data for the data that contains all of the transactions.
+What this means for the systems is that the stock data can exponentially smaller at the beginning of pipelines lifecycle when there possibly is no way to access the complete stock market data, but system must be able to scale to this complete data set size when time progresses.
 
 In academic papers, the Yahoo Finance API has been the de facto service used as the source of this partial stock data. \cite{islam} \cite{adresic} \cite{le} \cite{serez}
 Unfortunately, although this service have been used in papers published in 2019, this API was shutdown by Yahoo in 2017.
 Today, there are no service that provides the same amount of data that this API did, but some substituting services do exist.\cite{lotter}
-
+These services will be introduced more completely in chapter 4 where we will evaluate which one to use in the implementation chapter.
 
 \subsection{Used technologies}
 
-Next let's look at the actual technologies and frameworks that are used to implement this pipeline by starting from the furthest away from the client; ingestion layer.
-What we mean by ingestion here is the fetching and preprocessing of the data.
+We then move on to examine the actual technologies and frameworks that are in use by starting from the furthest away from the client, the ingestion layer.
+With ingestion we mean the part of the pipeline that handles fetching and initial processing of the data.
 This step with stock market data varies a lot depending who is fetching the data and for what purpose.
-Most common method for stock market data ingestion is just using custom scripts.
-This is usually enough with the aggregated stock market data but it does not scale.
+The most common method for ingesting stock market data was found to be custom scripts.
+This is because the format of ingested data can vary greatly and scripts are relatively easy to write.
+This is usually enough with the aggregated stock market data, however, it does not scale.
 
-Common big data technologies usually come in to play when the system has to ingest for example huge amounts of textual data such as news and social media feeds.
-For these purposes, the most common technology in scientific papers is Apache Flume which for example used in \cite{peng} and \cite{das}.
+Common big data technologies are usually introduced when the system has to ingest for example great amounts of textual data such as news and social media feeds.
+For these purposes, the most common technology in scientific papers is Apache Flume which is used, for example, in \cite{peng} and \cite{das}.
 Another framework that is commonly reported in the ingestion step is the Apache Kafka streaming platform. \cite{chungho} \cite{juan}
-There are also indications of usage of Google Dataflow in industry side. \cite{palmer}
+Both of these are open-source frameworks which makes their usage relatively cost-free.
+In the industry side the usage of ready-made services from cloud providers are common.
+These services are for example the Google Dataflow as in \cite{palmer}.
 
-As we have now this ingested data, we need to store it somewhere.
-Stock market data is quite structured but the data usually used to enrich this data is mostly unstructured.
+After the ingestion, the data has to be stored.
+Stock market data is quite structured by itself but the data from third-party sources used to enrich stock data is usually not.
 This puts a restriction on what are the possible storage options available.
 Academic papers usually do not have to worry about this as the systems just have support ad hoc calculations but in the company context this becomes a crucial part of the system as it is the component that enables low latency responses without having to fetch data all the way from the original data source.
-With big data systems there is usually two options which are either cloud platform specific products or open-source HDFS-based systems and this is also the case with stock analysis systems.
+
+With big data systems there is usually two options which are either cloud platform specific products or open-source HDFS-based systems.
+This is also the case with stock analysis systems.
 From the cloud platform products, there are information on usage of Amazons S3 and Googles BigTable with BigQuery. \cite{snively} \cite{palmer}
-In the open-source side HBase \cite{gu} and Cassandra are the two used database solutions.
+In the open-source side HBase \cite{gu} and Cassandra seem to be the two most openly used database solutions.
 
 Then as we finally have the data in control, we can apply some analysis to it.
-In the analysis step, there is not that much variety in used technologies.
+In the analysis phase, there is not that much variety in used technologies.
 Apache Spark with its MLlib library is dominating this field with its capabilities to process data efficiently. \cite{islam} \cite{chen} \cite{chungho} \cite{adresic}
 Where Apache Hive and Apache Pig were previously most used technologies, now Spark seems to be taking their place \cite{snively}.
 
 In the industry side, there is indications of Apache Storm being used with real-time classification \cite{juan}.
 The strong point of Spark is that same models can be used with Spark Streaming framework, but better latencies can be achieved with Storm making it possibly better choice for companies which have resources to implement two separate systems \cite{kumar}.
 
-\subsection{Characteristics}
+\subsection{Monitoring}
 
-\subsubsection{Monitoring}
+Finally we are going to examine one specific charasteristic which is usually ignored when pipelines are reported.
+Good monitoring is essential to ensure that the pipeline is running correctly and optimally.
+In the next few paragraphs we explain a bit more about the importance of monitoring as this is one of the areas that we will focus while trying to create a stock data pipeline.
 
-In most of the pipelines, the system is produced so that in can scale with the input allowing no real perfomance issues to rise.
-None of the cases however, report how they monitor the system while it is running.
+None of the public sources on pipelines that were examined for this chapter reported exatly how they monitored their pipelines in practice.
 In cases where for example Spark is used, we can assume that the process is monitored using Sparks own monitoring tools which measure load and resource usages.
 These tools are valuable to measure the perfomance of the application, but they do not always tell the whole truth about the applications state.
 
-Let's look at an example case, where we have machine learning model training pipeline implemented in Spark which reads stock data from the database and trains a model based on this.
-What would happen if this data corrupted on the way to the training algorithm.
-In some cases the corruption would make the training algorithm possibly crash which would be noticed with performance monitoring tools.
-However, in some cases the corruption could only make the value of the data change ever so slightly that it would pass as a input to the algorithm.
-In this case, this could affect the final trained model making the model performance decrease tremendously.
-Which could then lead to even false conclusions on the model.
+With pipelines that analyze massive amounts of data, the quality of data is very important.
+This is not only when choosing what data source to use but the data must be kept from corrupting during the whole pipeline and to ensure this good monitoring is essential.
+Perfomance monitoring can pick up these corruptions if the corruption is large enough to make the program crash.
+However, in most cases this corruption can be only a change in values that would pass as an input.
+This would then lead to erronous results which could take quite a bit of resources to calculate.
 
-So in order to make right decisions concerning models and save time while training, it is crucial to identify these kinds of problems early as possible.
-This is where good monitoring comes into play. 
-In the next chapters, we are first going to take a look at different monitoring solutions and then implement these on the most common stock data machine learning pipeline in order to solve this problem.
+So in order to make right decisions concerning models and save time while training, it is crucial to identify these kinds of problems early as possible and this is why we need good monitoring.
+In the next chapter, we will be looking more closely on the technologies that could be used to build a pipeline that can conduct modern stock analysis.
+We will also examine couple of different ways to monitor the system in order to prevent problems that were raised in this section.

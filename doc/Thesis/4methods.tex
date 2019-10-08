@@ -13,10 +13,13 @@ Finally, we will look how we will evaluate the end-product and how is it better 
 
 \section{Building developer friendly pipeline}
 
-The main goal of the following implementation section is to provide information on developing these pipelines in local environment for the analysists who do not possibly have the resources to invest much time in order to build a analysis pipeline that can scale to big data.
+The main goal of the following implementation section is to provide information on developing these pipelines.
+As we said in the introduction we want to build the pipelines so that the reader can either use them as they are or as a basis for more complex system.
+This is why we want to develop a system that is easy to develop onto.
+We will be focusing making the system run in local environment for the analysists who do not possibly have the resources to invest much time in order to build a analysis pipeline that can scale to big data.
 This will be the base for most of the decisions that are being made for some of the used technologies.
 
-The main requirements for this is that the pipeline can be run almost any computer with enough computing resources.
+The technical requirements for this is that the pipeline can be run almost any computer with enough computing resources.
 This means that the parent operating system should not require any excessive operations from the developer in order to start developing on their machine.
 This is why in this thesis all the parts of the pipeline will be build on top of Docker and Docker Compose container technologies.
 These are chosen as the container technology here as they are easy to develop onto and cloud providers such as Google Cloud Platfrom and Amazon Web Services both support them. \cite{awsdocker} \cite{gcpdocker}
@@ -64,42 +67,69 @@ For this thesis we have chosen to use data from IEX API which was an open API un
 This data is from the 5 year interval between 2014 and 2019 and the relevant values that it contains are opening prices, closing prices, highest prices, lowest prices and volumes.
 In order to test freely with this data, we will implement our own server that serves this data into our pipeline.
 
-\section{Pipeline construction}
+\section{Technology selection and requirements}
 
-Next we will explain what technologies we are trying to use to build a development environment.
+Next we will explain what technologies we are trying to use to build each part of the pipeline.
 The choices are highly based on the technologies that have been seen already in use, but there are also choices that seem promising but do not have real-life examples yet.
 This is hopefully to provide new meaningful knowledge about the possiblities of these technologies.
 
-For the ingestion we will try two technologies that we have seen in the previous chapters used in practice for this; Apache Flume, Apache Kafka and Apache NiFi.
-Both of these are scalable data ingestion frameworks that have different paradigms of handling data.
-For only development these products are a bit heavy weighted, but for scalability these are necessary in order to handle massive amounts of ingested data from varying sources.
+The requirements for ingestion can be derived from the chapters 1 and 2.
+We want the system to be able to ingest normal structured stock data, but have the ability to extend to third-party metadata that can have any form and is usually unstructured.
+Because stock data by itself can already scale to gigabytes per day we want the ingestion have the ability to scale with input.
 
-For storage we will be testing Apache Cassandra, plain HDFS and, if there is time, Apache HBase.
+For the ingestion we will try the technologies that we introduced in the previous chapter: Apache Flume, Apache Kafka and Apache NiFi.
+All of these are scalable data ingestion frameworks that have different paradigms of handling data as seen before.
+For only local development these products are a bit heavy weighted, but for scalability these are necessary in order to handle massive amounts of ingested data from varying sources.
+
+From the storage we want the ability to scale with the possible terabytes of data.
+This means that even when amount of data is enormous, we want the queries to be executed in somewhat manageable time.
+We also want the storage to fault tolerant in a distributed environment in order to ensure that the data waiting to be analyzed retains its quality throughout the wait.
+
+To fulfill these requirements, we will be testing Apache Cassandra, plain HDFS and, if there is time, Apache HBase.
 All of these storage formats have been developed to be used in big data environment and from these HDFS and HBase were both used in some existing pipeline.
+HDFS does not have as good as query capabilities that could be hoped for but offers easy integrations to other technologies and a mature development environment which is why we also included it.
 As for Cassandra, we are trying to see whetever it is easy to integrate with the other technologies and can it bring anything to the pipeline with its high availability features.
 
+With analysis part of the pipeline, we want the pipeline to able to preprocess the data for training algorithms that use it and again the amount of data can be from gigabytes to terabytes.
+As we saw in the chapter 1, the current cutting edge methods for stock data analysis are deep learning methods.
+This is why we want the analysis frameworks have the ability to build and train these models without having to oneself implement them from scratch.
+
 For analysis, there does not exist that many options that work well with our requirements.
-The main difficulty here is to keep our pipeline using only Scala for programming.
+The main difficulty here is to keep our pipeline using mainly Scala for programming.
 There are only two machine learning libraries that has Scala support and can be used in big data context; Apache Spark ML and Deeplearning4j libraries which were introduced in the previous chapters.
 Because deep learning, and specifically LSTM networks, are the current trend in stock analysis, the library needs to have support for these.
 Unfortunately, Spark ML does not have these natively as the writing of this, so that leaves us with only Deeplearning4j.
 
 Because building and demonstrating data analysis applications can be a time consuming and complex job, data science community has adopted the usage of Jupyter notebooks when implementing data analysis in Python.
 For the same reasons, we will be integrating Apache Zeppelin notebooks into this pipeline as these have a support for Scala programming language and allow submitting applications to Spark cluster.
+This way we can offer more streamlined model implementation and testing.
+
+Finally, we have the monitoring of the pipeline.
+The requirements here is to allow the developer to have a simple and intuitive way to manage and monitor the the state of the whole pipeline.
+The main goal is to give the developer ability to notice errors in the pipeline as soon as possible this way preventing the errors to possibly escalate to the latter parts of the pipeline.
+Other requirements include good tracking on progress of machine learning model development in the analysis stage to give the analysist tools to track the results of training.
 
 To monitor the machine learning model development we will integrate the MLFlow tracking into the analysis phase.
 This is done by implementing a separate tracking server to allow this process scale separately from the actual analysis.
 Thus also enabling responsive tracking UI usage.
+We will try to also develop a global ELK stack which was described in the previous chapter to give global monitoring on the entire pipeline.
 
 \section{Pipeline evaluation}
 
-In the evaluation we will focus on quality metrics of the software.
-How manageable the pipeline is and is it easy to monitor.
-These are usually important factors when continuously developing a system.
-This also includes how automated the processes are and does developing and deploying the software require excessive amount of manual work.
+After the we have the implemented pipeline, we need some ways to measure whetever our system fulfills the requirements it has been given and how does it compare with other software that might be as good as it.
+In this section we will introduce the measurements that we will be using in the chapter 6 after the implementation.
+Some of these are quantative such as the performance metrics, but these usually give very shallow view on the system.
+Because of this we will be using more qualitive methods in order to grasp the actual benefits of the pipeline.
 
-Some performance metrics are taken in order to asses the fitness of the pipeline for any kind of development where it is important that iterations of the software can be swiftly build and that the whole service can run comfortably on the developers machine.
+Our focus with the qualitive metrics is going to be on how easy the pipeline is to develop onto and how well the user can monitor changes in the pipeline.
+These are usually important factors when continuously developing a system and can affect greatly when new developers are choosing what pipelines to use.
+This also includes how automated the processes in the pipeline are and does developing and deploying the software require excessive amount of manual work.
+
+Some quantative metrics are taken in order to asses the fitness of the pipeline for any kind of development where it is important that iterations of the software can be swiftly build and that the whole service can run comfortably on the developers machine.
 Namely for these reasons we will examine the memory consumption of these services on a normal developing machine.
+Other quantative statistics that we can examine are processor usage, network usage and disk usage which, although not as restricting as the memory usage, can tell a lot about the performance of the system.
+For these metrics, we will be using Dockers native tools, and especially the command 'docker stats', to measure the containers usage of resources.
 
-Hopefully, as there will be a bit different pipelines with different technologies, we can get results that can be used to compare these components with one another.
-This would hopefully give the reader better information on what technologies should they choose for their own project.
+As there will be a bit different pipelines with different technologies, we can get results that can be used to compare components with one another.
+This would give the reader better information and alternatives on what technologies should they could choose for their own project.
+Now we move on to the implementation chapter where we examine more closely what was done during this thesis.
