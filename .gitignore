@@ -17,5 +17,6 @@ data
 **/burrow
 build/*
 !build/stop_all.ps1
+!build/stop_all.sh
 **/.idea
 **/target
