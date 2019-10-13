@@ -11,5 +11,7 @@ ADD kafka-connect-hdfs /kafka/plugins/kafka-connect-hdfs
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+ENV KAFKA_HEAP_OPTS="-Xms512m -Xmx1g"
+
 ENTRYPOINT [ "/entrypoint.sh" ]
 CMD ["/entrypoint.sh"]
