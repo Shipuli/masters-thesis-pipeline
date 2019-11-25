@@ -7,52 +7,53 @@
 \contentsline {chapter}{Abbreviations and Acronyms}{5}{Doc-Start}
 \contentsline {chapter}{\numberline {1}Introduction}{8}{chapter.1}
 \contentsline {section}{\numberline {1.1}Application scenario}{9}{section.1.1}
-\contentsline {section}{\numberline {1.2}Research Questions}{12}{section.1.2}
+\contentsline {section}{\numberline {1.2}Audience and Research Questions}{12}{section.1.2}
 \contentsline {section}{\numberline {1.3}Expected Outcome}{14}{section.1.3}
 \contentsline {section}{\numberline {1.4}Structure of the Thesis}{14}{section.1.4}
-\contentsline {chapter}{\numberline {2}Stock market analysis}{16}{chapter.2}
-\contentsline {section}{\numberline {2.1}Stock price prediction}{16}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}Statistical methods}{17}{subsection.2.1.1}
-\contentsline {subsection}{\numberline {2.1.2}Machine learning methods}{18}{subsection.2.1.2}
-\contentsline {section}{\numberline {2.2}Existing pipelines}{19}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}Data sources}{20}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Used technologies}{21}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Monitoring}{22}{subsection.2.2.3}
-\contentsline {chapter}{\numberline {3}Big Data Technologies}{23}{chapter.3}
-\contentsline {section}{\numberline {3.1}Data ingestion}{23}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}Apache Flume}{24}{subsection.3.1.1}
-\contentsline {subsection}{\numberline {3.1.2}Apache Kafka}{25}{subsection.3.1.2}
-\contentsline {subsection}{\numberline {3.1.3}Apache NiFi}{25}{subsection.3.1.3}
-\contentsline {section}{\numberline {3.2}Data storage}{26}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Hadoop distributed file system}{26}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Apache HBase}{27}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Apache Cassandra}{28}{subsection.3.2.3}
-\contentsline {section}{\numberline {3.3}Machine learning frameworks}{28}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}Apache Spark}{29}{subsection.3.3.1}
-\contentsline {subsection}{\numberline {3.3.2}Deeplearning4J}{30}{subsection.3.3.2}
-\contentsline {subsection}{\numberline {3.3.3}Apache SystemML}{30}{subsection.3.3.3}
-\contentsline {section}{\numberline {3.4}Monitoring}{31}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}Log monitoring}{31}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}Machine learning monitoring}{32}{subsection.3.4.2}
-\contentsline {chapter}{\numberline {4}Planning a stock data pipeline}{33}{chapter.4}
-\contentsline {section}{\numberline {4.1}Building developer friendly pipeline}{33}{section.4.1}
-\contentsline {section}{\numberline {4.2}Data Source}{34}{section.4.2}
-\contentsline {section}{\numberline {4.3}Technology selection and requirements}{36}{section.4.3}
-\contentsline {section}{\numberline {4.4}Pipeline evaluation}{37}{section.4.4}
-\contentsline {chapter}{\numberline {5}Implementing a stock data pipeline}{39}{chapter.5}
-\contentsline {section}{\numberline {5.1}Overview}{39}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}Dead-ends at the start of development}{39}{subsection.5.1.1}
-\contentsline {subsection}{\numberline {5.1.2}Final Architecture}{40}{subsection.5.1.2}
-\contentsline {subsection}{\numberline {5.1.3}Usage}{43}{subsection.5.1.3}
-\contentsline {section}{\numberline {5.2}Adversities during development}{44}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Kafka-HDFS integration}{45}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}Apache Zeppelin dependency management}{46}{subsection.5.2.2}
-\contentsline {subsection}{\numberline {5.2.3}DL4J sbt project}{46}{subsection.5.2.3}
-\contentsline {subsection}{\numberline {5.2.4}Running the application in Spark}{47}{subsection.5.2.4}
-\contentsline {chapter}{\numberline {6}Evaluating the results}{49}{chapter.6}
-\contentsline {section}{\numberline {6.1}Perfomance metrics}{49}{section.6.1}
-\contentsline {section}{\numberline {6.2}Pipeline management}{51}{section.6.2}
-\contentsline {section}{\numberline {6.3}Flaws in the end product}{52}{section.6.3}
-\contentsline {section}{\numberline {6.4}Reflection}{53}{section.6.4}
-\contentsline {section}{\numberline {6.5}Potential improvements}{53}{section.6.5}
-\contentsline {chapter}{\numberline {7}Conclusions}{55}{chapter.7}
+\contentsline {chapter}{\numberline {2}Background}{16}{chapter.2}
+\contentsline {section}{\numberline {2.1}Stock market analysis}{16}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Stock price prediction}{17}{subsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.1.1}Statistical methods}{17}{subsubsection.2.1.1.1}
+\contentsline {subsubsection}{\numberline {2.1.1.2}Machine learning methods}{18}{subsubsection.2.1.1.2}
+\contentsline {subsection}{\numberline {2.1.2}Existing pipelines}{20}{subsection.2.1.2}
+\contentsline {subsubsection}{\numberline {2.1.2.1}Data sources}{20}{subsubsection.2.1.2.1}
+\contentsline {subsubsection}{\numberline {2.1.2.2}Used technologies}{21}{subsubsection.2.1.2.2}
+\contentsline {subsubsection}{\numberline {2.1.2.3}Monitoring}{22}{subsubsection.2.1.2.3}
+\contentsline {section}{\numberline {2.2}Big Data Technologies}{23}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Data ingestion}{23}{subsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.1.1}Apache Flume}{24}{subsubsection.2.2.1.1}
+\contentsline {subsubsection}{\numberline {2.2.1.2}Apache Kafka}{25}{subsubsection.2.2.1.2}
+\contentsline {subsubsection}{\numberline {2.2.1.3}Apache NiFi}{25}{subsubsection.2.2.1.3}
+\contentsline {subsection}{\numberline {2.2.2}Data storage}{26}{subsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.2.1}Hadoop distributed file system}{26}{subsubsection.2.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2.2}Apache HBase}{27}{subsubsection.2.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.2.3}Apache Cassandra}{28}{subsubsection.2.2.2.3}
+\contentsline {subsection}{\numberline {2.2.3}Machine learning frameworks}{28}{subsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.3.1}Apache Spark}{29}{subsubsection.2.2.3.1}
+\contentsline {subsubsection}{\numberline {2.2.3.2}Deeplearning4J}{30}{subsubsection.2.2.3.2}
+\contentsline {subsubsection}{\numberline {2.2.3.3}Apache SystemML}{30}{subsubsection.2.2.3.3}
+\contentsline {subsection}{\numberline {2.2.4}Monitoring}{31}{subsection.2.2.4}
+\contentsline {subsubsection}{\numberline {2.2.4.1}Log monitoring}{31}{subsubsection.2.2.4.1}
+\contentsline {subsubsection}{\numberline {2.2.4.2}Machine learning monitoring}{32}{subsubsection.2.2.4.2}
+\contentsline {chapter}{\numberline {3}Planning}{33}{chapter.3}
+\contentsline {section}{\numberline {3.1}Building a developer friendly pipeline}{33}{section.3.1}
+\contentsline {section}{\numberline {3.2}Data source}{34}{section.3.2}
+\contentsline {section}{\numberline {3.3}Technology selection and requirements}{36}{section.3.3}
+\contentsline {section}{\numberline {3.4}Pipeline evaluation}{37}{section.3.4}
+\contentsline {chapter}{\numberline {4}Implementation}{39}{chapter.4}
+\contentsline {section}{\numberline {4.1}Overview}{39}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Dead-ends at the start of development}{39}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Final Architecture}{40}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}Usage}{43}{subsection.4.1.3}
+\contentsline {section}{\numberline {4.2}Adversities during development}{44}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Kafka-HDFS integration}{45}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Apache Zeppelin dependency management}{46}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}DL4J sbt project}{46}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}Running the application in Spark}{47}{subsection.4.2.4}
+\contentsline {chapter}{\numberline {5}Evaluating the results}{49}{chapter.5}
+\contentsline {section}{\numberline {5.1}Perfomance metrics}{49}{section.5.1}
+\contentsline {section}{\numberline {5.2}Pipeline management}{51}{section.5.2}
+\contentsline {section}{\numberline {5.3}Flaws in the end product}{52}{section.5.3}
+\contentsline {section}{\numberline {5.4}Reflection}{53}{section.5.4}
+\contentsline {section}{\numberline {5.5}Potential improvements}{53}{section.5.5}
+\contentsline {chapter}{\numberline {6}Conclusions}{55}{chapter.6}

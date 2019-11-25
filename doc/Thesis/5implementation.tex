@@ -1,4 +1,4 @@
-\chapter{Implementing a stock data pipeline}
+\chapter{Implementation}
 \label{chapter:implementation}
 
 %You have now explained how you are going to tackle your problem. 
@@ -56,6 +56,7 @@ This is why we decided to discontinue with Casssandra.
 The final architecture can be seen in the figure 5.1.
 The figure presents the main dependencies between the components each arrow usually presenting the flow of data in the system with labels sometimes added to clarify better the relation.
 In the figure each solid rectange represents one actual server with its own process with the exception of rounded rectange to represent notebooks that are stored into the local file system.
+In the case of this thesis these servers were virtual machines but theoretically the system could be run with right configuration with multiple physical machines that are in the same network.
 Rectangles with small dashed lines such as with the spark workers represent that the server can have easily more than one instance allowing horizontal scaling.
 The longer dashed lines here represent bigger entities such as the HDFS cluster to make the figure more readable.
 

@@ -1,5 +1,11 @@
-\chapter{Stock market analysis}
+\chapter{Background}
 \label{chapter:background} 
+
+In this first chapter, we are going to look at the current stock market data analysis in big data environments.
+This chapter is divided into two distinctive parts.
+In the first part we will examine the current state of stock market data analysis in big data environment.
+This includes the methods and pipelines used to conduct this in real life.
+In the second part we will use the result of the this first section and study the most promising big data technologies that could be used to implement pipelines that analyze the stock data.
 
 % Guiding instructions from the thesis example
 %The problem must have some background, otherwise it is not
@@ -15,6 +21,8 @@
 %tell how to use English language, how to find and refer to sources,
 %and enlight different ways to include graphics in the thesis.
 
+\section{Stock market analysis}
+
 In order to build practical stock analysis systems, we start by looking at the methods of stock data analysis to understand the underlying domain.
 Stock market analysis is an enormous domain by itself and there are multiple ways to approach this data.
 For example possible problems to solve are finding anomalies in the data, predicting the future price and analysing the possible causalities.
@@ -24,7 +32,7 @@ In this chapter we examine what are the state-of-the-art methods that researcher
 We are especially focusing on methods that in some way use big data for this analysis.
 We will be also inspecting real-life implementations of stock data analysis and examine some of the existing big data pipelines for stock market analysis focusing on what are the technologies used to build these.
 
-\section{Stock price prediction}
+\subsection{Stock price prediction}
 
 The current methods on stock price prediction can be divided roughly into two different categories; statistical methods and machine learning methods.
 Both of these categories can be further divided into fundamental and technical analysis categories depending on what data they use as a source of analysis, but these categories overlap a little because of new ensembled models.
@@ -37,7 +45,7 @@ In other words, the only thing that can affect the price of the stock would be u
 However, there have been multiple studies shown that this hypothesis could possibly be beaten using big data. \cite{nam}
 This hypothesis has also been challenged with overreaction hypothesis that states that the market overreacts to new information making it possible to somewhat predict the market before the prices change \cite{day}.
 
-\subsection{Statistical methods}
+\subsubsection{Statistical methods}
 
 The driving force of stock analysis in the past have been the statistical methods and there are still a lot of new papers analysing stocks using these methods.
 There are countless to approach this problem from statistician point of view so here we have listed only some of those that have some relevance to the subject of this thesis.
@@ -62,7 +70,7 @@ However, as there is a lot of relevant financial big data that can be used with 
 Day et al. \cite{day} tried to link oil prices to stock prices using global financial data streams with stochastic oscillator techniques.
 Kyo \cite{kyo} combined technical and fundamental analysis by using regressive model that takes into account business cycles in Japan's stock market.
 
-\subsection{Machine learning methods}
+\subsubsection{Machine learning methods}
 
 As stated before, machine learning is the current trending stock analysis methology that has gained a lot of interest.
 Both supervised and unsupervised learning techniques has been tried to predict the prices but recently neural networks especially have gained a lot of interest due to their adaptablity to any non-linear data.
@@ -93,7 +101,7 @@ Fundamental data that is in textual form, term frequency–inverse document freq
 This data is then classified based on the general sentiment that they seem to represent.
 Positive sentiment toward company would lead to the rise of stock price and negative sentiment vice versa.
 
-\section{Existing pipelines}
+\subsection{Existing pipelines}
 
 We then move on to examine the actual implemetations that do this analysis.
 For this section, we examined 19 different stock data analysis pipeline that handle or are able to handle big data.
@@ -116,7 +124,7 @@ Where researchers only need these pipelines in order to conduct a couple of expe
 These industry pipelines also serve the results to multiple clients that all expect small latencies from the system in order to use the system efficiently whereas in academia, this is not a requirement but helps the research to be made efficiently.
 So bearing these domain-specific requirements in mind, different technologies can be used to achieve optimal solution in different situations.
 
-\subsection{Data sources}
+\subsubsection{Data sources}
 
 Stock market data is not cheap.
 This is mostly because the exchanges that run the stock markets, usually make most of their profit with trade data and thus do not want to give this data freely away.
@@ -130,7 +138,7 @@ Unfortunately, although this service have been used in papers published in 2019,
 Today, there are no service that provides the same amount of data that this API did, but some substituting services do exist.\cite{lotter}
 These services will be introduced more completely in chapter 4 where we will evaluate which one to use in the implementation chapter.
 
-\subsection{Used technologies}
+\subsubsection{Used technologies}
 
 We then move on to examine the actual technologies and frameworks that are in use by starting from the furthest away from the client, the ingestion layer.
 With ingestion we mean the part of the pipeline that handles fetching and initial processing of the data.
@@ -164,7 +172,7 @@ Where Apache Hive and Apache Pig were previously most used technologies, now Spa
 In the industry side, there is indications of Apache Storm being used with real-time classification \cite{juan}.
 The strong point of Spark is that same models can be used with Spark Streaming framework, but better latencies can be achieved with Storm making it possibly better choice for companies which have resources to implement two separate systems \cite{kumar}.
 
-\subsection{Monitoring}
+\subsubsection{Monitoring}
 
 Finally we are going to examine one specific charasteristic which is usually ignored when pipelines are reported.
 Good monitoring is essential to ensure that the pipeline is running correctly and optimally.
@@ -183,3 +191,265 @@ This would then lead to erronous results which could take quite a bit of resourc
 So in order to make right decisions concerning models and save time while training, it is crucial to identify these kinds of problems early as possible and this is why we need good monitoring.
 In the next chapter, we will be looking more closely on the technologies that could be used to build a pipeline that can conduct modern stock analysis.
 We will also examine couple of different ways to monitor the system in order to prevent problems that were raised in this section.
+
+
+
+\section{Big Data Technologies}
+
+In this section, we will examine more carefully the technologies that can be used to implement a stock data pipelines in the big data context and try to answer the second research question in the process.
+We have gathered here technologies that we saw used in existing big data stock pipelines in the previous section.
+We also added couple of promising frameworks that could be used in the pipelines but there is no public information about companies using them yet.
+To keep this section compact and more useful for majority of the developers that do not possibly have access to costly resources, we have included only the open-source solutions here leaving outside the services that cloud providers offer such as Amazon S3 for storage or Google Dataflow for ingestion.
+
+\subsection{Data ingestion}
+
+Here we will be using the same definition for ingestion as before; data fetching and initial processing which includes data validation.
+This is one of the crucial parts of the pipeline as it is responsible of turning arbitrary data into facts that the rest of the pipeline can use and rely on.
+This also makes it the hardest part to develop as the developer must understand the data well enough that these parts can work efficiently and prevent erroneous states in the later stages of the pipeline.
+
+We have gathered here three main technologies that are usually mentioned when developers are talking about open-source data ingestion, but in reality all of these frameworks have a bit different tasks they try to fulfill.
+This makes comparing these technologies harder and it usually just means that the better technology here is usually the one that is better suited for the current problem, which does not make the other ones any worse than the selected one.
+On top of Apache Flume and Apache Kafka which were already used in existing pipelines, we have also included here Apache NiFi which has promising features that could be suitable for our use case.
+
+\subsubsection{Apache Flume}
+
+Apache Flume is one of the Apache Software Foundation (ASF) projects that is quite popular in the context of ingestion.
+From the projects official website we have definition that Flume is "distributed, reliable, and available service for efficiently collecting, aggregating, and moving large amounts of log data" \cite{flume}.
+So the main focus of Flume is to manage log data, but as we have already seen, this is not the only use case for this tool.
+
+Flume was first introduced by Cloudera in 2011.
+In same year, it was officially moved under ASF and came out of the incubation phase the following year.
+During this incubation, developers had already started to refactor the Flume and the result of this is the 1.X lineage of Flume which is still going to this day. \cite{hoffman}
+At the time of writing this the latest production-ready version is 1.9.0.
+
+Flume's high level architecture can be divided into 3 different parts: sources, channels and sinks which all run inside an agent which is an abstraction for one Flume process.
+Data is inputted to the system from the sources, then it goes through channels and is finally written into sinks. 
+While going through channels the data can be processed using functions that Flume calls Interceptors. \cite{hoffman}
+
+The main unit used of data in Flume is called Event which is structured like most of the other message formats you can find in network protocols.
+Event has a header, which is key-value pairs of meta data and a body which usually is the actual data. 
+Overall, Flume architecture is message driven which allows it efficiently to multiplex data across multiple computing instances leviating the work load between these machines. \cite{hoffman}
+
+When processing large amounts of data, it is important to avoid bottlenecks that can form in the pipeline and this is why knowing the amount of data flowing through Flume is extremely important.
+Bottlenecks that can form in Flume are for example cases where data is coming from sources faster than the Flume is able to write to sinks.
+These kind of situations can be avoided with the knowledge of the data domain when configuring Flume instances but also by monitoring Flume processes in order to respond to these kind of situations. \cite{hoffman}
+
+\subsubsection{Apache Kafka}
+
+Apache Kafka describes itself to be a "distributed publish-subscribe messaging system" and it can be used for three different purposes: as a messaging system, as a storage system and as a stream processor. \cite{kafka}
+Because we are examining Kafka in the context of data ingestion, we are mostly interested in its messaging and stream processing capabilities, but it's good to keep in mind that it is possible to store data with Kafka for a longer time if necessary.
+
+Before being a ASF project, it was first developed by LinkedIn to gather user activity data in 2010. \cite{ramalingeswara}
+After being released from incubation in 2012 many other big industrial companies such as eBay and Uber \cite{yuan} have taken kafka into use to manage their own enormous data systems.
+Today, Kafka is already in its version 2 and can be integrated with almost any modern big data framework. \cite{ramalingeswara}
+
+Kafka operates on publish-subscribe architecture where producers input data into the system by producing data and consumers subscribe to the data which they want to consume/receive.
+To make this work with big data, Kafka has a core abstraction called topic which has multiple immutable queues called partitions.
+When producers produce new data, this data is appended to a partition queue where where Kafka keeps track which items consumers have already consumed by tracking the offset of a consumer in a queue.
+With this kind of architecture Kafka makes promises that the data retains its order throughout the system and does not arrive to consumers out of order.
+
+As for the scalability of this kind of system, a single partition must fit onto a single server, but topic which has multiple partitions does not have this limitation and this allows topics to scale over the Kafka cluster.
+Fault-tolerancy can be achieved by just replicating these partitions over the cluster.
+Multiple consumers can form consumer groups that consume some topic simultaneously from multiple partitions meaning that in addition of Kafka being itself scalable cluster, it allows its consumers to be also scalable cluster and without any additional complexity. \cite{kafka}
+
+\subsubsection{Apache NiFi}
+
+Apache NiFi was made to dataflow management and its design is inspired by flow-based programming.
+It was originally developed by National Security Agency (NSA) as a system called "Niagara Files" and was moved under ASF in 2014 making it the newest addition under ASF out of these three intoduced ingestion technologies. \cite{bridgwater}
+
+As we have seen already with the last two ingestion frameworks, all these frameworks have their own abstractions for data and the processes that handle this data.
+NiFi's core abstraction is FlowFile which represents the data that flows through the system. 
+These are processed with FlowFile Processors that are connected to each other by Connections and these can be grouped into Process Groups.
+These processors and their connections are then managed by a Flow Controller which acts as the brain of each node in a NiFi cluster. \cite{nifi}
+
+NiFi cluster follows zero-master clustering paradigm meaning that the cluster does not have clear master nodes and vice versa no slave nodes.
+Every node in NiFi cluster processes data the same way and the data is divided and distributed to as many nodes as needed.
+Apache ZooKeeper is used to handle failure of nodes in the cluster.\cite{nifi}
+
+\subsection{Data storage}
+
+Data storage forms the center of the pipeline and is one of the major places where bottlenecks can form.
+Possible bottlenecks are the query latency and the writing speed which can slow the whole application down if not implemented efficiently enough.
+If this non-trivial task was not enough, the data storage must also be able to resist error states that could occur when the hardware malfunctions for example with power outages or network outages.
+We have gathered three major big data storing technologies that were used in existing pipelines: HDFS, HBase and Cassandra.
+We start with the HDFS and move towards more industrially used systems.
+
+\subsubsection{Hadoop distributed file system}
+
+Hadoop distributed file system (HDFS), which is the core part of Apache Hadoop ecosystem, is one of the current defacto ways to store big data.
+It has gained a lot of popularity with the map-reduce programming paradigm.
+HDFS build so that it does not have to be run on high quality hardware, normal commodity hardware is more than enough to run the system.\cite{hdfs}
+
+HDFS offers all the same functionalities that a traditional file system would offer.
+Clients can create, edit and delete files which can be stored into directories that form hierarchies.
+What makes HDFS differ from a normal file system is its ability to handle a lot larger data sets and at the same time have a better fault-tolerance than a traditional file system.\cite{hdfs}
+
+HDFS is based on a master-slave architecture where the master is called NameNode and slaves are called DataNode.
+The NameNode stores and manages the state of the whole system and the actual client data never flows through this node.
+The data is stored into the DataNodes which manage this data based on the instructions that the NameNode gives them.\cite{hdfs}
+
+For reliability, data is replicated between DataNodes so that the outage of individual DataNodes does not affect the overall perfomance of the system.
+In order to identify and react to these kind of failures, each DataNode send heartbeat-like messages to the NameNode, which then conducts needed actions if a heartbeat is missing.
+The NameNode itself, on the other hand, is a single point of failure.
+It does record the changes and the state of the system into files called EditLog and FsImage which can be used to replay the changes in the system if NameNode goes down temporarily and because of these files are crucial to get the system back up, usually multiple copies of these are stored into disk. \cite{hdfs}
+
+\subsubsection{Apache HBase}
+
+HDFS by itself is only made to store very large files, so the methods it provides our quite limited.
+This is where the Apache HBase comes in which is implemented based on Google's BigTable framework.
+Where BigTable uses Google's own file system, GFS, HBase is build on top of HDFS. 
+HBase is a NoSQL database altough it does not natively have many features that a normal database would have.
+Notably, it does not have its own advanced query language.\cite{george}
+
+HBase's record structure is somewhat similar to its relational counterparts.
+Data is stored into rows that consist of columns, that are identified by a unique row key.
+Rows form tables and tables can be further grouped into namespaces.
+The difference to typical relational data model comes after this.
+Columns may have multiple versions and timestamp information about the column and its version are stored into separate entity called cell.
+The columns do not form table like structures with rows, and instead act like key-value pairs which can be grouped into column families.
+This way values that would be for example 'null' in normal relational database, do not take any room in HBase as such key-value pairs can be omitted. \cite{george}
+
+HBase's core abstraction of scalability is called Region.
+Region is a set of continous rows that are split when one Region grows too large.
+Each region is served by a single RegionServer and each RegionServer can serve multiple Regions.
+So Hbase cluster is scaled by adding these RegionServers which can serve more Regions to clients. \cite{george}
+
+HBase does not instantly store changes into disk. 
+Changes are first recorded into a log called write-ahead log (WAL) and after this the change is stored into a memstore which is in memory.
+After the changes expire in the memory, the changes in memory are flushed into the disk as they are, into a file called HFile. 
+In order to avoid large amounts of small HFiles in the disk, HBase periodically merges these files using a process called compaction.
+These are done in file scale (minor compaction), but also in larger scale where all the files inside one region are merged into one and data market for deletion can be cleaned in the process (major compaction). \cite{george}
+
+\subsubsection{Apache Cassandra}
+
+Apache Cassandra is a NoSQL database that is build on peer to peer architecture.
+Cassandra provides its users same tools that a normal relational database would.
+Its record structure is the same with rows, columns and tables such as with typical relational database and it provides a SQL-like query language.
+What differs Cassandra from a normal relational database is its scalable architecture which we will be looking next. \cite{yarabarla}
+
+Cassandra's main scalable units are called Nodes that are a single instance of Cassandra running in a single machine.
+These Nodes are grouped together based on the data they serve and these form Rings.
+Data distributed and replicated between the nodes based on the hash of data's partition key.
+With consistent hashing algorithm, every Node has the same amount of data. \cite{neeraj}
+
+Unlike HBase, Cassandra does not guarantee the consistency of data due to CAP theorem but instead guarantees the availability at all times.
+Cassandra implements "tunably consistent" paradigm where user can define for each write/read to be consistent with the cost of availability.
+This high availability, makes Cassandra better choise for example web application where the data must be available at all times, but the data doesn't necessary have to be up to date. \cite{neeraj}
+
+\subsection{Machine learning frameworks}
+
+When we researched existing pipelines we noticed that machine learning libraries such as Tensorflow and PyTorch are still quite used even when data can scale to enormous amounts.
+This is partly due to their support for processing data with GPU.
+This allows them to perform really well in single machine instances while needing minimal time to develop.
+But when these are run with data which size is scaled to terabytes, development becomes a bit more harder as this is not the environment these are designed to run at.
+
+As we saw in the previous chapter, the Apache Spark framework with its Spark ML library is currently the most used big data machine learning platform.
+Spark, however, natively supports only classical machine learning models and currently has no native deep learning solutions, which are the state-of-the-art methods we are interested in.
+Spark is still a highly efficient processing framework for big data and the de facto technology in the market with its good integrations with the frameworks we already introduced and its mature ecosystem.
+That is why we are next going to briefly look at how the Spark ecosystem works and then move on to see tools which we can use to train deep learning models in Spark ecosystem without writing implementations from scratch.
+
+\subsubsection{Apache Spark}
+
+Apache Spark is a distributed in-memory data processing system that provides tools for scalable data processing.
+Spark has a master-slave architecture, where a driver node acts as a master and executes Spark program through Spark Context.
+The driver node passes tasks to worker nodes that the Spark Context together with Cluster Manager manages.
+The most popular cluster manager currently seems to be YARN but Mesos or Spark's own standalone could also be used for this job. 
+Each worker node then has its own executor process which runs the given tasks in multiple threads when necessary.\cite{spark}
+
+Until version 2.0, Spark's main programming interface was a data structure called Resilient Distributed Dataset (RDD).
+RDD is a collection of elements that can be partiotioned throughout the cluster allowing them to be processed in parallel accross multiple servers.
+RDD's are still in use for backward compatibility reasons, but from version 2.0 onward Spark's main abstraction has become structure called DataSet.
+DataSet is similar to RDD in high level, but it provides richer optimizations under the hood and higher level methods to transform the data.
+With the DataSets, a new abstraction called DataFrame was introduced which is can be compared to a table in relational database.
+DataFrame is a DataSet of Rows that can be manipulated with similar methods that you could do for DataSet.\cite{spark}
+
+Spark has divided its functionalities into sub-modules that are specified into specific tasks such as Spark Streaming for stream processing and SQL for processing data in tabular form.
+We are mostly interested here in Spark ML module.
+Spark also has a module called Spark MLlib which some of the research still use.
+The main difference between Spark ML and MLlib is that Spark ML provides newer DataFrame API whereas MLlib uses older RDD datastructures.\cite{amirghodsi}
+
+% There is some confusion because of this naming, but according to Spark's own documentation neither of these libraries have been deprecated and Spark ML is just DataFrame extension to MLlib library.
+% However, Spark ML is said to be the primary API and no further features are going to be developed in the MLlib API.
+% Spark ML is also referred to not be the real name of the DataFrame version, but it has stuck with community because of naming of the packages.
+% For general convenience reasons, we are going keep referring the DataFrame version of the machine learning library as Spark ML, but reader should be aware of its relationship with the RDD based library.\cite{spark}
+
+Spark ML provides whole set of classical machine learning algorithms such as linear regression, naive bayesian and random forests.
+It also has a concept of pipelines which consist of different transformers and estimators, which are made to make model developing easier.
+However, the main problem with Spark ML is that it does not have natively tools to implement deep learning models on Spark.
+
+\subsubsection{Deeplearning4J}
+
+Deeplearning4J (DL4J) is distributed framework of deep learning algorithms that work on top Spark and Hadoop ecosystems.
+It provides all the most popular deep learning models such as multilayered networks, convolutional networks, recurrent networks.
+DL4J also provides a lot of tools for preprocessing the data before fed for training in the form of sub-projects. \cite{dl4j}
+
+In distributed environment DL4J trains its models using Stochastic Gradient Descent (SGD).
+This is implemented in parallel on each node of the cluster using either of the two methods that the DL4J offers, gradient sharing or parameter averaging.
+From these two, the first one has become the preferred way to implement SGD in DL4J starting from its latest release and this is why we are going to ignore the technicalities of the latter one for now.
+
+In the gradient sharing approach, the gradient is calculated asynchronously on each node in the cluster.
+The main idea behind DL4Js implementation of this, is that not every update on the gradient is sent to every other node.
+Each node has a threshold which defines when a change is large enough to be shared with the global gradient.
+This combined with its own heartbeat mechanism provides efficient and fault tolerant way of training a model in distributed environment. \cite{dl4j}
+
+In academia, DL4J is not that used as its main language is Java, but this choice of language makes it really suitable for industrial use.
+However, DL4J supports Keras model import which allows user to use other languages than the JVM based alternatives.
+This makes python based prototype systems be able to run in industrial Spark cluster. \cite{dl4j}
+
+\subsubsection{Apache SystemML}
+
+Apache SystemML is a bit different machine learning system when compared to Spark ML and DL4J.
+Similarly to DL4J, SystemML also runs top of Spark, but unlike DL4J it is not a straight forward programming library.
+SystemML has its own R- and Python-like declarative machine learning languages (DML), which can be used to define machine learning algorithms that run on the Spark. \cite{systemml}
+
+Currently, these languages cover about the same use-cases that Spark ML does.
+What makes SystemML differ from Spark ML is that deep learning models developed in Keras or Caffe can be converted into DML.
+So theoretically SystemML supports deep learning through these libaries although its core methods do not have these methods.
+This allows it to be run on classical command-line interface, but also from jupyter notebooks which are currently vastly in use in academia. \cite{systemml}
+
+\subsection{Monitoring}
+
+We have already seen quite a bit of framework specific monitoring solutions, which cover monitoring individual components in the pipeline.
+Next we will take this monitoring a step further and look at monitoring solutions that work outside of these components and can be used to monitor the global state of the pipeline.
+This can make monitoring easier when all the information is available in one place and it also helps to infer cause-effect relations.
+
+We have gathered here two different monitoring solutions for two different needs.
+The ELK stack for monitoring the data flow inside the system and individual components and the ModelDB to specifically monitor the Machine learning models that are produced by the pipeline.
+
+\subsubsection{Log monitoring}
+
+The most common solution for monitoring logs in bigger system is the ELK stack. 
+ELK stack which is an acronym for Elasticsearch, Logstash and Kibana stack, is a common stack used to implement collection of logs and their visualization in Big Data environment.
+The need for such as elaborate stack for just collecting logs, comes from the fact that when you have a big data system, the logs of such a system form a big data problem of their own, so in order to solve this problem this stack was developed.
+It provides scalable data ingestion system, with a distributed storage that can be accessed and visualized in efficient manner. \cite{elastic}
+
+In this stack, Logtash, an open-source data ingestion pipeline tool, is used to ingest the log data.
+This ingested data is the stored into Elasticsearch which is a distributed search and analytics engine, which provides REST interface.
+Finally, the data stored into Elasticsearch can be visualized and monitored with Kibana, which is a tool developed to do just this. \cite{elastic}
+
+Because of different user needs the stack has evolved into stack that the company behind these technologies calls Elastic Stack.
+This stack really only differs from ELK-stack by a component called Beats, which can be used to build more lightweight stack for simpler needs.
+However, pure ELK stack is still very popular option to handle log data. \cite{elastic}
+
+\subsubsection{Machine learning monitoring}
+
+Open-source monitoring tools that are specifically designed for machine learning are not that common, but couple of tools do exist.
+These tools do not only help monitor the models perfomance, but also provide tools for deploying and versioning these models just like developer would use git to manage their code base.
+
+ModelDB is a system developed in Massachusetts Institute of Technology (MIT) for ML model management.
+It provides tools that can be used to monitor the performance of models and compare these results with each other.
+It also allows logical versioning of models and helps to reproduce the models this way.
+ModelDB, however, does not support models from many different ML libraries and currently the only supported libraries are Spark ML and scikit-learn.
+The library is said to have second version coming up, but at the time of writing this the library has not had major update for an year.
+\cite{modeldb}
+
+Another, newer option is an open-source project called MLFlow.
+It does all the same things that the ModelDB does, but markets itself as a more end-to-end solution.
+On top of tools for the managing explained in ModelDB paragraph, MLFlow puts more emphasis on packaging the models and the deployment of these models into actual use.
+\cite{mlflow}
+
+Unlike ModelDB, MLFlow does not care about what is the library that generates models.
+It does this by providing CLI and REST API's that can be integrated with the system ignoring the underlying technologies.
+For convenience, it also provides APIs for Python, R and Java which can be used for tighter integration.
+MLFlow is as project quite young having its first full version released in June 2019, but it has a healthy development community and is actively developed.
+\cite{mlflow}
