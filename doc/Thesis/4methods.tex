@@ -8,7 +8,7 @@
 %your work.
 
 Next we will look at how do we can use the technologies in the last chapter in order to build a pipeline that can be used to examine stock data when the amount of data might be too much for one computer to handle.
-We will be reviewing, what we will be doing in the implementation part of this thesis based on the information that we have seen to this point.
+We will be reviewing, what we will be doing in the implementation part of this thesis and analyze the information that we have seen to this point.
 Finally, we will look how we will evaluate the end-product and how is it better or worse than other alternatives.
 
 \section{Building a developer friendly pipeline}
@@ -26,7 +26,7 @@ These are chosen as the container technology here as they are easy to develop on
 This way we can create a developer ready pipelines that work flexibly in their local machines and can be scaled to the cloud without too many excessive measures.
 
 Most of the open-source Big Data products are build on top of JVM (Java Virtual Machine) so in order to avoid excessive complexity that can come from using multiple programming languages we will use single programming language that runs above JVM throughout the whole pipeline where it is possible.
-For this thesis that language is Scala, because of its good interopality with Apache Spark and it being providing good programming interfaces for both object oriented and functional paradigms.
+For this thesis that language is Scala, because of its good interoperability with Apache Spark and its programming interfaces for both object oriented and functional paradigms.
 On top this, Scala offers static typing which is extremely helpful to prevent errors that can occur with long computations saving developers time and resources. \cite{scalabook}
 
 \section{Data source}
@@ -105,8 +105,8 @@ For the same reasons, we will be integrating Apache Zeppelin notebooks into this
 This way we can offer more streamlined model implementation and testing.
 
 Finally, we have the monitoring of the pipeline.
-The requirements here is to allow the developer to have a simple and intuitive way to manage and monitor the the state of the whole pipeline.
-The main goal is to give the developer ability to notice errors in the pipeline as soon as possible this way preventing the errors to possibly escalate to the latter parts of the pipeline.
+The requirements here is to allow the novice data scientist to have a simple and intuitive way to manage and monitor the the state of the whole pipeline.
+The main goal is to give the data scientist an ability to notice errors in the pipeline as soon as possible this way preventing the errors to possibly escalate to the latter parts of the pipeline.
 Other requirements include good tracking on progress of machine learning model development in the analysis stage to give the analysist tools to track the results of training.
 
 To monitor the machine learning model development we will integrate the MLFlow tracking into the analysis phase.
