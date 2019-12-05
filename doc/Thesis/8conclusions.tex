@@ -10,7 +10,12 @@
 
 %For making PDF/A version requested by the Aalto Library, open the end result pdf file in Acrobat and store it as PDF/A. Then verify the result (everything should be fine, at least as PDF/A-2b version works).
 
-In this thesis, we examined big data pipelines to analyze stock market data.
+In this thesis, we examined big data pipelines to analyze stock market data from the point of view of a novice data scientist.
+We examined what are the challenges that novice data scientists face when starting their development.
+This was examined from both the stock analysis side and the big data technology side.
+Here we saw that the available practical information on stock analysis is very limited.
+In the big data technology side the problems were mostly the lack of intermediate information or the fact that it is very scattered.
+
 We conducted literary research on current trends on methods that are used to analyze stock market data.
 From this we saw that deep learning models are currently the driving force in stock market analysis.
 Other statistic methods are also used with conjuction of data from other varying sources.
@@ -20,23 +25,13 @@ We researched what are the technologies currently used in pipelines that analyze
 With the information publicly available, we saw that usually only the analysis phase was reported and other aspects of the systems were dismissed.
 These other aspects were most of the time monitoring of the system, but also ingestion and storage were not reported in many cases.
 
-We did a literary study on technologies that were used in the existing pipelines and technologies that seemed promising to be used in these pipelines.
-These included technologies for ingestion, storage, monitoring and analysis parts of the pipeline and we saw that the analysis part is dominated by Spark solutions at the moment of writing.
-In ingestion and storage there exists a lot of alternatives but none of them dominated field because of different use cases.
-For our pipeline, where we wanted the pipeline to be as flexible as possible we opted to Kafka for ingestion and HDFS for storage.
+We planned and implemented a basic stock data analysis pipeline based on the results from the previous literary studies and technologies that could help novice data scientists to develop their systems in the future.
+Our goal was to bring down the gap between beginner level documentation and corporate level complex systems and highlight the problems that novice data scientists could face while developing such a system.
+We were able to build such a pipeline and report multiple significant challenges while developing the pipeline which could affect our target group.
+We validated the pipeline using 3 different qualitive metrics and compared the results with 2 different existing pipelines.
+We saw that each one had its advantages and disadvantages depending on the metric.
+We also questioned the problems we faced whetever these were something that novice data scientists could face and saw that this was highly likely.
 
-We planned and implemented a basic stock data analysis pipeline based on the results from the previous literary studies.
-Our goal was to build a pipeline that would make analysis of stock market data in big data environment more accessible to data scientist who do not have that much knowledge on big data system development.
-The pipeline we built is open-source that anyone can use as a base or use it as it is.
-
-We were not able to build multiple pipelines for comparative results because of ambigious scope and problems with the technologies used, but we managed to produce a lot of valuable practical information about developing these systems.
-Our pipeline did manage to fullfil most of the requirements it was given at the start of the development, but fields such as good monitoring are still lacking.
-
-We can say that building a machine learning pipeline in a big data environment is not trivial yet.
-A lot of information is scattered, missing or going out of date as newer versions and technologies are introduced.
-Building a big data pipeline requires integration of multiple technologies and because of the amount of the possible integrations, there  exists pairs of technologies that are not that compatible yet.
-This thesis was able to test only a couple of these possible integrations but the ones that were tested did not integrate with each other without challenges.
-
-In the future, hopefully, more information can come available if and when these technologies gain popularity and the role of big data grows.
+In the future, hopefully, more information can come available if and if these technologies gain popularity and the role of big data grows.
 Until then we have to cope with the information available and just try to produce more information to make the field more accessible for new novice data scientists.
 This thesis hopefully alleviates someones process, in the field of stock data analysis.

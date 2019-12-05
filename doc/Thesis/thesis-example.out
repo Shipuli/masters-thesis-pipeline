@@ -4,52 +4,58 @@
 \BOOKMARK [0][]{chapter.1}{1 Introduction}{}% 4
 \BOOKMARK [1][-]{section.1.1}{1.1 Application scenario}{chapter.1}% 5
 \BOOKMARK [1][-]{section.1.2}{1.2 Audience and Research Questions}{chapter.1}% 6
-\BOOKMARK [1][-]{section.1.3}{1.3 Expected Outcome}{chapter.1}% 7
-\BOOKMARK [1][-]{section.1.4}{1.4 Structure of the Thesis}{chapter.1}% 8
-\BOOKMARK [0][]{chapter.2}{2 Background}{}% 9
-\BOOKMARK [1][-]{section.2.1}{2.1 Stock market analysis}{chapter.2}% 10
-\BOOKMARK [2][-]{subsection.2.1.1}{2.1.1 Stock price prediction}{section.2.1}% 11
-\BOOKMARK [3][-]{subsubsection.2.1.1.1}{2.1.1.1 Statistical methods}{subsection.2.1.1}% 12
-\BOOKMARK [3][-]{subsubsection.2.1.1.2}{2.1.1.2 Machine learning methods}{subsection.2.1.1}% 13
-\BOOKMARK [2][-]{subsection.2.1.2}{2.1.2 Existing pipelines}{section.2.1}% 14
-\BOOKMARK [3][-]{subsubsection.2.1.2.1}{2.1.2.1 Data sources}{subsection.2.1.2}% 15
-\BOOKMARK [3][-]{subsubsection.2.1.2.2}{2.1.2.2 Used technologies}{subsection.2.1.2}% 16
-\BOOKMARK [3][-]{subsubsection.2.1.2.3}{2.1.2.3 Monitoring}{subsection.2.1.2}% 17
-\BOOKMARK [1][-]{section.2.2}{2.2 Big Data Technologies}{chapter.2}% 18
-\BOOKMARK [2][-]{subsection.2.2.1}{2.2.1 Data ingestion}{section.2.2}% 19
-\BOOKMARK [3][-]{subsubsection.2.2.1.1}{2.2.1.1 Apache Flume}{subsection.2.2.1}% 20
-\BOOKMARK [3][-]{subsubsection.2.2.1.2}{2.2.1.2 Apache Kafka}{subsection.2.2.1}% 21
-\BOOKMARK [3][-]{subsubsection.2.2.1.3}{2.2.1.3 Apache NiFi}{subsection.2.2.1}% 22
-\BOOKMARK [2][-]{subsection.2.2.2}{2.2.2 Data storage}{section.2.2}% 23
-\BOOKMARK [3][-]{subsubsection.2.2.2.1}{2.2.2.1 Hadoop distributed file system}{subsection.2.2.2}% 24
-\BOOKMARK [3][-]{subsubsection.2.2.2.2}{2.2.2.2 Apache HBase}{subsection.2.2.2}% 25
-\BOOKMARK [3][-]{subsubsection.2.2.2.3}{2.2.2.3 Apache Cassandra}{subsection.2.2.2}% 26
-\BOOKMARK [2][-]{subsection.2.2.3}{2.2.3 Machine learning frameworks}{section.2.2}% 27
-\BOOKMARK [3][-]{subsubsection.2.2.3.1}{2.2.3.1 Apache Spark}{subsection.2.2.3}% 28
-\BOOKMARK [3][-]{subsubsection.2.2.3.2}{2.2.3.2 Deeplearning4J}{subsection.2.2.3}% 29
-\BOOKMARK [3][-]{subsubsection.2.2.3.3}{2.2.3.3 Apache SystemML}{subsection.2.2.3}% 30
-\BOOKMARK [2][-]{subsection.2.2.4}{2.2.4 Monitoring}{section.2.2}% 31
-\BOOKMARK [3][-]{subsubsection.2.2.4.1}{2.2.4.1 Log monitoring}{subsection.2.2.4}% 32
-\BOOKMARK [3][-]{subsubsection.2.2.4.2}{2.2.4.2 Machine learning monitoring}{subsection.2.2.4}% 33
-\BOOKMARK [0][]{chapter.3}{3 Planning}{}% 34
-\BOOKMARK [1][-]{section.3.1}{3.1 Building a developer friendly pipeline}{chapter.3}% 35
-\BOOKMARK [1][-]{section.3.2}{3.2 Data source}{chapter.3}% 36
-\BOOKMARK [1][-]{section.3.3}{3.3 Technology selection and requirements}{chapter.3}% 37
-\BOOKMARK [1][-]{section.3.4}{3.4 Pipeline evaluation}{chapter.3}% 38
-\BOOKMARK [0][]{chapter.4}{4 Implementation}{}% 39
-\BOOKMARK [1][-]{section.4.1}{4.1 Overview}{chapter.4}% 40
-\BOOKMARK [2][-]{subsection.4.1.1}{4.1.1 Dead-ends at the start of development}{section.4.1}% 41
-\BOOKMARK [2][-]{subsection.4.1.2}{4.1.2 Final Architecture}{section.4.1}% 42
-\BOOKMARK [2][-]{subsection.4.1.3}{4.1.3 Usage}{section.4.1}% 43
-\BOOKMARK [1][-]{section.4.2}{4.2 Adversities during development}{chapter.4}% 44
-\BOOKMARK [2][-]{subsection.4.2.1}{4.2.1 Kafka-HDFS integration}{section.4.2}% 45
-\BOOKMARK [2][-]{subsection.4.2.2}{4.2.2 Apache Zeppelin dependency management}{section.4.2}% 46
-\BOOKMARK [2][-]{subsection.4.2.3}{4.2.3 DL4J sbt project}{section.4.2}% 47
-\BOOKMARK [2][-]{subsection.4.2.4}{4.2.4 Running the application in Spark}{section.4.2}% 48
-\BOOKMARK [0][]{chapter.5}{5 Evaluating the results}{}% 49
-\BOOKMARK [1][-]{section.5.1}{5.1 Perfomance metrics}{chapter.5}% 50
-\BOOKMARK [1][-]{section.5.2}{5.2 Pipeline management}{chapter.5}% 51
-\BOOKMARK [1][-]{section.5.3}{5.3 Flaws in the end product}{chapter.5}% 52
-\BOOKMARK [1][-]{section.5.4}{5.4 Reflection}{chapter.5}% 53
-\BOOKMARK [1][-]{section.5.5}{5.5 Potential improvements}{chapter.5}% 54
-\BOOKMARK [0][]{chapter.6}{6 Conclusions}{}% 55
+\BOOKMARK [1][-]{section.1.3}{1.3 Structure of the Thesis}{chapter.1}% 7
+\BOOKMARK [0][]{chapter.2}{2 Motivation}{}% 8
+\BOOKMARK [1][-]{section.2.1}{2.1 Novice data scientist}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.2}{2.2 Inaccessibility of big data stock analysis}{chapter.2}% 10
+\BOOKMARK [2][-]{subsection.2.2.1}{2.2.1 Obstacles in stock data analysis}{section.2.2}% 11
+\BOOKMARK [2][-]{subsection.2.2.2}{2.2.2 Obstacles in big data frameworks}{section.2.2}% 12
+\BOOKMARK [0][]{chapter.3}{3 Background}{}% 13
+\BOOKMARK [1][-]{section.3.1}{3.1 Stock market analysis}{chapter.3}% 14
+\BOOKMARK [2][-]{subsection.3.1.1}{3.1.1 Stock price prediction}{section.3.1}% 15
+\BOOKMARK [3][-]{subsubsection.3.1.1.1}{3.1.1.1 Statistical methods}{subsection.3.1.1}% 16
+\BOOKMARK [3][-]{subsubsection.3.1.1.2}{3.1.1.2 Machine learning methods}{subsection.3.1.1}% 17
+\BOOKMARK [2][-]{subsection.3.1.2}{3.1.2 Existing pipelines}{section.3.1}% 18
+\BOOKMARK [3][-]{subsubsection.3.1.2.1}{3.1.2.1 Data sources}{subsection.3.1.2}% 19
+\BOOKMARK [3][-]{subsubsection.3.1.2.2}{3.1.2.2 Used technologies}{subsection.3.1.2}% 20
+\BOOKMARK [3][-]{subsubsection.3.1.2.3}{3.1.2.3 Monitoring}{subsection.3.1.2}% 21
+\BOOKMARK [1][-]{section.3.2}{3.2 Possible Big Data Technologies}{chapter.3}% 22
+\BOOKMARK [2][-]{subsection.3.2.1}{3.2.1 Data ingestion}{section.3.2}% 23
+\BOOKMARK [3][-]{subsubsection.3.2.1.1}{3.2.1.1 Apache Flume}{subsection.3.2.1}% 24
+\BOOKMARK [3][-]{subsubsection.3.2.1.2}{3.2.1.2 Apache Kafka}{subsection.3.2.1}% 25
+\BOOKMARK [3][-]{subsubsection.3.2.1.3}{3.2.1.3 Apache NiFi}{subsection.3.2.1}% 26
+\BOOKMARK [2][-]{subsection.3.2.2}{3.2.2 Data storage}{section.3.2}% 27
+\BOOKMARK [3][-]{subsubsection.3.2.2.1}{3.2.2.1 Hadoop distributed file system}{subsection.3.2.2}% 28
+\BOOKMARK [3][-]{subsubsection.3.2.2.2}{3.2.2.2 Apache HBase}{subsection.3.2.2}% 29
+\BOOKMARK [3][-]{subsubsection.3.2.2.3}{3.2.2.3 Apache Cassandra}{subsection.3.2.2}% 30
+\BOOKMARK [2][-]{subsection.3.2.3}{3.2.3 Machine learning frameworks}{section.3.2}% 31
+\BOOKMARK [3][-]{subsubsection.3.2.3.1}{3.2.3.1 Apache Spark}{subsection.3.2.3}% 32
+\BOOKMARK [3][-]{subsubsection.3.2.3.2}{3.2.3.2 Deeplearning4J}{subsection.3.2.3}% 33
+\BOOKMARK [3][-]{subsubsection.3.2.3.3}{3.2.3.3 Apache SystemML}{subsection.3.2.3}% 34
+\BOOKMARK [2][-]{subsection.3.2.4}{3.2.4 Monitoring}{section.3.2}% 35
+\BOOKMARK [3][-]{subsubsection.3.2.4.1}{3.2.4.1 Log monitoring}{subsection.3.2.4}% 36
+\BOOKMARK [3][-]{subsubsection.3.2.4.2}{3.2.4.2 Machine learning monitoring}{subsection.3.2.4}% 37
+\BOOKMARK [0][]{chapter.4}{4 Planning}{}% 38
+\BOOKMARK [1][-]{section.4.1}{4.1 Data source}{chapter.4}% 39
+\BOOKMARK [1][-]{section.4.2}{4.2 Goal of the implementation part}{chapter.4}% 40
+\BOOKMARK [1][-]{section.4.3}{4.3 Building a novice friendly pipeline}{chapter.4}% 41
+\BOOKMARK [1][-]{section.4.4}{4.4 Technology selection}{chapter.4}% 42
+\BOOKMARK [1][-]{section.4.5}{4.5 Validation of results}{chapter.4}% 43
+\BOOKMARK [0][]{chapter.5}{5 Implementation}{}% 44
+\BOOKMARK [1][-]{section.5.1}{5.1 Overview}{chapter.5}% 45
+\BOOKMARK [2][-]{subsection.5.1.1}{5.1.1 Dead-ends at the start of development}{section.5.1}% 46
+\BOOKMARK [2][-]{subsection.5.1.2}{5.1.2 Final Architecture}{section.5.1}% 47
+\BOOKMARK [2][-]{subsection.5.1.3}{5.1.3 Usage}{section.5.1}% 48
+\BOOKMARK [1][-]{section.5.2}{5.2 Adversities during development}{chapter.5}% 49
+\BOOKMARK [2][-]{subsection.5.2.1}{5.2.1 Kafka-HDFS integration}{section.5.2}% 50
+\BOOKMARK [2][-]{subsection.5.2.2}{5.2.2 Apache Zeppelin dependency management}{section.5.2}% 51
+\BOOKMARK [2][-]{subsection.5.2.3}{5.2.3 DL4J sbt project}{section.5.2}% 52
+\BOOKMARK [2][-]{subsection.5.2.4}{5.2.4 Running the application in Spark}{section.5.2}% 53
+\BOOKMARK [0][]{chapter.6}{6 Discussion}{}% 54
+\BOOKMARK [1][-]{section.6.1}{6.1 Method validation}{chapter.6}% 55
+\BOOKMARK [2][-]{subsection.6.1.1}{6.1.1 Reproducibility}{section.6.1}% 56
+\BOOKMARK [2][-]{subsection.6.1.2}{6.1.2 Sustainability}{section.6.1}% 57
+\BOOKMARK [2][-]{subsection.6.1.3}{6.1.3 Novice friendliness}{section.6.1}% 58
+\BOOKMARK [1][-]{section.6.2}{6.2 Reflecting challenges}{chapter.6}% 59
+\BOOKMARK [1][-]{section.6.3}{6.3 Future improvements}{chapter.6}% 60
+\BOOKMARK [0][]{chapter.7}{7 Conclusions}{}% 61

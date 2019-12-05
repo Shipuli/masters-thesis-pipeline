@@ -1,8 +1,12 @@
 \chapter{Background}
 \label{chapter:background} 
 
-In this first chapter, we are going to look at the current stock market data analysis in big data environments.
-This chapter is divided into two distinctive parts.
+In this chapter, we are going to look at the current stock market data analysis in big data environments.
+The goal of this chapter is to alleviate the problem with the scattered data of stock data analysis by aggregating information about the state of art stock market analysis.
+The other goal of this chapter is to introduce background information needed in the following chapters where we will be introducing the empirical part of this thesis to help reason the choices we make later.
+If the reader is familiar with these subjects we recommend moving to the next chapter as this chapter mostly aggregates existing information.
+
+This chapter is divided into two parts.
 In the first part we will examine the current state of stock market data analysis in big data environment.
 This includes the methods and pipelines used to conduct this in real life.
 In the second part we will use the result of the this first section and study the most promising big data technologies that could be used to implement pipelines that analyze the stock data.
@@ -189,12 +193,12 @@ However, in most cases this corruption can be only a change in values that would
 This would then lead to erronous results which could take quite a bit of resources to calculate.
 
 So in order to make right decisions concerning models and save time while training, it is crucial to identify these kinds of problems early as possible and this is why we need good monitoring.
-In the next chapter, we will be looking more closely on the technologies that could be used to build a pipeline that can conduct modern stock analysis.
+In the next section, we will be looking more closely on the technologies that could be used to build a pipeline that can conduct modern stock analysis.
 We will also examine couple of different ways to monitor the system in order to prevent problems that were raised in this section.
 
 
 
-\section{Big Data Technologies}
+\section{Possible Big Data Technologies}
 
 In this section, we will examine more carefully the technologies that can be used to implement a stock data pipelines in the big data context and try to answer the second research question in the process.
 We have gathered here technologies that we saw used in existing big data stock pipelines in the previous section.
@@ -453,3 +457,6 @@ It does this by providing CLI and REST API's that can be integrated with the sys
 For convenience, it also provides APIs for Python, R and Java which can be used for tighter integration.
 MLFlow is as project quite young having its first full version released in June 2019, but it has a healthy development community and is actively developed.
 \cite{mlflow}
+
+That concludes the needed background information needed to build a pipeline for historical stock market analysis using big data.
+In the next chapter, we will % TODO 

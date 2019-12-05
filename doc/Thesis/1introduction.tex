@@ -101,15 +101,14 @@ So the reader can be very good at analysing data, but lacks proficiency at the e
 The reason why the reader would want to read this could be because they have interest in the subject or are, for example, working for a startup which does not have resources to hire multiple persons with high degree on the subject.
 This thesis is meant for this kind of people, as the place to find easily knowledge on how to get started.
 
-As the system can be very complex as seen in the previous section, the focus of this thesis is going to be the part of the pipeline that calculates models based on historical data.
-This means the ingestion ($f_1$), storage ($f_5$) and analysis ($f_4$) of the historical data in a environment where the time restrictions are not that tight but the amount of data is enormous.
-We want the pipeline to be able to have the possibility to ingest meta data from third-party sources as seen on the example case in the previous section.
+As the system can be very complex as seen in the previous section, we will be focusing on the part of the pipeline that calculates models based on historical data.
+This means the ingestion ($f_1$), storage ($f_5$) and analysis ($f_4$) of the historical data in a environment where the time restrictions are not that tight but the amount of data is enormous and the data can come from multiple different sources.
 We have chosen this part of the pipeline as this is the part that has the highest probability to scale to big data first and is the part of the pipeline that is usually referred when talked about data analysis on stock market data.
 
-The main goal of this thesis is going to be to make the data analysis in this big data context as accessible as possible within the time constraints and resources that this thesis has.
+The main goal of this thesis is going to be to make the data analysis in this big data context more accessible within the time constraints and resources that this thesis has.
 What we mean by the word "accessible" here is that we want to minimize the time needed for the novice data scientist to start experimenting with their analysis, while making sure that developing models can continue smoothly in the future.
 In this sense, things that make the process of analysing stock data in big data context "inaccesible" are things such as scattered information about options, outdated information online and lack of information on how to integrate different parts together.
-This thesis plans to alleviate these aspects by providing aggregated information, testing and software that can be used to navigate through these different problems.
+This thesis plans to alleviate these aspects by providing aggregated information and an example case with solutions that can be used to navigate through these different problems.
 
 %As the field of possible technologies is large, the main focus of this thesis would be the comparison of current relevant technologies in the context of stock data to help novice data scientists to decide what technologies to possibly use in their own projects.
 %The main result of this thesis would be information and possible tools that developers could use to develop this kind of system more efficiently.
@@ -121,55 +120,46 @@ This thesis plans to alleviate these aspects by providing aggregated information
 %Examples of this kind of papers are \cite{wu}, \cite{aghakhani} and \cite{kao}.
 %So one of the goals of this thesis would be to bring more comprehensive picture of stock data pipelines. 
 
-This thesis will approach this subject from three different perpectives that cumulate on one another.
-These perspectives are represented by the following three research questions:
+The research questions that this thesis tries to answer are: What makes stock analysis possibly inaccesible?, What kind of challenges in practice novice data scientists face when building a modern big data pipeline for stock analysis? and How to build a pipeline that novice data scientist can use or benefit from?
 
-What kind of pipelines are currently used in stock market data analysis in big data context?
-What are the methods and tools currently used to conduct technical analysis and possibly what kind of data they use.
-This thesis plans to aggregate this scattered information into more available format so that the reader can more easily read about the subject.
 
-How do these pipelines compare in the perspective of novice data scientist?
-As there are enormous amount of different technological frameworks, this thesis plans to provide the reader information on the most promising ones currently and do a comparison between them so that user can have some point of reference when choosing technologies on their own.
+With the first research question, we want to understand what are the problems with the current environment for big data analytics on stock data for novice data scientists.
+For this, we will be conducting literary study on the subject and we will analyse the results of this.
 
-Which one is the best for novice data scientist as a starting point?
-Finally the thesis plans to provide a prototype implementations of stock data pipelines using the technologies that seem most prominent.
-These are compared with one another using relevant metrics that reflect how manageable and easy it is to develop on the implemented pipeline.
-If the prototype system fits readers developed architecture it can be used as a basis for further development by the reader
-This is to save time of a person developing these when the trial and error has been done beforehand.
+For the second and third research questions we will be conducting an experiment where we will build a pipeline using technologies that we think are realistic in real life and suitable for novice data scientist.
+We will be focusing on the way the pipeline is build and what are the challenges that we face during it that could gravely affect novice data scientists.
 
-\section{Expected Outcome}
+%\section{Expected Outcome}
 
-For the first research question "What kind of pipelines are currently used?" this thesis plans to provide a study on currently used stock market analysis methods and used pipelines.
-The outcome will be a literature study on pipelines that are used in academia and industry based on public information.
+%For the first research question "What kind of pipelines are currently used?" this thesis plans to provide a study on currently used stock market analysis methods and used pipelines.
+%The outcome will be a literature study on pipelines that are used in academia and industry based on public information.
 
-For the second question "How do these pipelines compare in the perspective of novice data scientist" the thesis would perform an analysis on the most promising big data pipeline technologies.
-This will be done in a form of comparison of different types of solutions that are either used in practice based on the results in the literature study for the first question or just seem promising for the use case.
-The result of this part could be used to decide what seems to be the most suitable technology to use to implement the stock analysis pipeline technically.
+%For the second question "How do these pipelines compare in the perspective of novice data scientist" the thesis would perform an analysis on the most promising big data pipeline technologies.
+%This will be done in a form of comparison of different types of solutions that are either used in practice based on the results in the literature study for the first question or just seem promising for the use case.
+%The result of this part could be used to decide what seems to be the most suitable technology to use to implement the stock analysis pipeline technically.
 
-For the last question "Which one is the best for novice data scientist as a starting point?" the thesis would implement open-source prototype solutions based on the results of the second research question.
-The expected outcome is to find a pipeline that a novice data scientist could develop onto which at the same time fulfills the aforementioned requirements.
-These prototypes could be used by anyone (company or individual) as it is or as a base to build a more complex system on top of them or use them as it is to perform data analysis.
+%For the last question "Which one is the best for novice data scientist as a starting point?" the thesis would implement open-source prototype solutions based on the results of the second research question.
+%The expected outcome is to find a pipeline that a novice data scientist could develop onto which at the same time fulfills the aforementioned requirements.
+%These prototypes could be used by anyone (company or individual) as it is or as a base to build a more complex system on top of them or use them as it is to perform data analysis.
 
 \section{Structure of the Thesis}
 
-In the first chapter of the thesis we will be focusing on solving the first research question "What kind of pipelines are currently used?" by offering aggregated background knowledge on the subject.
-The thesis will start by going through scientific papers about stock markets and stock analysis.
+In the first chapter of the thesis we will be focusing on solving the first research question "What makes stock analysis possibly inaccesible?".
+We will define more precisely to whom this thesis is aimed at and examine what kind of challenges these people will face when starting big data analytics on stock market data.
+
+We will then examine background information in order to understand better the underlying domain by by going through scientific papers about stock markets and stock analysis.
 We will examine trends and state-of-art methods on stock analysis that have been used in recent scientific research.
 Then we move on to examine what kind of pipelines exists in real-life.
 We will be examining both commercial and research pipelines in order to give a more complete picture on options that exist.
 We will also perform a literary research on technologies that are currently used to perform big-data ingestion, storing and analysis, selecting from the list of technologies mostly those that have been seen to be used in practice in this context while introducing couple of promising ones.
 
-In the next chapter we will be focusing on the second research question "How do these pipelines compare in the perspective of novice data scientist?" and perform an comparison of the technologies introduced in the previous chapter.
-This will be used also as a preparation for the experimental part of the thesis by choosing the technologies that we are going to try to use in practice.
-After we have seen how these technologies compare to one another we start the experimental part by defining what are we going to be building and how we are going to evaluate it.
-All this in preparation to answer the final research question "Which one is the best for novice data scientist as a starting point?".
-
+We will then start the experimental part of the research focusing on the two remaining research questions. 
+In the first of these chapters we will define what will we be implementing, what are the goals of this experiment and how do we validate the results of this experiment.
 We will then start the actual implementation part.
 In the following chapter, we will describe what was done and what challenges we faced while implementing the systems.
-The chapters from this on will be focused on the technical and practicalities that appeared during development.
+This chapter focuses mostly on the technical and practicalities that appeared during development.
 
-After this chapter we move on to evaluate the results that we got from the implementation chapter. 
-We will try our best to evaluate the quality of solutions and bring up fair criticism that the end result could possibly have.
+After this in the final real chapter we move on to analyse the results that we got from the implementation chapter. 
+We will try our best to validate the claims that we make about the example case and try to bring up fair criticism that the end result could possibly have.
 We then finish this chapter with a discussion on what could have been done better and how the systems developed could be improved in the future.
 Then finishing the thesis we will have a conclusion chapter that summarizes the results of the thesis.
-However, next we start the thesis by examining the field of stock data analysis.
