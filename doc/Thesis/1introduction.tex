@@ -52,20 +52,20 @@ After this, for the rest of the thesis, we are going to focus on a part of this 
 
 Somewhat normal system for analysing both fundamental and technical analysis is presented in figure 1.
 In the figure, the components marked with solid lines represent the core system functions, and the dashed lines represent add-on functionalities that should be possible to extend into the system in the future.
-The requirements of the system should be as follows;
+The requirements of the system are usually as follows;
 The system should produce long ($r_1$) and short ($r_2$) term predictions of stock prices.
 The computation of long term predictions can take time because of the nature of these predictions but the short term predictions should be between two minutes to one hour available.
 Long term predictions are the result of fundamental analysis ($f_2$) and historical technical analysis ($f_4$) whereas the short term prediction should come mostly from quick technical analysis ($f_3$).
 The cost of the system should grow logarithmically/linear with time meaning that the cost of processing and storing data should not exponentially increase over time.
 Finally, the core system should be able to fulfill these requirements for at least the +5000 companies in the major U.S stock markets which is the most accessible and individually significant market.
 
-The data to the application is ingested from two main types of data sources quote and fundamental.
+The data to the application can be ingested from two main types of data sources quote and fundamental.
 These sources consist of values that were briefly described previously in technical and fundamental analysis respectively.
 The quote data is usually updated with minute intervals depending on the provider whereas the fundamental data does not change so often.
 Theoretically, the fundamental data can change anytime, because of dividends which can be payed whenever the companies want but this does not happen often and these values are mostly used in the long term fundamental analysis so longer update intervals are acceptable.
 In the figure, these are separated into the single market ones ($d_1$ and $d_2$), which represent the minimum of at least including the U.S stock market and the other sources ($d_3$ and $d_4$) that provide the same data on other global markets.
 
-The extendable global data sources are grouped into one box but in reality this data would be ingested from numberable different providers as there is no single entity at the time of writing this that provides all of this data.
+In the figure, the extendable global data sources are grouped into one box but in reality this data would be ingested from numberable different providers as there is no single entity at the time of writing this that provides all of this data.
 Theoretically the minimum of a maximum size of this extendable data would be 5Gb per day which is extrapolated in from the U.S market data based on statistics that in January 2019 there were globally 51 599 companies listed in the stock markets \cite{global}.
 This amount can and will fluctuate as companies enter and exit the markets but it gives us the scale of data we are working with.
 
@@ -75,100 +75,91 @@ Examples of using this kind of data to predict predict stocks can be found in \c
 This is why the system should have the ability to extend to ingest data from arbitrary secondary sources ($f_6$ and $d_5$ in the figure) to provide more versatile predictions about the stocks.
 The amount of this data can be unlimited but is restricted to relevant sources.
 
-Data is ingested from these data sources mainly using HTTP-protocol as this is the main method that these services ($d_1$ - $d_4$) provide.
-Other possible methods that are usually available are Excel sheets and sometimes websockets, of which the websockets can be actually useful in cloud system, but as the HTTP-methods are currently the most used technology, this thesis is also going to focus on these.
-Here we have separated the main ingestion functions into two main types of functions $f_1$ and $f_2$. 
+Data is usually ingested from these data sources mainly using HTTP-protocol as this is the main method that these services ($d_1$ - $d_4$) provide.
+Other possible methods that are usually available are for example Excel sheets and sometimes websockets, of which the websockets can be actually useful in cloud system, but as the amount of data grows more custom file transfer methods are used.
+However, as the HTTP-methods are currently the most publicly available technology, this thesis is going to focus on these.
+The main ingestion functions are usually separated into two main types of functions $f_1$ and $f_2$. 
 $f_1$ is constantly polling and processing data whereas $f_2$ handles batch processing.
-Both of these function store their raw output into the storage, but $f_1$ passes this also to the immediate technical analysis.
+Both of these function usually store their raw output into the storage, but $f_1$ passes this also to the immediate technical analysis.
 
-The system has two technical analysis functions.
+The system should usually have two types of methods on analysing data.
 For methdos that allow streaming updates there is $f_3$, which can for example be cumulative/reinforced ML models and for methods that need historical data in order to calculate the prediction, there is $f_4$.
 For fundamental analysis, there is no a specific function as the introduced data sources usually provide these values pre-calculated and these values are usually easy to calculate dynamically with little to none amount of processing.
 
-Finally, at the center of the system is the storage which is used to store the calculated predictions as well as the raw data from the data sources for later analysis.
+Finally, at the center of the system, there is the storage which is used to store the calculated predictions as well as the raw data from the data sources for later analysis.
 For historical technical analysis, $f_4$, the storage should provide reasonable range query times when quering historical data and for the results the storage should provide efficient point queries for the results ($<$ 1s).
 
-\section{Research Questions}
+\section{Audience and Research Questions}
 
 We saw the possible complexity of a stock data analysis pipeline in the previous section.
-To build a stock analysis pipeline there exists individual sources of information but these usually are focused on the analysis of small amount of data in order to test some hypothesis.
+There are a lot of articles about how to build a stock analysis pipeline but these usually are focused on the analysis of small amount of data in order to test some hypothesis.
 Building a large-scale stock data analysis pipeline is a vastly complex task and to alleviate this process, this thesis plans to provide tools and information on how to build one.
 
-The focus of this thesis is going to be the part of the pipeline that calculates models based on historical data.
-This means the ingestion ($f_1$), storage ($f_5$) and analysis ($f_4$) of the historical data in a environment where the time restrictions are not that tight but the amount of data is enormous.
-We want the pipeline to be able to have the possibility to ingest meta data from third-party sources as seen on the example case in the previous section.
+This thesis is aimed at novice data scientists that work or want to work with stock market data, but do not have any experience in big data technologies.
+We define the term "novice" here to mean persons who have knowledge about analysing data using modern data analysis methods and know how to conduct this onto small datasets, but their proficiency lies strictly on the data analysis side.
+So the reader can be very good at analysing data, but lacks proficiency at the engineering side of big data technologies.
+The reason why the reader would want to read this could be because they have interest in the subject or are, for example, working for a startup which does not have resources to hire multiple persons with high degree on the subject.
+This thesis is meant for this kind of people, as the place to find easily knowledge on how to get started.
 
-Building this kind of pipeline is a complex task and can require a lot of resources.
-This is why we want to build a pipeline that can remove some of this complexity of building one while being as developer friendly as possible.
-The goal here is to make big data analysis on stock data and timeseries data more accessible.
-To clear some terminology, when we are using the term developer in this thesis, most of the time we are not referring to only software engineers, but also persons who work as a data analysists.
-Although developing software is not their main focus at work, the results of this thesis can help their job to analyze data without having to build these system by themselves.
+As the system can be very complex as seen in the previous section, we will be focusing on the part of the pipeline that calculates models based on historical data.
+This means the ingestion ($f_1$), storage ($f_5$) and analysis ($f_4$) of the historical data in a environment where the time restrictions are not that tight but the amount of data is enormous and the data can come from multiple different sources.
+We have chosen this part of the pipeline as this is the part that has the highest probability to scale to big data first and is the part of the pipeline that is usually referred when talked about data analysis on stock market data.
 
-As the field of possible technologies is large, the main focus of this thesis would be the comparison of current relevant technologies in the context of stock data to help data scientists to decide what technologies to possibly use in their own projects.
-The main result of this thesis would be information and possible tools that developers could use to develop this kind of system more efficiently.
-Developers here can be people from companies that either do stock analysis as their main business or just want to analyze stock data efficiently.
-These results could also be used in research to implement analyzing pipelines more efficiently so that the research group can focus on the analyzing of the stock data instead of worrying with getting the data to these parts.
+The main goal of this thesis is going to be to make the data analysis in this big data context more accessible within the time constraints and resources that this thesis has.
+What we mean by the word "accessible" here is that we want to minimize the time needed for the novice data scientist to start experimenting with their analysis, while making sure that developing models can continue smoothly in the future.
+In this sense, things that make the process of analysing stock data in big data context "inaccesible" are things such as scattered information about options, outdated information online and lack of information on how to integrate different parts together.
+This thesis plans to alleviate these aspects by providing aggregated information and an example case with solutions that can be used to navigate through these different problems.
 
-Analyzing the stock data is also what most of the research today is focused on as this is the part that can actually produce profit.
-This means that most papers ignore the steps of ingesting and storing this data.
-Examples of this kind of papers are \cite{wu}, \cite{aghakhani} and \cite{kao}.
-So one of the goals of this thesis would be to bring more comprehensive picture of stock data pipelines. 
+%As the field of possible technologies is large, the main focus of this thesis would be the comparison of current relevant technologies in the context of stock data to help novice data scientists to decide what technologies to possibly use in their own projects.
+%The main result of this thesis would be information and possible tools that developers could use to develop this kind of system more efficiently.
+%Developers here can be people from companies that either do stock analysis as their main business or just want to analyze stock data efficiently.
+%These results could also be used in research to implement analyzing pipelines more efficiently so that the research group can focus on the analyzing of the stock data instead of worrying with getting the data to these parts.
 
-This thesis will approach this subject from three different perpectives that cumulate on one another.
-These perspectives are represented by the following three research questions:
+%Analyzing the stock data is also what most of the research today is focused on as this is the part that can actually produce profit.
+%This means that most papers ignore the steps of ingesting and storing this data.
+%Examples of this kind of papers are \cite{wu}, \cite{aghakhani} and \cite{kao}.
+%So one of the goals of this thesis would be to bring more comprehensive picture of stock data pipelines. 
 
-What are the needs and requirements of this kind of system data-wise?
-What are the methods currently used to conduct technical analysis and possibly what kind of data they use.
-This thesis plans to provide the information on these so that when a reader is developing their own system they have a point of reference which they can use to evaluate their data sources.
+The research questions that this thesis tries to answer are: What makes stock analysis possibly inaccesible?, What kind of challenges in practice novice data scientists face when building a modern big data pipeline for stock analysis? and How to build a pipeline that novice data scientist can use or benefit from?
 
-What are the technological options to implement a modern scalable timeseries analysis pipeline?
-As there are enormous amount of different technological frameworks, this thesis plans to provide the reader information on the most promising ones currently.
-This way the reader does not need to go through and learn variety of technologies in order to build their system.
 
-How to implement a big data framework for technical analysis in practice?
-Finally the thesis plans to provide comparison and prototype implementations of stock data pipelines using the technologies that seem most prominent.
-These are compared with one another using relevant metrics that reflect how manageable and easy it is to develop on the implemented pipeline.
-If the prototype system fits readers developed architecture it can be used as a basis for further development by the reader
-This is to save possible time of a person developing these when the trial and error has been done beforehand.
-Because the idea is for the user to be able to use them as they are, one of our requirements in the implementation part is to make the as developer friendly as possible.
+With the first research question, we want to understand what are the problems with the current environment for big data analytics on stock data for novice data scientists.
+For this, we will be conducting literary study on the subject and we will analyse the results of this.
 
-\section{Expected Outcome}
+For the second and third research questions we will be conducting an experiment where we will build a pipeline using technologies that we think are realistic in real life and suitable for novice data scientist.
+We will be focusing on the way the pipeline is build and what are the challenges that we face during it that could gravely affect novice data scientists.
 
-For the first research question "What are the needs and requirements of this kind of system data-wise?" this thesis plans to provide an analysis of the necessary stock market data and its usages.
-From this analysis, the thesis would derive the main requirements for the system to fulfill in order to satisfy the needs of the possible subsequent analysis stage.
-These results could be used if one would want to build their own stock analysis system from scratch.
+%\section{Expected Outcome}
 
-For the second question "What are the technological options to implement this in practice?" the thesis would perform an analysis on the current trends in big data pipeline technologies.
-The thesis would provide information on the latest open-source technologies that could be used to implement this kind of system, how these would fulfill the requirements introduced by the first research question and conclude this with a comparison of these technologies on what are the advantages of using one over another.
-The result of this part could be used to decide what seems to be the most suitable technology to use to implement the stock analysis pipeline technically.
+%For the first research question "What kind of pipelines are currently used?" this thesis plans to provide a study on currently used stock market analysis methods and used pipelines.
+%The outcome will be a literature study on pipelines that are used in academia and industry based on public information.
 
-For the last question "How to implement a big data framework for technical analysis in practice?" the thesis would implement open-source prototype solutions based on the results of the second research question.
-The expected outcome is to find a pipeline that is easiest to develop onto which at the same time fulfills the aforementioned requirements.
-These prototypes could be used by anyone (company or individual) as it is or as a base to build a more complex system on top of them.
+%For the second question "How do these pipelines compare in the perspective of novice data scientist" the thesis would perform an analysis on the most promising big data pipeline technologies.
+%This will be done in a form of comparison of different types of solutions that are either used in practice based on the results in the literature study for the first question or just seem promising for the use case.
+%The result of this part could be used to decide what seems to be the most suitable technology to use to implement the stock analysis pipeline technically.
+
+%For the last question "Which one is the best for novice data scientist as a starting point?" the thesis would implement open-source prototype solutions based on the results of the second research question.
+%The expected outcome is to find a pipeline that a novice data scientist could develop onto which at the same time fulfills the aforementioned requirements.
+%These prototypes could be used by anyone (company or individual) as it is or as a base to build a more complex system on top of them or use them as it is to perform data analysis.
 
 \section{Structure of the Thesis}
 
-In the first chapter of the thesis we will be focusing on solving the first research question "What are the needs and requirements of this kind of system data-wise?".
-The thesis will start by going through scientific papers about stock markets and stock analysis.
+In the first chapter of the thesis we will be focusing on solving the first research question "What makes stock analysis possibly inaccesible?".
+We will define more precisely to whom this thesis is aimed at and examine what kind of challenges these people will face when starting big data analytics on stock market data.
+
+We will then examine background information in order to understand better the underlying domain by by going through scientific papers about stock markets and stock analysis.
 We will examine trends and state-of-art methods on stock analysis that have been used in recent scientific research.
 Then we move on to examine what kind of pipelines exists in real-life.
 We will be examining both commercial and research pipelines in order to give a more complete picture on options that exist.
-This is to find requirements for our system and get a good basis for the next chapter.
+We will also perform a literary research on technologies that are currently used to perform big-data ingestion, storing and analysis, selecting from the list of technologies mostly those that have been seen to be used in practice in this context while introducing couple of promising ones.
 
-In the second chapter we will be solving the second research questions "What are the technological options to implement this in practice?".
-In this chapter we will perform a literary research on technologies that are currently used to perform big-data ingestion, storing and analysis, selecting from the list of technologies mostly those that seem to fulfill the requirements derived in the first chapter.
-This chapter will consist of first introducing all of the selected technologies and going through how do they work, what are they supposed to solve and what are the advantages and disadvantages of using one.
-
-After this we will move on to start the experimental part of the thesis and the rest of thesis will be focusing on solving the final research question "How to implement a big data framework for technical analysis in practice?".
-In the first chapter of the experimental part, we will defined what we are building based on the results from the previous chapters.
-In this chapter, we will also define the metrics that we will use to define the quality of the solution.
-
+We will then start the experimental part of the research focusing on the two remaining research questions. 
+In the first of these chapters we will define what will we be implementing, what are the goals of this experiment and how do we validate the results of this experiment.
 We will then start the actual implementation part.
 In the following chapter, we will describe what was done and what challenges we faced while implementing the systems.
-The chapters from this on will be focused on the technical and practicalities that appeared during development.
+This chapter focuses mostly on the technical and practicalities that appeared during development.
 
-After this chapter we move on to evaluate the results that we got from the implementation chapter. 
-We will try our best to evaluate the quality of solutions and bring up fair criticism that the end result could possibly have.
+After this in the final real chapter we move on to analyse the results that we got from the implementation chapter. 
+We will try our best to validate the claims that we make about the example case and try to bring up fair criticism that the end result could possibly have.
 We then finish this chapter with a discussion on what could have been done better and how the systems developed could be improved in the future.
 Then finishing the thesis we will have a conclusion chapter that summarizes the results of the thesis.
-However, next we start the thesis by examining the field of stock data analysis.

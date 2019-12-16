@@ -1,0 +1,91 @@
+\chapter{Motivation}
+\label{chapter:problem}
+
+We start this thesis by examining the problems that a novice data scientist faces when starting their process to implement big data stock market pipeline.
+In this chapter we will expand the problem introduced in the previous chapter and build the motivation on the experiments we will be conducting in the following chapters.
+We will start by defining the target group that these problems affect the most.
+These problems are not universal and to understand better to whom this thesis is benefitting the most we will be defining the target audience and the reasoning why would they be interested in the subject of this thesis.
+After this we will be defining the problem itself by dividing it to smaller parts and examining these parts individually.
+
+\section{Novice data scientist}
+
+As stated in the introduction, this thesis is meant for novice data scientists that have little to no experience on developing big data systems, but have general information on data analysis and want to use state of art methods to analyse stock market data.
+We use the term data scientist as it is usually used when talked about a person that does data analysis with enormous amount of data.
+This is in contrary to data analysist, which is in the same data analysis domain, but works with smaller amounts of data where one does not need to worry about optimization of calculations when the data is processed. \cite{voulgaris}
+Because of this optimization aspect, data scientist must have knowledge not only about complex data analysis methods but also knowledge about developing and programming systems that scale.
+
+Using these terms novice data scientist could be a data analysist which has a knowledge on algorithms and methods that are used to analyze reasonable amounts of data, but these methods do not scale with the data.
+As the tooling and methods are very different when the data scales, there are a plethora of things to learn and need for a lot of information.
+But how does then one with this kind of skill set find themselves in a position where they need to conduct data analysis on huge amounts of stock market data?
+
+There is still a lot of hidden potential when it comes to stock market.
+With the arise of the amount of data from social medias and other new sources, there are new ways to analyse the stock data and at the same time there are new uses for the stock market data itself to understand these new sources of data.
+There is a lot of potential for new innovations when it comes to this data.
+Companies who want to benefit from these kind of innovations have their own highly professional teams that have resources to analyze this kind of data in large scale.
+However, the situation is different for smaller startups, which might have great ideas concerning the field but no resources to implement them.
+This is where the need for novice data scientists is and this is where one can find persons who benefit from this thesis the most.
+
+As there exists a lot companies that have products to analyze stock data why would the reader then be building their own pipeline instead of using some ready-made product.
+Stock market analysis is a subject that has been researched for decades now and because of this there exists already a lot ready made tools for it which those who have enough money can use \cite{metastock} \cite{worden}.
+However, with the rise of modern machine learning as the de facto way to conduct stock market analysis, these tools have not grown with this and are usually only made for statisticians or have very limiting capabilities concerning machine learning.
+This makes them not suitable for any data scientist to use who wants to try the latest methods and experiment ideas that have not been done before.
+
+Other good question is that why would the reader then be interested in using methods to analyse the big data instead of using traditional methods that the data analysist would use.
+As the stock market data has been researched for decades, there is already a lot of knowledge about the stock analysis using the timeseries data with statistics.
+This is why the current interest is in using big data with machine learning to learn new things about this field which has been researched a lot.
+
+
+\section{Inaccessibility of big data stock analysis}
+
+Now that we have expanded our typical novice data scientist term and examined the reasons why would they be interested in the field of stock data in big data context, next we are going to examine what are the obstacles these types of people face when trying to start data analysis on stock market data using state of art methods.
+These are not problems that everyone who works in the field faces or do they mean that there is something majorly wrong with the current methods.
+These are more of a problems that can make it harder for new poeple in the field to get their ideas heard.
+
+The problems can be seen to stem from three main factors; the information needed is scattered, the information needed is outdated and the needed information is lacking all together.
+We start by examining the obstacles in basic stock data analysis and then move to the technical side and examine obstacles in big data technologies to implement this analysis.
+
+\subsection{Obstacles in stock data analysis}
+
+As stated before stock data analysis is a subject that has been researched a lot and there exists a lot of materials on the subject that anybody can obtain.
+However, the material that is publicly available can be quite outdated compared to the state of art research.
+Much of the research is can be assumed to be carried by private companies which keep their findings as market secrets which is understandable taking into account their monetary value, but this makes it hard to not invent the wheel over and over again.
+
+The papers published by researchers give us a better look at how, for example, machine learning is used in the stock market analysis.
+The problem with these papers is usually that they report their findings on a very high level usually focusing on theoretical side and keep their actual implementations private \cite{le} \cite{adresic} \cite{islam}.
+So the papers do provide valuable information on the subject but usually leave out important information how to reproduce the models which is vital information especially for the target audience of this thesis.
+
+The problem is somewhat similar in the industrial side, although where in academic papers the theoretical side of algorithms is usually well explained, in industrial public information this side is usually left out.
+The information about industrial pipelines is very limited and usually the information available focuses on promoting some product that the pipeline uses instead of the pipeline itself \cite{palmer} \cite{snively}.
+For novice data scientist this gives a climpse on how the industrial pipelines are implemented, but leaves a lot of details out on what are the algorithms these pipelines implement on data and how they are implemented in practice.
+
+Availability of the actual stock data is also a somewhat of a problem.
+During the rise of internet, stock market data has been publicly available through services such as Yahoo Finance and Google Finance.
+However, as the price of the stock data has grown over the years both of these services have been shut down. \cite{lotter}
+There exists some services which offer the same types of data, but there are still many papers quote the Yahoo Finance as their data source although it has been 2 years since it was shut down \cite{serez2} \cite{le}.
+So the needed stock data can be also hard to obtain.
+
+\subsection{Obstacles in big data frameworks}
+
+The situation of available information is much better on the big data tooling side.
+There are a lot of open-source solutions for many different use cases and these are usually very tested as they are.
+The problems arise when we have to filter the right technologies for the current domain as the amount of information is large.
+If one finally finds the right technologies to their use case, they are faced with a challenge to integrate and run these tools. 
+In this section we are going to examine these problems.
+
+For a novice data scientist the number of possible technologies you can use for stock data analysis can be overwhelming.
+The reason for this is that as there are a lot of technologies which all have different methods of solving their problems, none of these really stand out as the de facto solution for the stock market domain.
+So to choose the perfect solution for each use case can be a tremendous job as there are a lot of different factors to weight in.
+
+This itself is not hard to overcome but what makes this really hard is that although the advantages and disadvantages of a particular technology for one specific purpose is well documented, the integration of one technology to a plethora of others is usually not.
+This is due to the constant development of each technology and the vast amount of different possible integrations.
+So it is really hard for a novice data scientist to pick technologies for their pipelines that seem to be the best solution individually while not leading to a deadend because the chose technologies do not work together.
+
+Once the technologies, that seem to work with the problem instance you have, have been chosen the next step is to run them.
+This is usually documented very well for quickly starting the development on a single machine \cite{kafka} \cite{flume}, but these are usually instructions that are only meant for testing a single instance setup and are far from production ready ways to run the program or even develop it efficiently.
+To put this in other terms, the methods described are not sustainable in the long term.
+What this usually means is that the novice user either naively starts to develop their program on top these instructions that need a lot of revisions in order to run in production or have to spend a lot of time learning the framework and its nuances in order to build themselves a future proof development setup.
+
+In this chapter, we examined the obstacles a lot of novice data scientists can face when starting their journey on big data stock market analysis.
+In the following chapters we will try to tear down these obstacles, while confirming that these problems do exist.
+Our goal is not to solve every problem that is listed here, but instead alleviate some of the burdens that these can introduce to a starting novice data scientist.
+We start by going through the necessary background information that is needed to build a big data pipeline that analyses stock market data.

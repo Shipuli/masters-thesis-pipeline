@@ -1,4 +1,4 @@
-\chapter{Implementing a stock data pipeline}
+\chapter{Implementation}
 \label{chapter:implementation}
 
 %You have now explained how you are going to tackle your problem. 
@@ -14,17 +14,15 @@
 In this chapter we will introduce the software created for this thesis and the challenges faced while developing it.
 This chapter is divided into two parts.
 In the first part we will examine technically what was the end result while quickly commenting on some of the choices that can be seen in the final architecture.
-Because of time constraints and challenges during development we were able to only produce one working pipeline.
+Because of time constraints and challenges during development, there were some parts such as HBase as a storage which we could not develop.
 These challenges are explained in the latter part of this chapter and we continue with them in the following evaluation chapter.
 
 \section{Overview}
 
 In this section we will explain the practical application that was developed.
 We start by addressing some of the deadends that lead to the final pipeline to give reader a clearer view what changed in practice after the previous chapter.
-The final architecture is the end product of this thesis.
 Some of the reasoning why some of the technologies were prioritized leading to not being to test every technology is presented here but more in-depth look at for specific integrations and problems will be examined in the next section.
-Finally in the section 5.1.3, we introduce how the pipeline can be run with any developers local machine.
-
+Finally in the section 5.1.3, we introduce how the pipeline can be run with any novice data scientists local machine.
 
 \subsection{Dead-ends at the start of development}
 
@@ -56,6 +54,7 @@ This is why we decided to discontinue with Casssandra.
 The final architecture can be seen in the figure 5.1.
 The figure presents the main dependencies between the components each arrow usually presenting the flow of data in the system with labels sometimes added to clarify better the relation.
 In the figure each solid rectange represents one actual server with its own process with the exception of rounded rectange to represent notebooks that are stored into the local file system.
+In the case of this thesis these servers were virtual machines but theoretically the system could be run with right configuration with multiple physical machines that are in the same network.
 Rectangles with small dashed lines such as with the spark workers represent that the server can have easily more than one instance allowing horizontal scaling.
 The longer dashed lines here represent bigger entities such as the HDFS cluster to make the figure more readable.
 
@@ -205,7 +204,7 @@ This would be easy to debug if Zeppelin would be a normal maven project as it is
 But with ready-made containers there did not exist such an option.
 
 Apache Zeppelin has official container which were used, but this had to be extended in order to have custom spark-submit client because the versions on spark cluster would conflict.
-When thought afterwards, the whole zeppelin container probably should have been build from scratch as this would've allowed better dependency management with maven.
+When thought afterwards, the whole zeppelin container probably should have been build from scratch as this would have allowed better dependency management with maven.
 
 \subsection{DL4J sbt project}
 
