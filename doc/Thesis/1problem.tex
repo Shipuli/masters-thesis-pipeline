@@ -1,11 +1,11 @@
-\chapter{Motivation}
+\chapter{Requirements}
 \label{chapter:problem}
 
-We start this thesis by examining the problems that a novice data scientist faces when starting their process to implement big data stock market pipeline.
-In this chapter we will expand the problem introduced in the previous chapter and build the motivation on the experiments we will be conducting in the following chapters.
+In this chapter we examine the problems that a novice data scientist faces when starting their process to implement big data stock market pipeline.
+In this chapter we will expand the problem introduced in the introduction chapter and build the requirements for the methology we will proposing in the following chapters.
 We will start by defining the target group that these problems affect the most.
 These problems are not universal and to understand better to whom this thesis is benefitting the most we will be defining the target audience and the reasoning why would they be interested in the subject of this thesis.
-After this we will be defining the problem itself by dividing it to smaller parts and examining these parts individually.
+After this we will be defining the problem itself by dividing it to smaller parts and examining these parts individually turning them to the needed requirements.
 
 \section{Novice data scientist}
 
@@ -14,7 +14,26 @@ We use the term data scientist as it is usually used when talked about a person 
 This is in contrary to data analysist, which is in the same data analysis domain, but works with smaller amounts of data where one does not need to worry about optimization of calculations when the data is processed. \cite{voulgaris}
 Because of this optimization aspect, data scientist must have knowledge not only about complex data analysis methods but also knowledge about developing and programming systems that scale.
 
-Using these terms novice data scientist could be a data analysist which has a knowledge on algorithms and methods that are used to analyze reasonable amounts of data, but these methods do not scale with the data.
+\begin{table}[! htbp]\centering 
+  \caption{Novice data scientist}
+  \begin{threeparttable}
+      \begin{tabular}{|p{2cm}|>{\centering\arraybackslash}p{1.5cm}|>{\centering\arraybackslash}p{1.8cm}|p{2.9cm}|p{3.6cm}|}
+      \hline
+      & Data analysis & Computer Science & Description & Examples \\ \hline
+      Software Developer & Might know some & Knows a lot & Expert at building a software & Computer science graduate*, self-taught employed \\ \hline
+      Data analysist & Knows a lot & Might know some & Expert at data analysis with reasonable amount of data ($<$ 1TB) & Mathematics graduate \\ \hline
+      Novice Data scientist & Knows a lot & Knows at least some & Has interest in both fields but no real in experience in computer science & Mathematics graduate, Starting computer science student* minoring statistics \\ \hline
+      Data scientist & Knows a lot & Knows a lot & Expert at both fields & Mathematics graduate minoring large-scale computing (or vice versa) with 1+ year(s) of relevant worklife experience. \\ \hline
+      \end{tabular}
+      \begin{tablenotes}\footnotesize
+        \item[1] * Graduate here and following meaning bachelor or master level graduate
+        \item[2] * Student here meaning master level student
+    \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+
+To make this a bit clearer we have gathered divided small subset of misleading term to table 3.1 and have divided these on how could they be defined in terms of proficiency in computer science and data analysis.
+Using this table we see that novice data scientist can be a data analysist that might have more interest in computer science.
 As the tooling and methods are very different when the data scales, there are a plethora of things to learn and need for a lot of information.
 But how does then one with this kind of skill set find themselves in a position where they need to conduct data analysis on huge amounts of stock market data?
 
@@ -40,9 +59,11 @@ This is why the current interest is in using big data with machine learning to l
 Now that we have expanded our typical novice data scientist term and examined the reasons why would they be interested in the field of stock data in big data context, next we are going to examine what are the obstacles these types of people face when trying to start data analysis on stock market data using state of art methods.
 These are not problems that everyone who works in the field faces or do they mean that there is something majorly wrong with the current methods.
 These are more of a problems that can make it harder for new poeple in the field to get their ideas heard.
+We will use these problems to define the requirements for our proposed methology in the following chapters.
 
 The problems can be seen to stem from three main factors; the information needed is scattered, the information needed is outdated and the needed information is lacking all together.
 We start by examining the obstacles in basic stock data analysis and then move to the technical side and examine obstacles in big data technologies to implement this analysis.
+Finally we end this chapter with a section that using this knowledge aggregates requirements for the system.
 
 \subsection{Obstacles in stock data analysis}
 
@@ -88,4 +109,48 @@ What this usually means is that the novice user either naively starts to develop
 In this chapter, we examined the obstacles a lot of novice data scientists can face when starting their journey on big data stock market analysis.
 In the following chapters we will try to tear down these obstacles, while confirming that these problems do exist.
 Our goal is not to solve every problem that is listed here, but instead alleviate some of the burdens that these can introduce to a starting novice data scientist.
-We start by going through the necessary background information that is needed to build a big data pipeline that analyses stock market data.
+
+\subsection{Requirements for the methology}
+
+As stated in the introduction, the goal of the methology is to make big data analysis for stock market data more accessible to novice data scientists and as such we want it to fulfil two key goals:
+
+\begin{itemize}
+  \item Make stock big data pipeline building easier for novice data scientist using it
+  \item Make stock big data pipeline building easier for novice data scientist that read about/use the pipelines built using this method
+\end{itemize}
+
+The problems we are trying to solve here are not possible to solve with one person alone.
+This is why we want the methology itself to be able to alleviate these problems if it is used enough and this is why we define the second goal here as it can help us define more meaningful requirements.
+
+As we saw in the previous two sections there are a lot problems that can hinder the development process of a novice data scientist.
+However, we are only going to focus only on a subset of these as we do not have the ability to solve everything although as we will see the other problems do affect our lives.
+The specific problems we want to alleviate and the requirements that are derived from these can be seen in table 3.2.
+To make referencing these requirements in the following parts of the thesis easier, we have labeled these and following requirements with labels R1 - R8.
+
+\begin{table}[! htbp]\centering 
+  \caption{Novice data scientist problems and requirements they impose}
+  \begin{threeparttable}
+      \begin{tabular}{|p{6cm}|p{6cm}|}
+      \hline
+      Problem & Requirement \\ \hline
+      Lack of information/Outdated information on used data sources &  A way to find relevant data sources (R1)\\ \hline
+      Vast amount of possible technologies &  A way to filter relevant technologies (R2)\\ \hline
+      Documentation lack info on building sustainable pipelines & Provide a way to build pipelines that are sustainable (R3) \\ \hline
+      Papers and industrial presentation lack practical information to rebuild the pipelines & Provide a way to build pipelines that are easy to reproduce (R4)\\ \hline
+      \end{tabular}
+  \end{threeparttable}
+\end{table}
+
+As the mapping from novice data scientist problems to requirements is quite trivial and we have already examined the problems in previous chapters we then move to the requirements that the underlying domain imposes.
+We have gathered these requirements in the following list based on the literary research we did on the stock market analysis in the previous chapter:
+
+\begin{itemize}
+  \item Ability to add and ingest multiple data sources (e.g social media feeds) (R5)
+  \item Ability to efficiently store possible big data (R6)
+  \item Ability to efficiently process possible big data (R7)
+  \item Ability to support deep learning models (R8)
+\end{itemize}
+
+The three first requirements are somewhat trivial for a normal big data system, but the last one is the one might propose some restrictions to our choices.
+These are purely selected on based on the state of art research and the thought process on how to enable these methods in the developed pipeline.
+This concludes our chapter for requirements based on the problems novice data scientists face and couple of requirements that the underlying domain imposes.

@@ -267,8 +267,8 @@
 \newcommand{\SUBTITLE}{}
 \newcommand{\FSUBTITLE}{}
 %\newcommand{\SSUBTITLE}{Lilla Vargens universum}
-\newcommand{\DATE}{October 9, 2019}
-\newcommand{\FDATE}{9. lokakuuta 2019}
+\newcommand{\DATE}{December 18, 2019}
+\newcommand{\FDATE}{18. joulukuuta 2019}
 %\newcommand{\SDATE}{Den 18 februari 2018}
 
 % Supervisors and instructors
@@ -416,18 +416,20 @@
 \thesisabstract{english}{
 The world economics revolve around stock markets.
 The information in the stock market does not only represent the current state of economy but it also reflects other phenomenons that affect the prices of the stocks.
-This is why there are constantly new academic studies so that we could understand both global economy and these phenomenons better.
+This is why there are constantly new studies so that we could understand both global economy and these phenomenons better.
 
 The size of the data that the stock market alone produces in a year is in the scale of terabytes.
 In order to analyze this data, tools that can handle this much infomation are necessary.
-Unfortunately, the information about these tools in the context of stock data is scattered, somewhat outdated and hard to find, which can drive away potential valuable research.
-The goal of this thesis is to provide information and tools that can make this analysis more accessible to data analysist.
+Unfortunately, the information about these tools in the context of stock data is scattered, somewhat outdated and hard to find, which can drive away potential valuable innovations.
+The goal of this thesis is to provide information and tools that can make this analysis more accessible to novice data analysist.
 
-This thesis performs a literary research on what is the current state of stock data analysis in big data environment focusing on historical data analysis pipelines and based on this research implements an open-source pipeline that anyone can use.
-The literary study shows that the current trend in stock data analysis is deep learning models giving the pipelines requirement to support these methods.
-In the implementation part we see that running deep learning libraries in distributed enviroment can be quite challenging and provide information about these challenges and how to solve them.
-The resulting pipeline does fullfil most of its requirements, but the results of the study are a bit incomplete without better comparative study.
-
+This thesis performs a literary research on what is the current state of stock data analysis in big data environment focusing on historical data analysis pipelines and based on this proposes a method that could help novice data scientists to build their own pipeline.
+Our study finds that using this method, the resulting pipeline can be build cost-efficiently while keeping the pipeline sustainable and easy to reproduce.
+However, the price of this is that the pipeline still runs on singular hardware without promises of scaling with the data.
+The sample size of our study is also small to make more viable claims, because of time constraints and more research would be needed on the subject.
+%The literary study shows that the current trend in stock data analysis is deep learning models giving the pipelines requirement to support these methods.
+%In the implementation part we see that running deep learning libraries in distributed enviroment can be quite challenging and provide information about these challenges and how to solve them.
+%The resulting pipeline does fullfil most of its requirements, but the results of the study are a bit incomplete without better comparative study.
 }
 %The abstract provides goal, motivation, background, and conclusions of
 %the work. It has to fit to one page together with the bibliographical
@@ -443,13 +445,15 @@ Tämän takia uusia tutkimuksia tehdään jatkuvasti jotta sekä taloutta että 
 Osakemarkkinoiden tuottaman datan määrä vuodessa on teratavujen mittaluokassa.
 Jotta tätä dataa voitaisiin siis tutkia, tarvitaan työkaluja jotka pystyvät toimimaan tämän mittaluokan kanssa.
 Valitettavasti informaatio näistä työkaluista osake datan kontekstissa on hajanaista, jossain määrin vanhentunutta ja vaikeasti löydettävissä, mikä jossain tapauksissa estää mahdollisesti tärkeän analysiin tekemisen.
-Tämän diplomityön tarkoituksena on tarjota tietoa ja työkaluja, jotta tämän tyyppinen tutkimus olisi mahdollisimman helppopääsyistä tutkijoille, jotka eivät ole tämän alan ammattilaisia.
+Tämän diplomityön tarkoituksena on tarjota tietoa ja työkaluja, jotta tämän tyyppinen tutkimus olisi mahdollisimman helppopääsyistä aloitteleville tutkijoille, jotka eivät ole tämän alan ammattilaisia.
 
 Tässä diplomityössä suoritamme kirjallisuuskatsauksen tämän hetken osake datan tutkimukseen big data ympäristössä.
-Keskitymme historialista dataa käsitteleviin järjestelmiin ja toteutamme avoimen lähdekoodin järjestelmän, jota kuka tahansa voi hyödyntää.
-Kirjallisuuskatsaus osoittaa että tämän hetken kehityssuunta osake datan tutkimisessa on deep learning menetelmät, jonka vuoksi järjestelmien on tuettava näitä metodeja.
-Työn kokeellisessa osuudessa huomaamme että deep learning ohjelmistokirjastojen käyttö hajautetussa ympäristössä voi olla hyvin hankalaa ja tarjoamme tietoa siitä mitä kaikkea voi mennä vikaan ja miten korjata nämä.
-Työn tuloksena saamme kehitettyä järjestelmän joka täyttää suurimman osan sille annetuista vaatimuksista, mutta tulokset jäävät hieman vajaavaisiksi, koska vertailevaa testausta ei ehditä toteuttaa.
+Keskitymme historialista dataa käsitteleviin järjestelmiin ja ehdotamme menetelmää, jota alottelevat tutkijat voivat hyödyntää aloittaessaan rakentamaan omia järjestelmiään.
+Huomaamme, että tällä menetelmällä on mahdollista toteuttaa, ilman suuria kuluja, kestävä ja helposti toistettava järjestelmä osakedatan analysointiin, mutta tämän haittapuolena on, että järjestelmä ajetaan vielä yhden fyysisen koneen päällä antamatta mitään lupauksia skaalautuvuudesta.
+Tutkimuksemme otos on myös valitettavan pieni, jotta kunnon johtopäätöksiä voitaisiin vetää, johtuen työlle annetuista rajoitteista ja tämän takia tarvitsisikin enemmän tutkimusta aiheesta.
+%Kirjallisuuskatsaus osoittaa että tämän hetken kehityssuunta osake datan tutkimisessa on deep learning menetelmät, jonka vuoksi järjestelmien on tuettava näitä metodeja.
+%Työn kokeellisessa osuudessa huomaamme että deep learning ohjelmistokirjastojen käyttö hajautetussa ympäristössä voi olla hyvin hankalaa ja tarjoamme tietoa siitä mitä kaikkea voi mennä vikaan ja miten korjata nämä.
+%Työn tuloksena saamme kehitettyä järjestelmän joka täyttää suurimman osan sille annetuista vaatimuksista, mutta tulokset jäävät hieman vajaavaisiksi, koska vertailevaa testausta ei ehditä toteuttaa.
 
 }
 
@@ -533,9 +537,9 @@ Työn tuloksena saamme kehitettyä järjestelmän joka täyttää suurimman osan
 % ------------------------------------------------------------------
 \input{1introduction.tex}
 
-\input{1problem.tex}
-
 \input{2background.tex}
+
+\input{1problem.tex}
 
 % \input{3environment.tex}
 

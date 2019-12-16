@@ -1,4 +1,4 @@
-\chapter{Implementation}
+\chapter{Use case}
 \label{chapter:implementation}
 
 %You have now explained how you are going to tackle your problem. 
@@ -11,38 +11,40 @@
 %work. Sometimes the content of the environment chapter is combined
 %together with the implementation chapter.
 
-In this chapter we will introduce the software created for this thesis and the challenges faced while developing it.
-This chapter is divided into two parts.
+In this chapter we will report the implementation for the specific use case of the methology we described in the previous chapter.
+This chapter can be divided into two parts.
 In the first part we will examine technically what was the end result while quickly commenting on some of the choices that can be seen in the final architecture.
-Because of time constraints and challenges during development, there were some parts such as HBase as a storage which we could not develop.
-These challenges are explained in the latter part of this chapter and we continue with them in the following evaluation chapter.
+We will also explain how the end result can be run in this part.
+The code for the whole system is available at https://github.com/Shipuli/masters-thesis-pipeline per our final step of the methology.
+Then as there were a lot of challenges during the implementation, these challenges are explained in the latter part of this chapter and we continue with them in the following discussion chapter.
 
-\section{Overview}
+%\section{Overview}
 
-In this section we will explain the practical application that was developed.
-We start by addressing some of the deadends that lead to the final pipeline to give reader a clearer view what changed in practice after the previous chapter.
-Some of the reasoning why some of the technologies were prioritized leading to not being to test every technology is presented here but more in-depth look at for specific integrations and problems will be examined in the next section.
-Finally in the section 5.1.3, we introduce how the pipeline can be run with any novice data scientists local machine.
+%In this section we will explain the practical application that was developed.
+%We will first examine the more detailed architecture that was developed and follow this with a section where go
+%We start by addressing some of the deadends that lead to the final pipeline to give reader a clearer view what changed in practice after the previous chapter.
+%Finally in the section 5.1.3, we introduce how the pipeline can be run with any novice data scientists local machine.
 
-\subsection{Dead-ends at the start of development}
+%\subsection{Dead-end at the start of development}
 
-Two technologies that were mentioned in the previous chapter were eliminated at the start of the development of each.
-These were Apache Flume and Apache Cassandra.
-As both seemed to lead to a dead-end in the development and there existed seemingly better alternatives than these, focus was moved to other technologies.
+%Two technologies that were mentioned in the previous chapter were eliminated at the start of the development of each.
+%These were Apache Flume and Apache Cassandra.
+%As both seemed to lead to a dead-end in the development and there existed seemingly better alternatives than these, focus was moved to other technologies.
 
-Apache Flume was supposed to be used as a component in the ingestion step, but due to its charasteristic of being mostly aimed at data which could be fetched in log form, it could not be used with the REST APIs that most of the data services use.
-Flume also did not seem to have any native ways to connect to storages such as Cassandra.
-There exists some ready-made solutions for this, but these were unmantained and seemed possible dead-ends.
-This is why Flume was ruled out.
+%Apache Flume was supposed to be used as a component in the ingestion step, but due to its charasteristic of being mostly aimed at %data which could be fetched in log form, it could not be used with the REST APIs that most of the data services use.
+%Flume also did not seem to have any native ways to connect to storages such as Cassandra.
+%There exists some ready-made solutions for this, but these were unmantained and seemed possible dead-ends.
+%This is why Flume was ruled out.
 
-Apache Cassandra was dropped from the development mostly because integrating it with other services would have required a lot of extra work. 
-Further examination of Cassandra also showed that Cassandra is not very good choice for this specific purpose that we want to use it for.
-Cassandra is known for its ability to write enormous volumes of data, but when it is time to read from the storage the task becomes non-trivial.
-Reading from Cassandra is based on the Cassandras query language, CQL, which allows somewhat efficient queries but you have to define these high perfomance queries at the time you create tables for data. \cite{dronavalli}
-Because our pipeline should be used mostly by analysist who can have varying queries into the storage this raises a challenge for future development.
-This is why we decided to discontinue with Casssandra.
+%We chose Apache Cassandra for storage but quickly noticed that it probably did not fit to the pipeline.
+%Apache Cassandra was dropped from the development mostly because integrating it with other services would have required a lot of extra work. 
+%Further examination of Cassandra also showed that Cassandra is not very good choice for this specific purpose that we want to use it for.
+%Cassandra is known for its ability to write enormous volumes of data, but when it is time to read from the storage the task becomes non-trivial.
+%Reading from Cassandra is based on the Cassandras query language, CQL, which allows somewhat efficient queries but you have to define these high perfomance queries at the time you create tables for data. \cite{dronavalli}
+%Because our pipeline should be used mostly by analysist who can have varying queries into the storage this raises a challenge for future development.
+%This is why we decided to discontinue with Casssandra.
 
-\subsection{Final Architecture}
+\section{Final Architecture}
 
 % for screenshots
 \begin{figure}[ht!]
@@ -59,7 +61,7 @@ Rectangles with small dashed lines such as with the spark workers represent that
 The longer dashed lines here represent bigger entities such as the HDFS cluster to make the figure more readable.
 
 The pipeline starts from the data source that acts as the kafka producer.
-It reads the data from a source, in this example case from JSON files, and produces the data into a kafka topic. 
+It reads the data from a source, in this example case from JSON files that were exported from IEX, and produces the data into a kafka topic. 
 It also creates the needed kafka topics on startup using Kafkas admin API.
 Although most of the kafka documentation recommends using the command line client, this did not seem production-ready way to do this as this decouples the topic creation logic from the actual producer and would need excessive scripting in order to automate this process which did not seem as maintainable as the admin API approach.
 This is why admin API was used in the data source server. 
@@ -97,7 +99,7 @@ The version of hadoop is specially tricky as its clients are used in multiple pa
 This is why there can be other versions than this in the pipeline e.g in the spark cluster, but as they do not currently cause any visible errors and due to the time constraints that this project has, the versions can mismatch for now.
 
 After the HDFS cluster comes the analysis part of the pipeline which has Spark cluster in the middle and two options to run analysis code on it.
-The application part allows writing production grade scala applications that can be run like any normal scala spark application.
+The application part allows writing production grade Scala applications that can be run like any normal Scala Spark application.
 The Zeppelin is a Apache Zeppelin instance which allows writing and running notebooks that can be saved into local file system for distribution.
 Both approaches submit the spark application to spark using spark-submit script and the DL4J communicates with itself with its own parameter server.
 
@@ -125,12 +127,13 @@ Spark mainly supports scala 2.12, because as of 2.4.1 version of spark, the vers
 However, Zeppelin does not support Scala version 2.12 so the only version of Scala that still works with all of the latest releases of these two technologies is 2.11 which is why it had to be chose for the version.
 Java is still version 8 which is already at its end of life stage, but it was used as it is currently the safest way to ensure that your code runs correctly.
 
-\subsection{Usage}
+\section{Usage}
 
-The initial idea of the project was to provide modular design for the pipeline where the user can cut and paste the technologies to the pipeline making it easy to produce multiple different pipelines for comparison.
-That is why the there is a initialization script called pipeline.sh.
+%The initial idea of the project was to provide modular design for the pipeline where the user can cut and paste the technologies to the pipeline making it easy to produce multiple different pipelines for comparison.
+%That is why the there is a initialization script called pipeline.sh.
+We made a initialization script for this case in case we had time to test multiple pipelines.
 This is a command-line interface that asks user what technologies they want and builds a docker-compose file into build folder with all the necessary files.
-Sample usage is depicted in the figure 4.2.
+%Sample usage is depicted in the figure 4.2.
 Only thing user has to do before running the script is to download manually the Kafka Connect component from confluent website and copy its content to a location noted in the project readme. 
 This step is mandatory because unfortunately Kafka Connect did not have public distribution that would have allowed access without authentication.
 If this component is missing during the build, the initialization script notifies user about this before continuing further.
@@ -162,6 +165,7 @@ The reason for this was mostly features that were not documented well and other 
 There was a lot of unique problems that did not have any documented solutions on the internet which made solving them very time consuming.
 In this section we will be going through the ones that took most time to solve and present the solutions at high level to these problems.
 More precise technical problems with their solutions can be found in this thesis' git repository that contains all the practical results.
+The purpose of this section is to highlight the problems that do exist and show that our methology cannot really directly solve these because of their complexity, but can alleviate them indirectly if information is shared more.
 
 \subsection{Kafka-HDFS integration}
 
@@ -252,5 +256,5 @@ Raising the number of epochs we noticed that this occured at random, and unlike 
 The code that raises this error handles parallel code so if we were to make conjectures from this it would seem like there would be an error with shared memory access in some part of the asynchronous code.
 However at this point, the time allocated to this project was already running out so we could not confirm this definitely.
 
-Now that we have seen what we were able to implement during this thesis we move on to evaluate the quality of this software.
-We will also discuss more about what went well, what went wrong and what could have been done better.
+Now that we have seen what we were able to implement during this thesis we move on to evaluate methology we used to plan this software.
+We will also discuss more about what went well, what went wrong and what could have been improved.

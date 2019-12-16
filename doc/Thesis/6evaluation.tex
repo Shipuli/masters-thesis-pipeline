@@ -31,83 +31,139 @@
 %your professor that you have really understood some non-trivial
 %aspects of the methods you used\ldots
 
-In this final chapter before conclusion, we will be validating that the pipeline that was build in the previous chapter is more useful to novice data scientists than the ones that are somewhat badly reported.
+In this final chapter before conclusion, we will be evaluating our methology through the pipeline that was build in the previous chapter.
 We will be using the qualitive metrics that we defined in the planning chapter before implementation.
-We will end this chapter by contemplating on how this pipeline and process could improved in the future.
+Finally, we end this chapter by contemplating on how this pipeline and process could improved in the future.
 
-\section{Method validation}
+\section{Method evaluation}
 
-In this section we will be focusing on the three metrics we introduced previously.
-We will be comparing our way of building with the two existing pipelines to see which are the advantages and disadvantages of using one for novice data scientist.
+%In this section we will be focusing on the three metrics we introduced previously.
+We have divided this evaluation strictly to advantages and disadvantages, and we will be using the metrics that we depicted in the methology chapter.
+We have summarized these in the figure 6.1 and we will be opening up these in the following sections.
+We will be comparing our way of building the pipeline with the two somewhat similar existing pipelines to see which are the advantages and disadvantages of using one for novice data scientist.
 
-\subsection{Reproducibility}
+\begin{table}[! htbp]\centering 
+  \caption{Advatanges and disadvantages of the methology}
+  \begin{threeparttable}
+      \begin{tabular}{|p{6cm}|p{6cm}|}
+      \hline
+      Advantages & Disadvantages \\ \hline
+      Cost efficient & No promises on scaling/Runs only on one hardware \\ 
+      Sustainable & Docker introduces more complexity \\ 
+      Easy to reproduce & \\ \hline
+      \end{tabular}
+  \end{threeparttable}
+\end{table}
 
-As stated before, in this characteristic we will be focusing on how much manual work must the user do in order to run the pipeline.
+\subsection{Advantages}
+
+Let us start with the most obvious advantage of using this method: it is very cost efficient when it comes to running the pipeline.
+No cloud subscription or local cluster is needed to run and test the pipeline.
+As we saw in the previous chapter, this methology does not erase the problems that arise integrating the technologies, but using it does erase the cost of debugging this against cloud platform where every run of the program costs money.
+We cannot make direct comparisons with academic pipeline as we do not have exact information on if the pipeline is run on a local cluster but we can say that the pipeline is much more cheaper than the industrial pipeline.
+
+The sustainability of the pipeline is alson an advantage in this case.
+Compared to the local academic pipeline, where each components version has to be manually confirmed when it is installed and updating components means that everyone who wants to run newer versions of the pipeline has to do the same, our version does not suffer from these problems as these are defined in the docker configuration files.
+Compared to the industrial pipeline, however, the process is probably taken into step further as amazon can keep the components better up to date by automatically updating minor versions, which our current methods do not necessarily do.
+Of course, this depends a lot on the docker image provider and their methology on versioning, but in our example case this seemed to provide efficient way to handle versioning.
+
+The reproducibility of the pipeline is an another advatage.
 Using docker and docker compose to build the pipeline we were able to limit the number of external dependencies to only these two when a new user wants to run the pipeline and with only couple minor exceptions we were able to automate the local setting up process.
 Also the usage of zeppelin notebooks allows the user to share their models with anybody who has the same pipeline or other means to run them.
-
 When we compare this to the academic pipeline which had all of its components as local dependencies, the amount of possible work is greatly smaller as the user does not have to install each component to their local machine and worry about their versions.
 As what comes to the automation of the setting up the pipeline, we have no information on this to make any reasonable claims.
-
 When compared to the industrial pipeline, although not reported, we can pretty much assume that the industrial pipeline is highly reproducible as there are probably ten to hundred employees working with the pipeline and in this sense is probably a lot more reproducible than the pipeline presented here.
 This could be due to inherent nature of containarized applications in AWS and the tooling that continuous integration tools and Amazon provide.
 
-\subsection{Sustainability}
+\subsection{Disadvantages}
 
-Compared to the local academic pipeline, where each components version has to be manually confirmed when it is installed and updating components means that everyone who wants to run newer versions of the pipeline has to do the same, our version does not suffer from these problems as these are defined in the docker configuration files.
-Compared to the industrial pipeline, however, the process is probably taken into step further as amazon can keep the components better up to date by automatically updating minor versions, which our current methods do not necessarily do.
-This depends a lot on the docker image provider and their methology on versioning.
+For the disadvantages, clearly, our pipeline has only run on one machine and we still have no proves that it would scale to big data order of magnitude.
+Compared to the industrial pipeline we can clearly state that our pipeline does not yield same kind of efficiency as a pipeline run on cloud.
+This is a clear disadvantage of this methology.
+
+Related to this is the inherent nature of running the pipeline only on one machine.
+The virtual distributed environment does allow us to simulate networks that are needed to configure the system, but the underlying hardware does not allow us test it with an amount of data that is too much for one machine.
+
+Adding docker to the mix of technologies does bring a bit more complexity to the system.
+As we saw in the previous chapter this can introduce quite challenging problems when trying to integrate these technologies together.
 
 
-\subsection{Novice friendliness}
+%Currently the de facto way to train machine learning models is to use graphics cards as they provide tremendously better perfomance when compared to CPUs.
+%Our pipeline build with this method, however, does not inherently support this.
+%So the amount of computers needed to run the training on this pipeline is greatly larger if we wanted to produce same perfomance as even single-machine GPU provides. 
 
-With our choices on docker and scala we have achieved somewhat easier pipeline to handle for novices.
-With Docker it was possible to abstract away a lot of the complexity which there was to run the different components.
-This of course increased the amount of work to build the pipeline but once it was built it could be run without any knowledge on underlying system.
+%\subsection{Reproducibility}
 
-The choice of Scala was reasoned because of its interoperativity with spark and support for multiple paradigms.
-It also ran over JVM which made it easier to justify it as all the other technologies ran too.
-However as seen with the challenges in the previous chapter, somewhat better choice for novices could have been Python.
-Both of these languages are taught as beginner languages in Aalto University, but Python might have had better support for deep learning models although integrating this with Spark would have probably still introduced challenges.
+%As stated before, in this characteristic we will be focusing on how much manual work must the user do in order to run the pipeline.
+%Using docker and docker compose to build the pipeline we were able to limit the number of external dependencies to only these two when a new user wants to run the pipeline and with only couple minor exceptions we were able to automate the local setting up process.
+%Also the usage of zeppelin notebooks allows the user to share their models with anybody who has the same pipeline or other means to run them.
 
-When compared to the academic pipeline, the amount of work to build this first time, was probably greater than with the academic pipeline because Docker brought one more component to integrate with every other component.
-This could be seen in the challenges faced that we examined in the previous chapter.
+%When we compare this to the academic pipeline which had all of its components as local dependencies, the amount of possible work is greatly smaller as the user does not have to install each component to their local machine and worry about their versions.
+%As what comes to the automation of the setting up the pipeline, we have no information on this to make any reasonable claims.
 
-Compared to the industrial pipeline, with the help of docker we were able to make the pipeline easy to run locally in a virtually distributed setting without spending any money.
-This can be very crucial difference because as stated before, our target group definitely does not have as much resources than the company running the reference industrial pipeline.
+%When compared to the industrial pipeline, although not reported, we can pretty much assume that the industrial pipeline is highly reproducible as there are probably ten to hundred employees working with the pipeline and in this sense is probably a lot more reproducible than the pipeline presented here.
+%This could be due to inherent nature of containarized applications in AWS and the tooling that continuous integration tools and Amazon provide.
 
-\section{Reflecting challenges}
+%\subsection{Sustainability}
 
-Next we question, whetever the challenges faced during development were significant in the sense that they could actually cause harm to novice data scientists.
+%Compared to the local academic pipeline, where each components version has to be manually confirmed when it is installed and updating components means that everyone who wants to run newer versions of the pipeline has to do the same, our version does not suffer from these problems as these are defined in the docker configuration files.
+%Compared to the industrial pipeline, however, the process is probably taken into step further as amazon can keep the components better up to date by automatically updating minor versions, which our current methods do not necessarily do.
+%This depends a lot on the docker image provider and their methology on versioning.
 
-With the Kafka-HDFS integration we can argue that the necessary information was available online and anyone looking to build the integration could have found this with little to none research, which is absolutely correct.
-From the ocean of possible alternatives, we could have found other solutions also such as Flume which some were suggesting.
-This is not the worst kind of problem there is as the information, although scattered, is available in the internet.
-The actual problem here is that because there is no clear consensus on what to use and what are the advantages and disadvantages over another, the process of picking right technology can be very stressful.
-What can be said about implementing this integration itself is that we can critize our solution to run it outside Confluent environment making the environment itself non-friendly for novices, in which case the lack of documentation is only a problem caused by ourselves to ourselves, which is true.
 
-With the Zeppelin dependency management problems the real problems started.
-Instead of giving easy to understand way to handle the dependency errors, user is mostly left with learning maven dependency management which is hidden inside the zeppelin itself.
-Probably the best solution would have been to build the service on top of docker from ground up.
-This, however, is far from novice friendly way to use the component as it needs a lot of external knowledge to produce a valid setup which is why the usage of the software itself becomes very hard for novices.
+%\subsection{Novice friendliness}
 
-The DL4J with Scala using sbt, the major thing here to be questioned is the choice of sbt.
-As there was no up to date DL4J project with sbt we can make a conclusion that sbt is not relevant in this field.
-sbt, however, is the most well known build tool for Scala so if a library has a scala support it would not be far fetched to hope a working up to date example of this as most novices really do need them as reference to build their own applications.
+%With our choices on docker and scala we have achieved somewhat easier pipeline to handle for novices.
+%With Docker it was possible to abstract away a lot of the complexity which there was to run the different components.
+%This of course increased the amount of work to build the pipeline but once it was built it could be run without any knowledge on underlying system.
 
-Finally we had the problem with running the DL4J on a docker based Spark instance with Zeppelin.
-This as a combination is definitely not the combination that probably any of the singular component makers probably thought which is reasonable as there are so many possible options.
-This highlights well the challenges that come from having so many different possible options that are recommended by themselves without context.
-One can question whetever we did caused this to ourselves and as the stack can be thought very exotic the blame is all ours in this sense, but given the reasoning we used for each choice in this stack, we think that is reasonable to assume that this could happen anyone with the same kind of requirements.
-Of course a lot of this could have been avoided if Scala was replaced for example with Python but these are assumptions we cannot prove to be wrong or right.
+%The choice of Scala was reasoned because of its interoperativity with spark and support for multiple paradigms.
+%It also ran over JVM which made it easier to justify it as all the other technologies ran too.
+%However as seen with the challenges in the previous chapter, somewhat better choice for novices could have been Python.
+%Both of these languages are taught as beginner languages in Aalto University, but Python might have had better support for deep learning models although integrating this with Spark would have probably still introduced challenges.
+
+%When compared to the academic pipeline, the amount of work to build this first time, was probably greater than with the academic pipeline because Docker brought one more component to integrate with every other component.
+%This could be seen in the challenges faced that we examined in the previous chapter.
+
+%Compared to the industrial pipeline, with the help of docker we were able to make the pipeline easy to run locally in a virtually distributed setting without spending any money.
+%This can be very crucial difference because as stated before, our target group definitely does not have as much resources than the company running the reference industrial pipeline.
+
+%\section{Reflecting challenges}
+
+%Next we question, whetever the challenges faced during development were significant in the sense that they could actually cause harm to novice data scientists.
+
+%With the Kafka-HDFS integration we can argue that the necessary information was available online and anyone looking to build the integration could have found this with little to none research, which is absolutely correct.
+%From the ocean of possible alternatives, we could have found other solutions also such as Flume which some were suggesting.
+%This is not the worst kind of problem there is as the information, although scattered, is available in the internet.
+%The actual problem here is that because there is no clear consensus on what to use and what are the advantages and disadvantages over another, the process of picking right technology can be very stressful.
+%What can be said about implementing this integration itself is that we can critize our solution to run it outside Confluent environment making the environment itself non-friendly for novices, in which case the lack of documentation is only a problem caused by ourselves to ourselves, which is true.
+
+%With the Zeppelin dependency management problems the real problems started.
+%Instead of giving easy to understand way to handle the dependency errors, user is mostly left with learning maven dependency management which is hidden inside the zeppelin itself.
+%Probably the best solution would have been to build the service on top of docker from ground up.
+%This, however, is far from novice friendly way to use the component as it needs a lot of external knowledge to produce a valid setup which is why the usage of the software itself becomes very hard for novices.
+
+%The DL4J with Scala using sbt, the major thing here to be questioned is the choice of sbt.
+%As there was no up to date DL4J project with sbt we can make a conclusion that sbt is not relevant in this field.
+%sbt, however, is the most well known build tool for Scala so if a library has a scala support it would not be far fetched to hope a working up to date example of this as most novices really do need them as reference to build their own applications.
+
+%Finally we had the problem with running the DL4J on a docker based Spark instance with Zeppelin.
+%This as a combination is definitely not the combination that probably any of the singular component makers probably thought which is reasonable as there are so many possible options.
+%This highlights well the challenges that come from having so many different possible options that are recommended by themselves without context.
+%One can question whetever we did caused this to ourselves and as the stack can be thought very exotic the blame is all ours in this sense, but given the reasoning we used for each choice in this stack, we think that is reasonable to assume that this could happen anyone with the same kind of requirements.
+%Of course a lot of this could have been avoided if Scala was replaced for example with Python but these are assumptions we cannot prove to be wrong or right.
 
 \section{Future improvements}
 
 The lack of reference points made it hard to compare this way of building a pipeline with other possible ways.
 Hopefully in the future, the information about these systems would become more open so that we could better understand them, but until then we have to work with what we have.
+The use of only one example is also a clear point of improvement as it does not prove much about the functionality of our methology.
+More specific cases would be needed to make more believable deductions.
 
-Other improvements that could have been done is that the model training could have been configured to run on GPU which is the current de facto way to train machine learning models.
+For the methology itself, better instructions on how to deploy the pipeline to the cloud would have probably solved a lot of disadvantages that we saw in the previous section.
+Also a better instructions on running the pipeline in distributed GPU environment would have probably greatly improved the efficiency of model training.
 Unfortunately due to lack of time this was not possible, but would be a great way to improve the information here as there is not that many examples online of this kind of process.
+
 
 %\section{Perfomance metrics}
 

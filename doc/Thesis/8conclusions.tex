@@ -10,27 +10,25 @@
 
 %For making PDF/A version requested by the Aalto Library, open the end result pdf file in Acrobat and store it as PDF/A. Then verify the result (everything should be fine, at least as PDF/A-2b version works).
 
-In this thesis, we examined big data pipelines to analyze stock market data from the point of view of a novice data scientist.
-We examined what are the challenges that novice data scientists face when starting their development.
-This was examined from both the stock analysis side and the big data technology side.
-Here we saw that the available practical information on stock analysis is very limited.
-In the big data technology side the problems were mostly the lack of intermediate information or the fact that it is very scattered.
+In this thesis, we examined big data pipelines that analyze stock market data from the point of view of a novice data scientist.
+We examined what are the challenges that novice data scientists face when starting their development of these kind of pipelines and this was examined from both the stock analysis side and the big data technology side.
+In the stock analysis side we saw that the available practical information on stock analysis is very limited, whereas in the big data technology side the problems were mostly due to the lack of intermediate level information or the fact that it is very scattered.
 
 We conducted literary research on current trends on methods that are used to analyze stock market data.
 From this we saw that deep learning models are currently the driving force in stock market analysis.
-Other statistic methods are also used with conjuction of data from other varying sources.
+Other statistic methods are also used with conjuction of big data from other varying sources.
 These methods are not only used to predict prices in hopes for profit, but can also be used to analyze e.g causalities in other phenomenons.
 
 We researched what are the technologies currently used in pipelines that analyze stock market data covering both academic and industrial use and saw that public information about these is quite limited.
 With the information publicly available, we saw that usually only the analysis phase was reported and other aspects of the systems were dismissed.
 These other aspects were most of the time monitoring of the system, but also ingestion and storage were not reported in many cases.
 
-We planned and implemented a basic stock data analysis pipeline based on the results from the previous literary studies and technologies that could help novice data scientists to develop their systems in the future.
+Based on the requirements set by our target group and the current big data stock analysis enviroment, we proposed a five step method to help novice data scientists build big data pipelines for stock analysis.
 Our goal was to bring down the gap between beginner level documentation and corporate level complex systems and highlight the problems that novice data scientists could face while developing such a system.
-We were able to build such a pipeline and report multiple significant challenges while developing the pipeline which could affect our target group.
-We validated the pipeline using 3 different qualitive metrics and compared the results with 2 different existing pipelines.
-We saw that each one had its advantages and disadvantages depending on the metric.
-We also questioned the problems we faced whetever these were something that novice data scientists could face and saw that this was highly likely.
+
+We provided a experimental use case and using our method we were able to build such a pipeline and report multiple significant challenges while developing the pipeline which could affect our target group.
+We saw from this use case that while our method makes the building of a pipeline more cost efficient and the end result seems to be quite sustainable and easy to produce, it also might add challenges and complexity to the system because of our technology choices.
+However, as our sample size was only one in this case, further research would be needed to make viable claims.
 
 In the future, hopefully, more information can come available if and if these technologies gain popularity and the role of big data grows.
 Until then we have to cope with the information available and just try to produce more information to make the field more accessible for new novice data scientists.

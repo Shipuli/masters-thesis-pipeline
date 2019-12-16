@@ -9,32 +9,45 @@ The stock can grow in value, which allows the investor to sell the stock in high
 The price of the stock is simply determined by the law of supply and demand. 
 If somebody is willing to pay a higher price for the stock then the price of the stock can grow.
 Because of this the stock market is in continuous fluctuation where people are selling and buying the stocks with the price they think the stock is worth using stockbrokers as the middleman. \cite{person}
-All of this has lead to the question, how can we invest most optimally into stocks?
-This is where the following computational methods come in. 
+%All of this has lead to the question, how can we invest most optimally into stocks?
+%This is where the following computational methods come in. 
 
-There are many strategies on how to invest into these stocks which depend on multiple factors such as; how much do you expect to profit with your investment, how much are you willing to take risk, do you want to make money by selling the stocks or by receiving dividends and so on.
-The underlying principle with every strategy is to minimize the risk you need to take in order to gain as much as profit as possible.
-Some of the strategies are based on subjective evaluation of the companies, but more technical strategies use metrics that are calculated from the financial statistics or the real-time market values.
-Strategies using the former data are called fundamental analysis and the strategies using latter data technical analysis.
-Neither of these approaches can predict the future of the market, but can statistically decrease the probability of larger losses in the market for the investor altough the probability of large losses is still not zero with these methods. \cite{fox}
+When talking about stock analysis, people usually connect this with making profit the most optimal way.
+However, stock analysis can be much more than this.
+Because of the nature of stock market, where buyers define the actual price of the individual stock, stock market reflects a lot more information than one would think.
+This hidden information can help us understand a lot of other phenomenoms that can influence stock market and this understanding can help us develop new innovations.
 
-Fundamental analysis is based on the idea that each stock has a intrinsic value that can be larger than the actual price of the stock in the market and buying these will eventually lead to profits.\cite{sohnke}
-The fundamental analysis focuses on the financial metrics that consist of companys overall statistics.
-These are for example how much the company has made profit, how much the company has paid dividends and what is companys cash flow.
-These tell a lot about the growth of the company and how the future of the company looks like.
-These metrics are usually published quarterly four times a year and present more long-term statistics about the company.
-Because of this, the amount of data these values present is quite small in terms of space.
+Unfortunately, because of the monetary gains one can get from analysing stock data, publicly available information of the state of art stock analysis is quite hard to get.
+This kind of information is usually kept private by companies that gain from them.
+Innovating new ways to analyse stock is becoming harder and harder as breaking into the field needs more and more resources.
 
-The technical analysis that focuses on the real-time market values, on the other hand, needs new data almost daily.
-Stock exchanges are usually open from morning, opening around 8 to 10am, until evening, closing around 5 to 7pm on weekdays.
-Before and after this there are more limited pre- and after-hours trading which lasts usually around 1 to 2 hours depending on the exchange in which more limited stock trades can be made.
-During these hours multiple values are recorded on the prices of the stock from which the most important ones being: the highest price the stock was sold, the highest price the stock was sold and the number of stocks traded during the time interval.
-The technical analysis focuses on finding recognizable patterns through this data. \cite{murphy}
-Where the data used by the fundamental analysis was relatively small, these values can generate gigabytes of raw data in a week.
+In this thesis, we try to alleviate the effort needed for new people start their learning process in this field and try to enable more smaller scale individuals to get in this field.
+But first, in order to get a better understanding of how complex these systems can be, we are going to look stock analysis through fictional but realistic application scenario.
+We would like to note that, this thesis will be focusing only on the part of the depicted application, but the idea of the following section is to give the reader better overall view of the underlying domain.
 
-Developing a system that can be used to conduct technical analysis means that the system should be planned to be able to handle large amounts of these data as time progresses.
-As such task is not trivial, the goal of this thesis is to provide developers and researchers, who want to analyse this data efficiently, basic knowledge and tools on what are the best current solutions on handling this data.
-With this knowledge these data scientists can save considerable amount of time without the need of trial and error when developing this kind of system from the ground up.
+%There are many strategies on how to invest into these stocks which depend on multiple factors such as; how much do you expect to profit with your investment, how much are you willing to take risk, do you want to make money by selling the stocks or by receiving dividends and so on.
+%The underlying principle with every strategy is to minimize the risk you need to take in order to gain as much as profit as possible.
+%Some of the strategies are based on subjective evaluation of the companies, but more technical strategies use metrics that are calculated from the financial statistics or the real-time market values.
+%Strategies using the former data are called fundamental analysis and the strategies using latter data technical analysis.
+%Neither of these approaches can predict the future of the market, but can statistically decrease the probability of larger losses in the market for the investor altough the probability of large losses is still not zero with these methods. \cite{fox}
+
+%Fundamental analysis is based on the idea that each stock has a intrinsic value that can be larger than the actual price of the stock in the market and buying these will eventually lead to profits.\cite{sohnke}
+%The fundamental analysis focuses on the financial metrics that consist of companys overall statistics.
+%These are for example how much the company has made profit, how much the company has paid dividends and what is companys cash flow.
+%These tell a lot about the growth of the company and how the future of the company looks like.
+%These metrics are usually published quarterly four times a year and present more long-term statistics about the company.
+%Because of this, the amount of data these values present is quite small in terms of space.
+
+%The technical analysis that focuses on the real-time market values, on the other hand, needs new data almost daily.
+%Stock exchanges are usually open from morning, opening around 8 to 10am, until evening, closing around 5 to 7pm on weekdays.
+%Before and after this there are more limited pre- and after-hours trading which lasts usually around 1 to 2 hours depending on the exchange in which more limited stock trades can be made.
+%During these hours multiple values are recorded on the prices of the stock from which the most important ones being: the highest price the stock was sold, the highest price the stock was sold and the number of stocks traded during the time interval.
+%The technical analysis focuses on finding recognizable patterns through this data. \cite{murphy}
+%Where the data used by the fundamental analysis was relatively small, these values can generate gigabytes of raw data in a week.
+
+%Developing a system that can be used to conduct technical analysis means that the system should be planned to be able to handle large amounts of these data as time progresses.
+%As such task is not trivial, the goal of this thesis is to provide developers and researchers, who want to analyse this data efficiently, basic knowledge and tools on what are the best current solutions on handling this data.
+%With this knowledge these data scientists can save considerable amount of time without the need of trial and error when developing this kind of system from the ground up.
 
 % for screenshots
 \begin{figure}[ht]
@@ -46,9 +59,18 @@ With this knowledge these data scientists can save considerable amount of time w
 \section{Application scenario}
 % research and engineering questions (why do you have to do it and why it is new)
 
-To have a better picture what are the challenges of developing a system for technical analysis are, we will next look at a example case.
-This is to give the reader more complete view of a system that handles stock market data analysis.
-After this, for the rest of the thesis, we are going to focus on a part of this system, but the purpose of this example is to give a better view of the system as a whole in order to understand some of the requirements that these other components give to the focus of this thesis.
+In order to understand the system depicted below, we need to understand couple of key terms.
+Stock analysis can be divided into two overlapping categories: fundamental analysis and technical analysis.
+Fundamental analysis is based on the idea that each stock has a intrinsic value that can be larger than the actual price of the stock in the market and buying these will eventually lead to profits.\cite{sohnke}
+Fundamental analysis is usually based on financial metrics and from a computational perspective the amount of data needed is not that large.
+The technical analysis, on the other hand, focuses on the real-time market values and needs new data constantly.
+This the kind of analysis where the amount of data can grow tremendously.
+The technical analysis focuses on finding recognizable patterns through this data. \cite{murphy}
+
+%To have a better picture what are the challenges of developing a system for technical analysis are, we will next look at a example case.
+%The system we next
+%This is to give the reader more complete view of a system that handles stock market data analysis.
+%After this, for the rest of the thesis, we are going to focus on a part of this system, but the purpose of this example is to give a better view of the system as a whole in order to understand some of the requirements that these other components give to the focus of this thesis.
 
 Somewhat normal system for analysing both fundamental and technical analysis is presented in figure 1.
 In the figure, the components marked with solid lines represent the core system functions, and the dashed lines represent add-on functionalities that should be possible to extend into the system in the future.
@@ -120,13 +142,13 @@ This thesis plans to alleviate these aspects by providing aggregated information
 %Examples of this kind of papers are \cite{wu}, \cite{aghakhani} and \cite{kao}.
 %So one of the goals of this thesis would be to bring more comprehensive picture of stock data pipelines. 
 
-The research questions that this thesis tries to answer are: What makes stock analysis possibly inaccesible?, What kind of challenges in practice novice data scientists face when building a modern big data pipeline for stock analysis? and How to build a pipeline that novice data scientist can use or benefit from?
+The research questions that this thesis tries to answer are: What is the current state of art in big data stock market analysis?, What makes stock analysis possibly inaccesible for novice data scientists? and How to build a pipeline that novice data scientist can use or benefit from?
 
-
-With the first research question, we want to understand what are the problems with the current environment for big data analytics on stock data for novice data scientists.
+For the first research question, we will be conducting a literary research on both academic and industrial stock market analysis using big data methods.
+With the second research question, we want to understand what are the problems with the current environment for big data analytics on stock data for novice data scientists.
 For this, we will be conducting literary study on the subject and we will analyse the results of this.
 
-For the second and third research questions we will be conducting an experiment where we will build a pipeline using technologies that we think are realistic in real life and suitable for novice data scientist.
+For the third and final research questions we will be building method that novice data scientists can use to build their own pipelines and we will analyze how this method works through a specific example case.
 We will be focusing on the way the pipeline is build and what are the challenges that we face during it that could gravely affect novice data scientists.
 
 %\section{Expected Outcome}
@@ -144,22 +166,35 @@ We will be focusing on the way the pipeline is build and what are the challenges
 
 \section{Structure of the Thesis}
 
-In the first chapter of the thesis we will be focusing on solving the first research question "What makes stock analysis possibly inaccesible?".
-We will define more precisely to whom this thesis is aimed at and examine what kind of challenges these people will face when starting big data analytics on stock market data.
-
-We will then examine background information in order to understand better the underlying domain by by going through scientific papers about stock markets and stock analysis.
+We will start this thesis by examining the necessary background information in order to understand better the underlying domain and answer our first research question.
 We will examine trends and state-of-art methods on stock analysis that have been used in recent scientific research.
 Then we move on to examine what kind of pipelines exists in real-life.
 We will be examining both commercial and research pipelines in order to give a more complete picture on options that exist.
 We will also perform a literary research on technologies that are currently used to perform big-data ingestion, storing and analysis, selecting from the list of technologies mostly those that have been seen to be used in practice in this context while introducing couple of promising ones.
 
-We will then start the experimental part of the research focusing on the two remaining research questions. 
-In the first of these chapters we will define what will we be implementing, what are the goals of this experiment and how do we validate the results of this experiment.
-We will then start the actual implementation part.
-In the following chapter, we will describe what was done and what challenges we faced while implementing the systems.
-This chapter focuses mostly on the technical and practicalities that appeared during development.
+After this we move on to solve the second research question "What makes stock analysis possibly inaccesible?" and derive the requirements for our proposed method through this question.
+We will define more precisely to whom this thesis is aimed at and examine what kind of challenges these people will face when starting big data analytics on stock market data.
+Using this and the knowledge from the previous background chapter, we will derive the requirements for our method.
 
-After this in the final real chapter we move on to analyse the results that we got from the implementation chapter. 
+We will then define our method that we think that would fulfill these requirements and present reasoning behind the choices we have made.
+With this we will conclude the theoretical part of the thesis and start the empirical part.
+In chapter 4.2, we will start by defining a special use case which we will be using to test this method in practice.
+In the following chapters, we will report the process and end result of using this method.
+
+After this we will move to analyse this test on what are the pros and cons on using this method in practice.
 We will try our best to validate the claims that we make about the example case and try to bring up fair criticism that the end result could possibly have.
 We then finish this chapter with a discussion on what could have been done better and how the systems developed could be improved in the future.
-Then finishing the thesis we will have a conclusion chapter that summarizes the results of the thesis.
+Then, to finish the thesis, we will have a conclusion chapter that summarizes the results of the thesis.
+
+%We will then move on to focus on the last remaining research question. 
+%In the first of these chapters we will be defining our proposed method of building a big data pipeline for stock analysis that is aimed at novice data scientists.
+%We will reason why our method fulfills the requirements that we derived in the previous chapter and then move on to test this in practice.
+
+%In the following chapter, we will describe what was done and what challenges we faced while implementing the systems.
+
+%This chapter focuses mostly on the technical and practicalities that appeared during development.
+
+%After this in the final real chapter we move on to analyse the results that we got from the implementation chapter. 
+%We will try our best to validate the claims that we make about the example case and try to bring up fair criticism that the end result could possibly have.
+%We then finish this chapter with a discussion on what could have been done better and how the systems developed could be improved in the future.
+%Then finishing the thesis we will have a conclusion chapter that summarizes the results of the thesis.
