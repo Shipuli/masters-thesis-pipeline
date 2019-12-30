@@ -20,18 +20,30 @@ Finally, we end the chapter by defining how are we going to test this method in 
 
 \section{Overview}
 
-Our method to build novice friendly big data pipeline for stock market analysis is divided into 5 steps, which are mostly focused on planning the pipeline.
+Our method to build novice friendly big data pipelines for stock market analysis is divided into 5 steps, which are mostly focused on planning the pipeline.
 The steps are the following:
 
 \begin{enumerate}
-    \item Pick a data source from a list of data sources
-    \item Pick either Scala or Python as your main programming language
-    \item Pick technology for each part of your pipeline from our pool of technologies
+    \item Pick a data source for stock data
+    \item Pick either Scala or Python as main programming language
+    \item Pick technology for each part of pipeline
     \item Implement the architecture using Docker and Docker Compose
     \item Share the pipeline (if possible) and start developing
 \end{enumerate}
 
-The process is quite simple and each of the steps are explained more throughly in the following sections.
+The process is quite simple and each of the steps are explained more throughly in the following sections with some examples, but here we examine the basic reasoning behind each step.
+Every process starts with picking a data source for stock data as the format of the data specifies what are the requirements for ingestion of the system and as such is a pretty trivial step.
+The main problem with data sources is the low amount of relevant data sources which is why we have listed some in the following section.
+
+We recommend picking either Scala or Python as the main programming language and using it as much as possible in the pipeline.
+Both have the needed libraries that can be used to analyse stock data with machine learning methods while taking into account the big data aspect.
+Choosing one reduces the complexity of the pipeline and because both have a very versatile supply of libraries choosing one over the other does not reduce the options of the user.
+Choosing Scala, however, might restrict the amount of available information online as Python has very active community \cite{giang}.
+
+For selecting technologies we unfortunately cannot give any universal instructions.
+As said in the previous section, there are too many integrations to consider on how each component works with another to ensure that the system is optimal for each use case.
+However, we have provided one example on the technology selection.
+The last two steps are more thoroughly reasoned in the Section 4.1.4.
 
 \subsection{Data source}
 
@@ -39,7 +51,7 @@ Our first step in the methology has to do with picking up the data source and is
 Of course, if the user of this method already has a data source for stock data then we definitely recommend skipping this step and moving to the next one. 
 As most of the data sources concerning stock data are closed and heavily priced we have gathered here the most promising data sources that novice data scientist could use as their starting point.
 These are picked based on their pricing and the amount of public information these services provide about themselves.
-A list of this kind of services is presented in the table 4.1.
+A list of this kind of services is presented in Table 4.1.
 
 \begin{table}[! htbp]\centering 
     \caption{Stock data sources}
@@ -64,12 +76,12 @@ A list of this kind of services is presented in the table 4.1.
 
 We recommend the user of this methology to pick from one of these, because of their low pricing and quite available data.
 Which one the user picks from these is case specific and is mostly determined by how much historical data the user needs and do they need also current intraday data for more up to date predictions.
-As there are multiple that can provide quite similar amounts of data the next step is to check the pricing and restrictions and choose from these based on the users needs.
+As there are multiple data sources that can provide quite similar amounts of data the next step is to check the pricing and restrictions and choose from these based on the users needs.
 
-To better grasp the table we have gathered here some notes that can help when choosing one of the sources.
+To better grasp Table 4.1 we have gathered here some notes that can help when choosing one of the sources.
 For aquiring free data test data fast, the IEX provides the best option as its limits are not restricted to time intervals, but the 500k datapoint restriction does not provide nearly enough data for any serious application.
 For academic use, Quandl provides at the moment of writing this, the most affortable API for historical data analysis.
-Historical data is usually cheaper because with historical data alone you usually cannot make money as stock market revolves around the most recent data, but for training models and other data analysis it is ideal.
+Historical data is usually cheaper because with historical data alone the user usually cannot make money as stock market revolves around the most recent data, but for training models and other data analysis it is ideal.
 Other thing to note is that the amount of historical data can vary greatly between services from 6 months (Barchart) to 39 years (World Trading Data).
 
 \subsection{Main programming language}
@@ -86,15 +98,15 @@ Java is also an option as most of the tooling still runs on top of JVM, but as S
 \subsection{Technology selection}
 
 Next, we move on to choosing technologies for the pipeline.
-As we are working with the historical data part of the pipeline ($f_1$, $f_4$, $f_5$ from the introduction) we focus on three major parts of the pipeline: ingestion, storage and analysis.
-We have depicted the technology selection process in the figure 4.1.
+As we are working with the historical data part of the pipeline ($f_1$, $f_4$, $f_5$ from Section 1.1) we focus on three major parts of the pipeline: ingestion, storage and analysis.
+We have depicted the technology selection process in the Figure 4.1.
 The usage of figure is quite self-explanatory:
 User starts from the top and chooses at least one technology from each box following arrows based on their choices.
 
 \begin{figure}[ht!]
     \includegraphics[scale=0.33]{images/select_flow} 
     \centering
-    \caption{Technology selection flow}
+    \caption{Example technology selection flow}
 \end{figure}
 
 We have narrowed down the number of possible technologies a lot to fulfill our requirement R2.
@@ -109,22 +121,22 @@ From the requirements perspective all the ingestion technologies should in some 
 The ingestion step is the most complicated one as the format of ingested data can be almost anything and the technologies we have listed can be used as they are or with conjuction with each other.
 Custom ingestion choices are also common in this field.
 Our recommendation with the data sources introduced in previous section is to use custom ingestion with Apache Kafka as most of the technologies listed here have somewhat little support for HTTP based sources.
-Flume works well if your data source is file or log format (e.g the sources providing excel formats) and NiFi can be used instead of Kafka if you want different kind of data routing management.
+Flume works well if the data source is file or log format (e.g the sources providing excel formats) and NiFi can be used instead of Kafka if the user wants different kind of data routing management.
 
 The storage selection is more straightforward.
 HDFS works with almost any case as it has a rich development environment, but the downside of it is that it lack proper query languages at it is.
-Cassandra and HBase do provide these but they both have their own use cases based on the CAP theorem.
+Cassandra and HBase do provide these but they both have their own use cases based on the CAP (Consistency, Availability and Partition tolerance) theorem which states that no system can guarantee consistency, availability and partition tolerance at the same time \cite{cap}.
 Cassandra provides availability and is recommended to use in application where the data is fetched directly to the user and the inconsistency of data is not a problem.
 HBase is the vice versa of this by promising consistency of data instead of availability.
-Which one the user chooses depends on the use case.
+Which one the user chooses depends on the users use case.
 
 For the analysis, as we saw in the background chapter, Spark is the de facto environment to run distributed processing.
 However, our requirement R8 limits quite a bit our options.
 If the user has chosen Scala as the main programming language we recommend using DL4J for the analysis at it provides support for distributed training in Spark and deep learning models.
 In the Python side the situation can be challenging in the sense that user might have to combine couple of libaries to make the models train in truly distributed manner.
-Some of the de facto deep learning libraries in python, such as pytorch, have been designed mainly to be run on one machine.
+Some of the de facto deep learning libraries in Python, such as Pytorch, have been designed mainly to be run on one machine.
 Users can go around these limitations if the library supports exporting the models into some universal model language that can be run in distributed enviroment using other specific libraries for this.
-We have included one example of this with keras and systemML which allows running keras models in Spark, but as the number of possible combinations is quite large we recommend the user choosing combinations that they are most comfortable with.
+We have included one example of this with Keras and SystemML which allows running Keras models in Spark, but as the number of possible combinations is quite large we recommend the user choosing combinations that they are most comfortable with.
 
 After this recommend adding a language specific notebook library into the pipeline.
 Zeppelin if the language of the pipeline is Scala and Jupyter if the language is Python.
@@ -137,7 +149,7 @@ Adding each should increase sustainability of the pipeline (R3) as they make eas
 \subsection{Implement and share}
 
 Final two steps are implementation and sharing.
-For novice data scientists, we recommend building the architecture/configuration using Docker and Docker Compose container technologies.
+For novice data scientists, we recommend building the architecture/configuration using Docker and Docker Compose container technologies \cite{docker}.
 These allow the user to develop multi-host systems in their local machine in a realistic virtualized enviroment.
 We have chosen this approach, because of multiple reasons.
 First, because Docker allows user to develop multi-host system in a single machine, the user does not have to rent or own multiple machines to develop the system.
@@ -164,11 +176,10 @@ In this and the following section we will describe this use case and define how 
 We will try the method in a situation where we have a novice data scientist that has the following background knowledge and needs.
 In this fictional situation, we will call this novice data scientist as Novice A for more compact text.
 
-Novice A has computer science background and has studied machine learning in master level.
-Novice A, however does not know anything about big data pipelines and little about devops.
-Now Novice A is faced with a problem where he is tasked in his new job at small startup to develop a system that predicts stock market prices using state of art methods.
+Novice A has computer science background and has studied machine learning in the master's degree level.
+Novice A, however does not know anything about big data pipelines and little about DevOps.
+Now Novice A is faced with a problem where he is tasked in his new job at small startup that was just established to develop a system that predicts stock market prices using state of art methods.
 The startup wants to use this system in the future to predict social media trends so the system must be able to handle big data from social media in the future and possibly big data from stock market if the idea works.
-
 
 As the Novice A does not know anything about the stock market analysis and big data pipelines, he uses this method with the following choices.
 \begin{enumerate}
@@ -176,11 +187,11 @@ As the Novice A does not know anything about the stock market analysis and big d
     \item Novice A chooses Scala as the main programming language as this is the language Novice A is most familiar with due to education
     \item Novice A chooses the following technologies:
     \begin{enumerate}
-        \item Custom ingestion with Kafka for ingestion
-        \item HDFS for storage
-        \item DL4J for deep learning
-        \item Zeppelin for notebooks
-        \item MLFlow for ML monitoring
+        \item Custom ingestion with Kafka for ingestion because of the data source they have chosen
+        \item HDFS for storage because he its mature developing enviroment
+        \item DL4J for deep learning because no other choices really exist for Scala with Spark
+        \item Zeppelin for notebooks because no other choices exist for Scala and Novice A wants a way to share their results easily
+        \item MLFlow for ML monitoring because there probably will be a lot of iterations to develop a working model because of the age of the startup
     \end{enumerate}
 \end{enumerate}
 
@@ -306,7 +317,7 @@ We are more interested in how they are run than the actual components that they 
 \end{figure}
 
 The pipeline we have picked from academia is the pipeline proposed in \cite{peng}.
-The reported architecture in the paper is presented in figure 4.1.
+The reported architecture in the paper is recaptured in Figure 4.1.
 From the paper we know that the system was ran locally using local Cloudera instance.
 Python was used with PySpark as the programming language and the pipeline ran normal machine learning models.
 Although this information is not much, we can use it to make some observations on our system.
@@ -318,8 +329,8 @@ Although this information is not much, we can use it to make some observations o
     \caption{Simplified architecture of the industrial pipeline}
 \end{figure}
 
-The industrial pipeline that resembles the most of our pipeline here is the pipeline presented in \cite{snively}.
-The high level architecture shown is presented in figure 4.2.
+The industrial pipeline that resembles the most of our pipeline here is the pipeline recaptured in \cite{snively}.
+The high level architecture shown is presented in Figure 4.2.
 What can be seen in the architecture is that we do not know much about the parts of programs that analyse the data.
 Amazon EMR can be used to run almost many different big data frameworks but given that they report using it to analyse data it is higly likely that they are running multiple Spark clusters there.
 But what we do know for sure is that the system is run on Amazon Web Services in large scale and we can use this to analyse our own system from the perpectives that we listed above.

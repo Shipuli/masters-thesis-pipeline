@@ -11,31 +11,30 @@ After this we will be defining the problem itself by dividing it to smaller part
 
 As stated in the introduction, this thesis is meant for novice data scientists that have little to no experience on developing big data systems, but have general information on data analysis and want to use state of art methods to analyse stock market data.
 We use the term data scientist as it is usually used when talked about a person that does data analysis with enormous amount of data.
-This is in contrary to data analysist, which is in the same data analysis domain, but works with smaller amounts of data where one does not need to worry about optimization of calculations when the data is processed. \cite{voulgaris}
+This is in contrary to data analysist, which is in the same data analysis domain, but works with smaller amounts of data where one does not need to worry about optimization of calculations when the data is processed \cite{voulgaris}.
 Because of this optimization aspect, data scientist must have knowledge not only about complex data analysis methods but also knowledge about developing and programming systems that scale.
-\begin{sidewaystable}
-\centering
-  \caption{Novice data scientist}
-  \begin{threeparttable}
-      \begin{tabular}{|p{2cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{3cm}|p{3cm}|p{4cm}|p{4cm}|}
-      \hline
-      & Data analysis & Programming & Devops & Description & Examples \\ \hline
-      Software Developer & Might know some & Knows a lot & Knows nothing - Knows a lot & Expert at building a software & Computer science graduate*, self-taught employed \\ \hline
-      Data analysist & Knows a lot & Might know some & & Expert at data analysis with reasonable amount of data ($<$ 1TB) & Mathematics graduate \\ \hline
-      Novice Data scientist & Knows a lot & Knows some & Knows nothing - Knows little & Has interest in both fields but no real in experience in computer science & Mathematics graduate, Starting computer science student* minoring statistics \\ \hline
-      Data scientist & Knows a lot & Knows a lot & Knows a lot &  Expert at both fields & Mathematics graduate minoring large-scale computing (or vice versa) with 1+ year(s) of relevant worklife experience. \\ \hline
-      \end{tabular}
-      \begin{tablenotes}\footnotesize
-        \item[1] * Graduate here and following meaning bachelor or master level graduate
-        \item[2] * Student here meaning master level student
-    \end{tablenotes}
-  \end{threeparttable}
-\end{sidewaystable}
+They usually also do not have much experience in "DevOps".
+The term "DevOps" can be defined as "...a set of practices intended to reduce the time between committing a change to a system and the change being placed into normal production, while ensuring high quality." \cite{devops}.
+This is usually not a point of consideration when developing ad-hoc data analysis systems on a small scale but when the system is used for a longer time in much bigger scale this is becomes important \cite{devops}. 
 
-To make this a bit clearer we have gathered divided small subset of misleading term to table 3.1 and have divided these on how could they be defined in terms of proficiency in computer science and data analysis.
-Using this table we see that novice data scientist can be a data analysist that might have more interest in computer science.
-As the tooling and methods are very different when the data scales, there are a plethora of things to learn and need for a lot of information.
-But how does then one with this kind of skill set find themselves in a position where they need to conduct data analysis on huge amounts of stock market data?
+%\begin{sidewaystable}
+%\centering
+%  \caption{Novice data scientist}
+%  \begin{threeparttable}
+%     \begin{tabular}{|p{2cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{3cm}|p{3cm}|p{4cm}|p{4cm}|}
+%      \hline
+%      & Data analysis & Programming & Devops & Description & Examples \\ \hline
+%      Software Developer & Might know some & Knows a lot & Knows nothing - Knows a lot & Expert at building a software & Computer science graduate*, self-taught employed \\ \hline
+%      Data analysist & Knows a lot & Might know some & & Expert at data analysis with reasonable amount of data ($<$ 1TB) & Mathematics graduate \\ \hline
+%      Novice Data scientist & Knows a lot & Knows some & Knows nothing - Knows little & Has interest in both fields but no real in experience in computer science & Mathematics graduate, Starting computer science student* minoring statistics \\ \hline
+%      Data scientist & Knows a lot & Knows a lot & Knows a lot &  Expert at both fields & Mathematics graduate minoring large-scale computing (or vice versa) with 1+ year(s) of relevant worklife experience. \\ \hline
+%      \end{tabular}
+%      \begin{tablenotes}\footnotesize
+%        \item[1] * Graduate here and following meaning bachelor or master level graduate
+%        \item[2] * Student here meaning master level student
+%    \end{tablenotes}
+%  \end{threeparttable}
+%\end{sidewaystable}
 
 There is still a lot of hidden potential when it comes to stock market.
 With the arise of the amount of data from social medias and other new sources, there are new ways to analyse the stock data and at the same time there are new uses for the stock market data itself to understand these new sources of data.
@@ -81,7 +80,7 @@ For novice data scientist this gives a climpse on how the industrial pipelines a
 
 Availability of the actual stock data is also a somewhat of a problem.
 During the rise of internet, stock market data has been publicly available through services such as Yahoo Finance and Google Finance.
-However, as the price of the stock data has grown over the years both of these services have been shut down. \cite{lotter}
+However, as the price of the stock data has grown over the years both of these services have been shut down \cite{lotter}.
 There exists some services which offer the same types of data, but there are still many papers quote the Yahoo Finance as their data source although it has been 2 years since it was shut down \cite{serez2} \cite{le}.
 So the needed stock data can be also hard to obtain.
 

@@ -62,14 +62,14 @@ No cloud subscription or local cluster is needed to run and test the pipeline.
 As we saw in the previous chapter, this methology does not erase the problems that arise integrating the technologies, but using it does erase the cost of debugging this against cloud platform where every run of the program costs money.
 We cannot make direct comparisons with academic pipeline as we do not have exact information on if the pipeline is run on a local cluster but we can say that the pipeline is much more cheaper than the industrial pipeline.
 
-The sustainability of the pipeline is alson an advantage in this case.
+The sustainability of the pipeline is also an advantage in this case.
 Compared to the local academic pipeline, where each components version has to be manually confirmed when it is installed and updating components means that everyone who wants to run newer versions of the pipeline has to do the same, our version does not suffer from these problems as these are defined in the docker configuration files.
-Compared to the industrial pipeline, however, the process is probably taken into step further as amazon can keep the components better up to date by automatically updating minor versions, which our current methods do not necessarily do.
+Compared to the industrial pipeline, however, the process is probably taken into step further as Amazon can keep the components better up to date by automatically updating minor versions, which our current methods do not necessarily do.
 Of course, this depends a lot on the docker image provider and their methology on versioning, but in our example case this seemed to provide efficient way to handle versioning.
 
-The reproducibility of the pipeline is an another advatage.
+The reproducibility of the pipeline is an another advantage.
 Using docker and docker compose to build the pipeline we were able to limit the number of external dependencies to only these two when a new user wants to run the pipeline and with only couple minor exceptions we were able to automate the local setting up process.
-Also the usage of zeppelin notebooks allows the user to share their models with anybody who has the same pipeline or other means to run them.
+Also the usage of Zeppelin notebooks allows the user to share their models with anybody who has the same pipeline or other means to run them.
 When we compare this to the academic pipeline which had all of its components as local dependencies, the amount of possible work is greatly smaller as the user does not have to install each component to their local machine and worry about their versions.
 As what comes to the automation of the setting up the pipeline, we have no information on this to make any reasonable claims.
 When compared to the industrial pipeline, although not reported, we can pretty much assume that the industrial pipeline is highly reproducible as there are probably ten to hundred employees working with the pipeline and in this sense is probably a lot more reproducible than the pipeline presented here.

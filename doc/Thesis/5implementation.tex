@@ -53,7 +53,7 @@ Then as there were a lot of challenges during the implementation, these challeng
     \caption{Final Architecture of the implementation section}
 \end{figure}
 
-The final architecture can be seen in the figure 5.1.
+The final architecture of the pipeline that was planned using our method can be seen in Figure 5.1.
 The figure presents the main dependencies between the components each arrow usually presenting the flow of data in the system with labels sometimes added to clarify better the relation.
 In the figure each solid rectange represents one actual server with its own process with the exception of rounded rectange to represent notebooks that are stored into the local file system.
 In the case of this thesis these servers were virtual machines but theoretically the system could be run with right configuration with multiple physical machines that are in the same network.
@@ -61,9 +61,9 @@ Rectangles with small dashed lines such as with the spark workers represent that
 The longer dashed lines here represent bigger entities such as the HDFS cluster to make the figure more readable.
 
 The pipeline starts from the data source that acts as the kafka producer.
-It reads the data from a source, in this example case from JSON files that were exported from IEX, and produces the data into a kafka topic. 
-It also creates the needed kafka topics on startup using Kafkas admin API.
-Although most of the kafka documentation recommends using the command line client, this did not seem production-ready way to do this as this decouples the topic creation logic from the actual producer and would need excessive scripting in order to automate this process which did not seem as maintainable as the admin API approach.
+It reads the data from a source, in this example case from JSON files that were exported from IEX, and produces the data into a Kafka topic. 
+It also creates the needed Kafka topics on startup using \emph{Kafka Admin API}.
+Although most of the Kafka documentation recommends using the command line client, this did not seem production-ready way to do this as this decouples the topic creation logic from the actual producer and would need excessive scripting in order to automate this process which did not seem as maintainable as the Admin API approach.
 This is why admin API was used in the data source server. 
 
 Then we have Kafka which is integrated into HDFS cluster with Kafka Connect HDFS 2 Sink connector which is a component made by Confluent.
@@ -72,13 +72,13 @@ Connect can be scaled and contains some basic configurations that can be used fo
 We have chosen JSON as the format which the data is stored but Apache Avro is also an option.
 Other notable configurations that can be used to tweak the pipeline are the rate in which the topic is consumed into the HDFS and schema validation.
 
-In the middle of the pipelin is the HDFS cluster.
+In the middle of the pipeline is the HDFS cluster.
 In this cluster there is the normal HDFS cluster with namenodes and datanodes which can be accessed to directly read the data.
 There is also a YARN resource management on top of this which can be used to for better manage IO routines in the cluster.
 This consist of the resource manager, node manager and history server nodes, that can be used as an alternative route to access data.
 
-The HDFS cluster docker containers, as well as the containers for Spark cluster later, are a work of Big Data Europe project.
-The Big Data Europe is project funded by European union which one of the goals is to produce open-source tools for big data development without the need to use closed softwares.\cite{bigdataeurope}
+The HDFS cluster docker containers, as well as the containers for Spark cluster later, are a work of Big Data Europe project \cite{bde}.
+The Big Data Europe is project funded by European union which one of the goals is to produce open-source tools for big data development without the need to use closed software \cite{bigdataeurope}.
 As these containers were the most maintained hadoop containers at the moment of writing this, they are were the best option for this case, but they brought a couple of problems which we will examine later.
 
 \begin{table}[! htbp]\centering
@@ -101,9 +101,9 @@ This is why there can be other versions than this in the pipeline e.g in the spa
 After the HDFS cluster comes the analysis part of the pipeline which has Spark cluster in the middle and two options to run analysis code on it.
 The application part allows writing production grade Scala applications that can be run like any normal Scala Spark application.
 The Zeppelin is a Apache Zeppelin instance which allows writing and running notebooks that can be saved into local file system for distribution.
-Both approaches submit the spark application to spark using spark-submit script and the DL4J communicates with itself with its own parameter server.
+Both approaches submit the spark application to spark using \emph{spark-submit} script and the DL4J communicates with itself with its own parameter server.
 
-In default case, the spark application first preprocesses the json formatted data and saves this back to HDFS as csv files.
+In default case, the Spark application first preprocesses the json formatted data and saves this back to HDFS as CSV files.
 In this process, it normalizes the data and appends labels to it that in our example case is just values 1 and 0 whetever the value of stock grew in n-days after the datapoint or not respectively.
 The data is stored back as a CSV file because DL4J is quite picky about the data format that it accepts and does not have simple default way of transforming spark DataFrames with sequential data to the Dataset format that it internally uses.
 After this the data goes through the training and evaluation pipeline which logs its parameters and results into MLFlow server where user can monitor the process of their different experiments.
@@ -123,15 +123,15 @@ After this the data goes through the training and evaluation pipeline which logs
 In the table 5.2 we have collected the versions of different components in this part of pipeline.
 Almost all of them are the latest releases of each technology at the time of implementing with the exception which is the version of Scala.
 Currently, the latest version of Scala is 2.13.
-Spark mainly supports scala 2.12, because as of 2.4.1 version of spark, the version 2.11 of scala is deprecated and there is still no support for 2.13.
+Spark mainly supports Scala 2.12, because as of 2.4.1 version of Spark, the version 2.11 of Scala is deprecated and there is still no support for 2.13.
 However, Zeppelin does not support Scala version 2.12 so the only version of Scala that still works with all of the latest releases of these two technologies is 2.11 which is why it had to be chose for the version.
-Java is still version 8 which is already at its end of life stage, but it was used as it is currently the safest way to ensure that your code runs correctly.
+Java is still version 8 which is already at its end of life stage, but it was used as it is currently the safest way to ensure that the code runs correctly.
 
 \section{Usage}
 
 %The initial idea of the project was to provide modular design for the pipeline where the user can cut and paste the technologies to the pipeline making it easy to produce multiple different pipelines for comparison.
 %That is why the there is a initialization script called pipeline.sh.
-We made a initialization script for this case in case we had time to test multiple pipelines.
+We made an initialization script for this case in case we had time to test multiple pipelines.
 This is a command-line interface that asks user what technologies they want and builds a docker-compose file into build folder with all the necessary files.
 %Sample usage is depicted in the figure 4.2.
 Only thing user has to do before running the script is to download manually the Kafka Connect component from confluent website and copy its content to a location noted in the project readme. 
@@ -145,15 +145,15 @@ After this as there will be over 10 containers running simultaneously, tools suc
 
 When the containers have finally finished the startup procedures, every services user interface can be found in their default ports in localhost.
 The ports needed to be open to this happen, can be found in the docker-compose.yml file.
-To start analysing data, the user has to only open localhost:8090 where Zeppelin notebooks are running.
+To start analysing data, the user has to only open \emph{localhost:8090} where Zeppelin notebooks are running.
 In the project there exists an example notebook that implements a simple LSTM model.
 To run this example on spark cluster user has to first manually set two configurations in the spark interpreter menu that can be found under interpreter settings in the user interface.
-The value "master" must be set to "spark://spark-master:7077" in order to let the zeppelin use the cluster instead of local spark client.
-Also in the dependencies has to be added "org.apache.commons:commons-lang3:3.6" in order to have common versions in the zeppelin machine and in the cluster.
+The value "master" must be set to \emph{spark://spark-master:7077} in order to let the zeppelin use the cluster instead of local spark client.
+Also in the dependencies has to be added \emph{org.apache.commons:commons-lang3:3.6} in order to have common versions in the zeppelin machine and in the cluster.
 The reason for the manuality of these tasks will be discussed in following sections.
 After this the user has to only run the cells in the notebook and the result will be saved into HDFS.
 
-To add third party dependencies to the notebooks such as the DL4J library, the "spark.deb" syntax in notebooks is encouraged as this is the best way to preserve the dependencies for possible distribution of the notebook.
+To add third party dependencies to the notebooks such as the DL4J library, the \emph{spark.deb} syntax in notebooks is encouraged as this is the best way to preserve the dependencies for possible distribution of the notebook.
 This way the notebook is as independent of its environment as it can be.
 It is currently also the only way to preserve these if the container happens to be destroyed. 
 Reasons for this will again be discussed in following sections.
@@ -173,7 +173,7 @@ Integrating Kafka topics to HDFS proved to be a non-trivial task.
 Unlike products like Flume, Kafka does not have any build-in sinks that would allow easy integration of different services.
 So the developer is left with the task of filling this hole.
 
-The requirements for this component are also non-trivial, as it should be able to scale with the kafka and the HDFS cluster.
+The requirements for this component are also non-trivial, as it should be able to scale with the Kafka and the HDFS cluster.
 So in order to not introduce a bottleneck to the pipeline and to do this with time limits that this thesis has, a ready-made solution was necessary.
 Previously, a good solution to this has been Linkedin's Camus API, but this was phased to Apache Gobblin in 2015. 
 The problem with Apache Gobblin, however, is that it is not the lightest tool and it can move data only to Hadoop system.
@@ -190,7 +190,7 @@ This is why most of the Kafka Connect documentation is only about how to use it 
 This lack of good documentation introduced some obstacles for integrating this component between Kafka and HDFS especially when it came to installing and running the component.
 
 Setting up the Kafka Connect was not that easy as it does not offer much monitoring in itself.
-This means that as developer you could only see if the whole system worked or did not from HDFS management console.
+This means that the developer can only see if the whole system works or if it does not from HDFS management console.
 If only some configuration was not right, Connect would only log this as an minor error in the stderr and continue running like nothing had happened although no data was flowing through it.
 This made debugging the connection surprisingly difficult, but after all the configurations were in place the component worked as it should throughout the rest of the development.
 
@@ -207,18 +207,18 @@ Sometimes by mere luck the dependencies would build correctly for a certain amou
 This would be easy to debug if Zeppelin would be a normal maven project as it is.
 But with ready-made containers there did not exist such an option.
 
-Apache Zeppelin has official container which were used, but this had to be extended in order to have custom spark-submit client because the versions on spark cluster would conflict.
+Apache Zeppelin has official container which were used, but this had to be extended in order to have custom \emph{spark-submit} client because the versions on spark cluster would conflict.
 When thought afterwards, the whole zeppelin container probably should have been build from scratch as this would have allowed better dependency management with maven.
 
 \subsection{DL4J sbt project}
 
 The DL4J application instance without Zeppelin is build with sbt.
-sbt is a build tool developed specifically for Scala applications and this why it was also chosen for this project.
+sbt is a build tool developed specifically for Scala applications \cite{sbt} (although it supports Java also) and this why it was also chosen for this project.
 DL4J's main build tool that the documentation is build around is maven because it is a Java library, but it has its own sbt example in their project repository.
 This, however, turned out to be highly outdated and caused developing problems.
 
 To have third-party dependencies added to a spark project there are two possible ways to implement this.
-First one is using the spark-submit scripts flags to define maven repositories.
+First one is using the \emph{spark-submit} scripts flags to define maven repositories.
 This was first tried but it only lead to dependency conflicts and other bugs with ivy dependency management that the script uses.
 
 The alternative and more manageable way is to build the whole application into so called fat jar, which contains all the code to run the application including the third-party dependencies.
@@ -233,21 +233,21 @@ After quite a bit of trial and error, we thankfully managed to create a merge st
 
 Now we move on to the problems that were really hard to debug when the problems in the previous two subsections were persisting at the same time.
 When running a Zeppelin task on Spark and the program receives error, Zeppelin correctly logs the stack trace from Spark workers stderr.
-What it does not do, is logging the the whole stack trace but only the two to three first errors.
+However, it does not log the whole stack trace but only the two to three first errors.
 This made it seem like the error was a some upper level error when instead the actual error that happened in lower part of the stack.
 This was resolved by noticing the full stack when the application was run on application server.
 
 After this, the next problem was that Intels mkl-dnn library did not seem to be in the classpath of DL4J subdependency library javacpp.
 This is the code that is responsible of allowing the java code to use high efficiency feature of C++ language.
 This of course did not have any clear solutions online except some vague conversation logs about possibility of glibc missing in the parent OS and by accident this turned out to be the exact problem in this case too.
-The Spark worker docker container, which was a result of the Big Data Europe project, was build on top of alpine linux image which has phased out to use musl libc library instead of glibc.
-There exists tools that can be used to install glibc to alpine instance and we tried this, but after multiple errors in multiple different attempts to install the library, we opted out to fork the docker image to use debian based image.
+The Spark worker docker container, which was a result of the Big Data Europe project, was build on top of Alpine Linux image which has phased out to use musl \emph{libc} library instead of \emph{glibc}.
+There exists tools that can be used to install \emph{glibc} to alpine instance and we tried this, but after multiple errors in multiple different attempts to install the library, we opted out to fork the docker image to use debian based image.
 This resolved all the problems that had been until this point and the application finally compiled in worker machine.
 
 The problems after this did not cause the application process on worker to crash but were logged into worker machine while the process continued to run.
 These were somewhat minor but laborous problems such as allocating enough disk for /dev/smh shared memory implementation and opening and defining right ports for DL4Js parameter server that handled the parameter update logic.
 Once all of these were fixed, the next problem was that the training process in spark did not finish at all and seemed to go into a state of infinite loop without giving any errors on the driver logs.
-This seemed like a dead-end until we noticed that a spark job before this had silently failed.
+This seemed like a dead-end until we noticed that a Spark job before this had silently failed.
 It seems that the DL4Js training code was beforehand trying to temporarily save the data into hdfs and this failed as something went wrong.
 This step in the process could be skipped with configurations and after this the model training process finally succeeded.
 
